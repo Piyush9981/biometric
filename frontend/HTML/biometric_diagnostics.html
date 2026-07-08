@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+
+{% block title %}Biometric Diagnostics - Outpass System{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid" style="grid-template-columns: 1fr; gap: 24px;">
+
+    <!-- Alerts / Messages -->
+    {% if test_result %}
+    <div class="message {% if test_result.success %}success{% else %}error{% endif %}"
+        style="margin-top: 0; padding: 16px; border-radius: 8px; font-weight: 500; font-size: 1rem; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        {% if test_result.success %}
+        <i class="fas fa-check-circle" style="font-size: 1.25rem;"></i>
+        {% else %}
+        <i class="fas fa-exclamation-circle" style="font-size: 1.25rem;"></i>
+        {% endif %}
+        <div>{{ test_result.message }}</div>
+    </div>
+    {% endif %}
+
+    <!-- Top Action Row -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+            <h1 style="font-size: 1.5rem; font-weight: 700; color: var(--text-dark); margin: 0;">Biometric Module
+                Diagnostics</h1>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 4px;">Monitor connections, trigger logs
+                synchronization, and audit queue transactions.</p>
+        </div>
+        <a href="?trigger_sync=true" class="btn btn-primary btn-gradient-blue"
+            style="padding: 12px 20px; font-weight: bold; border-radius: 8px;">
+            <i class="fas fa-sync-alt"></i> Force Sync All Logs
+        </a>
+    </div>
+
+    <!-- Machines Grid -->
+    <section class="card" style="padding: 24px; border-radius: 12px;">
+        <h2
+            style="font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-hard-drive" style="color: var(--primary-blue);"></i> Registered Devices
+        </h2>
+        <div id="machines-container"
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 20px;">
+            {% for machine in machines %}
+            <div style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s;"
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.05)';"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.02)';">
+                <div>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+                        <div>
+                            <h3 style="font-size: 1.1rem; font-weight: 600; color: var(--text-dark); margin: 0;">{{
+                                machine.machine_name }}</h3>
+                            <code
+                                style="font-size: 0.85rem; color: var(--text-muted); background: #f1f5f9; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 4px;">{{ machine.ip_address }}:{{ machine.port }}</code>
+                        </div>
+                        <span
+                            class="status-badge {% if machine.status == 'ONLINE' %}in{% elif machine.status == 'OFFLINE' %}time-out{% else %}decline{% endif %}"
+                            style="text-transform: uppercase;">
+                            {{ machine.status|default:"UNKNOWN" }}
+                        </span>
+                    </div>
+
+                    <div
+                        style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; font-size: 0.85rem; border-top: 1px dashed var(--border-color); padding-top: 16px;">
+                        <div>
+                            <span style="color: var(--text-muted); display: block;">Last Connected</span>
+                            <span style="font-weight: 600; color: var(--text-dark);">{{
+                                machine.last_connected|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A"|default:"Never" }}</span>
+                        </div>
+                        <div>
+                            <span style="color: var(--text-muted); display: block;">Last Synced</span>
+                            <span style="font-weight: 600; color: var(--text-dark);">{{
+                                machine.last_successful_sync|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A"|default:"Never" }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; gap: 8px;">
+                    <a href="?test_connection={{ machine.id }}" class="btn btn-secondary"
+                        style="flex: 1; font-size: 0.85rem; padding: 8px; font-weight: bold; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                        <i class="fas fa-plug-circle-bolt"></i> Test Connection
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
+                <i class="fas fa-circle-info" style="font-size: 2rem; margin-bottom: 12px;"></i>
+                <p>No biometric machines registered in the database. Please add one in the Admin dashboard.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Verification Queue Section -->
+    <section class="card table-section" style="border-radius: 12px;">
+        <div class="table-header">
+            <h2><i class="fas fa-clock-rotate-left"></i> Biometric Queue Activity Logs (Last 30)</h2>
+            <div class="table-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="table-search" placeholder="Search by student...">
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="requests-table">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Student Name</th>
+                        <th>Request ID</th>
+                        <th>Status</th>
+                        <th>Attempts</th>
+                        <th>Last Attempted</th>
+                        <th>Details/Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in pending_verifications %}
+                    <tr>
+                        <td>{{ item.created_at|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}</td>
+                        <td>
+                            <strong>{{ item.student.student_name }}</strong><br>
+                            <span style="font-size: 11px; color: var(--text-muted);">ID: {{ item.student.student_id
+                                }}</span>
+                        </td>
+                        <td>
+                            <span style="font-family: monospace; font-size: 0.9rem;">#{{ item.request.request_id
+                                }}</span>
+                        </td>
+                        <td>
+                            <span
+                                class="status-badge {% if item.verification_status == 'ACCEPTED' %}in{% elif item.verification_status == 'PENDING' %}initiate{% elif item.verification_status == 'EXPIRED' %}time-out{% else %}decline{% endif %}">
+                                {{ item.verification_status }}
+                            </span>
+                        </td>
+                        <td>{{ item.sync_attempts }}</td>
+                        <td>{{ item.last_attempted_at|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A"|default:"-" }}</td>
+                        <td style="max-width: 250px; white-space: normal; word-break: break-all; font-size: 0.85rem;">
+                            {{ item.remarks|default:"No errors logged." }}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No transactions in the biometric queue log.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('table-search');
+        const rows = document.querySelectorAll('#requests-table tbody tr');
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

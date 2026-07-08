@@ -1,0 +1,65 @@
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache & compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Django specific
+db.sqlite3
+db.sqlite3-journal
+backend/media/
+backend/staticfiles/
+
+# IDE files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Android build/config files
+android_app/build/
+android_app/app/build/
+.gradle/
+local.properties
+android_app/local.properties
+.cxx/
+captures/
+*.apk
+*.ap_
+*.aab
+
+# Sensitive environment files
+.env
+*.env

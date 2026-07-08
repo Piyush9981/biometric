@@ -1,0 +1,531 @@
+{% load static tz %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Student Outpass System{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'CSS/styles.css' %}?v=1.2">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="role-{{ request.session.role|default:role|default:'Admin'|slugify }} page-{{ request.resolver_match.url_name }}">
+    {% timezone "Asia/Kolkata" %}
+    <div class="layout-container">
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="{% static 'images/dsvv_logo.jpg' %}" alt="DSVV Logo" class="sidebar-logo-img"
+                    style="height: 60px; width: 60px; object-fit: contain; border-radius: 50%;">
+                <h2>Gate Outpass</h2>
+            </div>
+            <nav class="sidebar-nav">
+                {% if role == 'Gatekeeper' %}
+                <a href="{% url 'gatekeeper_dashboard' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'gatekeeper_dashboard' %}active{% endif %}">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+
+                <a href="{% url 'biometric_diagnostics' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'biometric_diagnostics' %}active{% endif %}">
+                    <i class="fas fa-microchip"></i> Biometric Diagnostics
+                </a>
+
+                <a href="{% url 'history' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'history' %}active{% endif %}">
+                    <i class="fas fa-history"></i> History
+                </a>
+
+
+                {% elif role == 'Super Admin' %}
+                <a href="{% url 'superadmin_dashboard' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'superadmin_dashboard' %}active{% endif %}">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="{% url 'biometric_diagnostics' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'biometric_diagnostics' %}active{% endif %}">
+                    <i class="fas fa-microchip"></i> Device Management
+                </a>
+                <a href="{% url 'students' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'students' %}active{% endif %}">
+                    <i class="fas fa-user-graduate"></i> Manage Students
+                </a>
+                <a href="{% url 'user_management' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'user_management' %}active{% endif %}">
+                    <i class="fas fa-users-cog"></i> User Management
+                </a>
+                <a href="{% url 'permissions' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'permissions' %}active{% endif %}">
+                    <i class="fas fa-shield-alt"></i> Permissions
+                </a>
+                <a href="{% url 'history' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'history' %}active{% endif %}">
+                    <i class="fas fa-history"></i> History
+                </a>
+
+                {% else %}
+                <!-- Admin (Default) -->
+                <a href="{% url 'dashboard' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="{% url 'timeouts' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'timeouts' %}active{% endif %}">
+                    <i class="fas fa-hourglass-end"></i> Time Outs
+                </a>
+                <a href="{% url 'history' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'history' %}active{% endif %}">
+                    <i class="fas fa-history"></i> History
+                </a>
+                <a href="{% url 'students' %}"
+                    class="nav-item {% if request.resolver_match.url_name == 'students' %}active{% endif %}">
+                    <i class="fas fa-user-graduate"></i> Students
+                </a>
+                {% endif %}
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-title" style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-bars mobile-menu-btn" id="mobile-menu-toggle"></i>
+                    <h1>Student Outpass Management System</h1>
+                </div>
+                <div class="header-profile" style="position: relative;">
+                    <div class="account-switcher" id="account-switcher-btn">
+                        <div class="profile-info">
+                            <span class="admin-name">
+                                {% if request.session.user_name %}
+                                {{ request.session.user_name|title }}
+                                {% else %}
+                                {{ request.user.username|title }}
+                                {% endif %}
+                            </span>
+                            <span class="admin-role">{{ request.session.role|default:role|default:"Admin" }}</span>
+                        </div>
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <i class="fas fa-chevron-down"
+                            style="color: var(--text-muted); font-size: 0.8rem; margin-left: 8px;"></i>
+                    </div>
+
+                    <!-- Dropdown Menu -->
+                    <div class="account-dropdown hidden" id="account-dropdown">
+                        <div class="dropdown-header">User Profile</div>
+                        <div class="dropdown-item" style="pointer-events: none;">
+                            <i class="fas fa-user"></i> <strong> 
+                                {% if request.session.user_name %}
+                                {{ request.session.user_name|title }}
+                                {% else %}
+                                {{ request.user.username|title }}
+                                {% endif %}</strong>
+                        </div>
+                        <div class="dropdown-item" style="pointer-events: none;">
+                            <i class="fas fa-id-badge"></i> {{ request.session.role|default:role|default:"Admin" }}
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item" onclick="openChangePasswordModal(event)">
+                            <i class="fas fa-key"></i> Change Password
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{% url 'logout' %}" class="dropdown-item text-danger">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-body">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    {% endtimezone %}
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal"
+        style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">
+        <div class="modal-content"
+            style="background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 400px; border-radius: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h3 style="margin: 0;">Change Password</h3>
+                <span class="close-modal" onclick="closeChangePasswordModal()"
+                    style="cursor: pointer; font-size: 1.5rem;">&times;</span>
+            </div>
+            <form id="changePasswordForm" autocomplete="off">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px;">Username</label>
+                    <input type="text" value="{{ request.session.user_name|default:request.user.username }}" readonly
+                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #f0f0f0;">
+                </div>
+                <div class="form-group" style="margin-bottom: 15px; position: relative;">
+                    <label style="display: block; margin-bottom: 5px;">Current Password</label>
+                    <input type="password" id="cp_current" required autocomplete="new-password"
+                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; padding-right: 35px;">
+                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('cp_current', this)"
+                        style="position: absolute; right: 10px; top: 35px; cursor: pointer; color: #888;"></i>
+                </div>
+                <div class="form-group" style="margin-bottom: 15px; position: relative;">
+                    <label style="display: block; margin-bottom: 5px;">New Password</label>
+                    <input type="password" id="cp_new" required autocomplete="new-password"
+                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; padding-right: 35px;">
+                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('cp_new', this)"
+                        style="position: absolute; right: 10px; top: 35px; cursor: pointer; color: #888;"></i>
+                </div>
+                <div class="form-group" style="margin-bottom: 20px; position: relative;">
+                    <label style="display: block; margin-bottom: 5px;">Confirm New Password</label>
+                    <input type="password" id="cp_confirm" required autocomplete="new-password"
+                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; padding-right: 35px;">
+                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility('cp_confirm', this)"
+                        style="position: absolute; right: 10px; top: 35px; cursor: pointer; color: #888;"></i>
+                </div>
+                <div id="cp_message" style="margin-bottom: 15px; display: none; padding: 10px; border-radius: 4px;">
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" onclick="closeChangePasswordModal()"
+                        style="padding: 8px 16px; border: 1px solid #ccc; background-color: white; border-radius: 4px; cursor: pointer;">Cancel</button>
+                    <button type="submit" id="cp_submit"
+                        style="padding: 8px 16px; border: none; background-color: #2563EB; color: white; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                        <span>Save</span>
+                        <i class="fas fa-spinner fa-spin" id="cp_spinner" style="display: none;"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- CSRF Token for JavaScript -->
+    <script>
+        window.CSRF_TOKEN = "{{ csrf_token }}";
+
+        // Account switcher logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const switcherBtn = document.getElementById('account-switcher-btn');
+            const dropdown = document.getElementById('account-dropdown');
+
+            if (switcherBtn && dropdown) {
+                switcherBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    dropdown.classList.toggle('hidden');
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!switcherBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                        dropdown.classList.add('hidden');
+                    }
+                });
+            }
+
+            // Mobile Sidebar Toggle
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+            if (mobileMenuToggle && sidebar && sidebarOverlay) {
+                mobileMenuToggle.addEventListener('click', () => {
+                    sidebar.classList.add('open');
+                    sidebarOverlay.classList.add('active');
+                });
+
+                sidebarOverlay.addEventListener('click', () => {
+                    sidebar.classList.remove('open');
+                    sidebarOverlay.classList.remove('active');
+                });
+            }
+        });
+
+        // Change Password Modal logic
+        function togglePasswordVisibility(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function openChangePasswordModal(e) {
+            e.preventDefault();
+            document.getElementById('changePasswordModal').style.display = 'block';
+            document.getElementById('account-dropdown').classList.add('hidden');
+        }
+
+        function closeChangePasswordModal() {
+            document.getElementById('changePasswordModal').style.display = 'none';
+            document.getElementById('changePasswordForm').reset();
+            document.getElementById('cp_message').style.display = 'none';
+        }
+
+        document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const currentPassword = document.getElementById('cp_current').value;
+            const newPassword = document.getElementById('cp_new').value;
+            const confirmPassword = document.getElementById('cp_confirm').value;
+            const messageDiv = document.getElementById('cp_message');
+            const submitBtn = document.getElementById('cp_submit');
+            const spinner = document.getElementById('cp_spinner');
+
+            if (newPassword !== confirmPassword) {
+                messageDiv.textContent = 'New password and confirm password do not match.';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.backgroundColor = '#f8d7da';
+                messageDiv.style.border = '1px solid #f5c6cb';
+                messageDiv.style.display = 'block';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            spinner.style.display = 'inline-block';
+            messageDiv.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/change-password/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': window.CSRF_TOKEN
+                    },
+                    body: JSON.stringify({
+                        current_password: currentPassword,
+                        new_password: newPassword,
+                        confirm_password: confirmPassword
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    messageDiv.textContent = data.message;
+                    messageDiv.style.color = '#155724';
+                    messageDiv.style.backgroundColor = '#d4edda';
+                    messageDiv.style.border = '1px solid #c3e6cb';
+                    messageDiv.style.display = 'block';
+
+                    setTimeout(() => {
+                        closeChangePasswordModal();
+                    }, 2000);
+                } else {
+                    messageDiv.textContent = data.message;
+                    messageDiv.style.color = '#721c24';
+                    messageDiv.style.backgroundColor = '#f8d7da';
+                    messageDiv.style.border = '1px solid #f5c6cb';
+                    messageDiv.style.display = 'block';
+                }
+            } catch (err) {
+                messageDiv.textContent = 'An error occurred during the password change process.';
+                messageDiv.style.color = '#721c24';
+                messageDiv.style.backgroundColor = '#f8d7da';
+                messageDiv.style.border = '1px solid #f5c6cb';
+                messageDiv.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                spinner.style.display = 'none';
+            }
+        });
+    </script>
+    <!-- Request Detail Modal -->
+    <div id="request-detail-modal" class="modal-overlay hidden">
+        <div class="modal-glass" style="max-width: 900px; width: 95%;">
+            <div class="modal-header" style="border-bottom: none; padding-bottom: 10px;">
+                <h3><span id="req-modal-title-student-name"></span> Outpass Request Details</h3>
+                <button class="btn-close-modal btn-close-req-detail"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-tabs">
+                <div class="modal-tab active" data-tab="details">Request Details</div>
+                <div class="modal-tab" data-tab="history">Outpass History</div>
+            </div>
+            <div class="modal-tab-wrapper">
+                <div class="modal-tab-slides">
+                    <!-- Slide 1: Details -->
+                    <div class="modal-slide-content">
+                        <div class="modal-body" style="padding: 25px;">
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr)); gap: 20px; margin-bottom: 25px;">
+                                <!-- Student Details Card -->
+                                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                    <h4 style="margin-bottom: 12px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 8px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">
+                                        <i class="fas fa-user-graduate"></i> Student Details
+                                    </h4>
+                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px; align-items: center;">
+                                        <strong style="color: var(--text-muted);">Profile:</strong>
+                                        <span>
+                                            <img id="req-modal-profile-img" src="" alt="Profile Image" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: none;">
+                                            <div id="req-modal-profile-placeholder" style="width: 60px; height: 60px; border-radius: 8px; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); color: #475569;">
+                                                <i class="fas fa-user" style="font-size: 1.5rem;"></i>
+                                            </div>
+                                        </span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Name:</strong> <span id="req-modal-name" style="font-weight: 500;"></span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Course:</strong> <span id="req-modal-course"></span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Semester:</strong> <span id="req-modal-semester"></span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Hostel:</strong> <span id="req-modal-hostel"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Contact & Family Card -->
+                                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                    <h4 style="margin-bottom: 12px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 8px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">
+                                        <i class="fas fa-address-book"></i> Contact Details
+                                    </h4>
+                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Student Mob:</strong> <span id="req-modal-mobile"></span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Parent Name:</strong> <span>N/A</span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Parent Mob:</strong> <span>N/A</span>
+                                    </div>
+                                </div>
+
+                                <!-- Leave Details Card -->
+                                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                    <h4 style="margin-bottom: 12px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 8px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">
+                                        <i class="fas fa-plane-departure"></i> Leave Details
+                                    </h4>
+                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Purpose:</strong> <span id="req-modal-purpose"></span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Destination:</strong> <span id="req-modal-destination"></span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Exit Time:</strong> <span id="req-modal-exit"></span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Entry Time:</strong> <span id="req-modal-entry"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Approval Card -->
+                                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                    <h4 style="margin-bottom: 12px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 8px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">
+                                        <i class="fas fa-check-circle"></i> Approval Info
+                                    </h4>
+                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Initiated By:</strong> <span id="req-modal-requested-by"></span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Approved By:</strong> <span id="req-modal-warden" style="font-weight: 500;"></span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">
+                                        <strong style="color: var(--text-muted);">Warden Mob:</strong> <span id="req-modal-warden-contact"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Leave Information (Full Width) -->
+                            <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                                <h4 style="margin-bottom: 12px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 8px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-info-circle"></i> Leave Information
+                                </h4>
+                                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 8px; margin-bottom: 15px;">
+                                    <strong style="color: var(--text-muted);">Leave Reason:</strong>
+                                    <div id="req-modal-leave-reason" style="font-weight: 500; word-break: break-word; line-height: 1.5; color: #334155;"></div>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 8px; margin-bottom: 15px;">
+                                    <strong style="color: var(--text-muted);">Parents Confirmed:</strong>
+                                    <span id="req-modal-parent-confirmed" style="font-weight: 500;"></span>
+                                </div>
+
+                                <div id="req-modal-decline-section" style="display: none; border-top: 1px dashed var(--border-color); padding-top: 15px; margin-top: 5px;">
+                                    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 8px; margin-bottom: 15px;">
+                                        <strong style="color: var(--danger);" id="req-modal-declined-by-label">Declined by:</strong>
+                                        <span id="req-modal-declined-by" style="font-weight: 500; color: var(--danger);"></span>
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 8px;">
+                                        <strong style="color: var(--danger);">Reason:</strong>
+                                        <div id="req-modal-decline-reason" style="font-weight: 500; word-break: break-word; line-height: 1.5; color: var(--danger);"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 2: Outpass History -->
+                    <div class="modal-slide-content">
+                        <div class="modal-body" style="padding: 25px; max-height: 60vh; overflow-y: auto;">
+                            <div class="history-summary">
+                                <div class="stat-card">
+                                    <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+                                    <div class="stat-details">
+                                        <h3>Total Requests</h3>
+                                        <div class="counter" id="req-total-requests">0</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card success">
+                                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                                    <div class="stat-details">
+                                        <h3>Approved</h3>
+                                        <div class="counter" id="req-approved-requests">0</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card danger">
+                                    <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+                                    <div class="stat-details">
+                                        <h3>Reject</h3>
+                                        <div class="counter" id="req-rejected-requests">0</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card warning">
+                                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                                    <div class="stat-details">
+                                        <h3>Pending</h3>
+                                        <div class="counter" id="req-pending-requests">0</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="history-table" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Sch. Time</th>
+                                            <th>Actual Time</th>
+                                            <th>Purpose</th>
+                                            <th>Destination</th>
+                                            <th>Status</th>
+                                            <th>Reason</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="req-history-tbody">
+                                        <tr>
+                                            <td colspan="7" class="text-center">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-close-req-detail">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'JavaScript/main.js' %}?v=1.8"></script>
+    <script src="{% static 'JavaScript/polling.js' %}?v=1.1"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Permission Management - Outpass System{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 8px;">
+        <div>
+            <h1 style="font-size: 1.5rem; font-weight: 600; color: var(--text-dark); margin: 0;">Permission Management</h1>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">Global System Controls for Wardens and Gatekeepers</p>
+        </div>
+    </div>
+
+    <section class="card form-section">
+        <h2 id="form-title"><i class="fas fa-shield-alt"></i> Role Permissions</h2>
+        
+        <div id="permission-message" style="margin-bottom: 20px;"></div>
+
+        <form id="permissions-form">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 24px;">
+                <!-- Warden Permissions -->
+                <div class="permission-card" style="border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; background: #fafafa;">
+                    <h3 style="margin-top: 0; margin-bottom: 15px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-user-tie"></i> Warden Permissions
+                    </h3>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color);">
+                        <div>
+                            <strong>View Students</strong>
+                            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Allow Wardens to view the Manage Students tab</p>
+                        </div>
+                        <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" id="warden-view-students" {% if warden_perms.can_view_students %}checked{% endif %} style="opacity: 0; width: 0; height: 0;">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color);">
+                        <div>
+                            <strong>View History/Details</strong>
+                            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Allow Wardens to view student outing history</p>
+                        </div>
+                        <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" id="warden-view-details" {% if warden_perms.can_view_details %}checked{% endif %} style="opacity: 0; width: 0; height: 0;">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+                        <div>
+                            <strong>Approve Requests</strong>
+                            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Allow Wardens to Approve and Configure requests</p>
+                        </div>
+                        <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" id="warden-approve" {% if warden_perms.can_approve %}checked{% endif %} style="opacity: 0; width: 0; height: 0;">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Gatekeeper Permissions -->
+                <div class="permission-card" style="border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; background: #fafafa;">
+                    <h3 style="margin-top: 0; margin-bottom: 15px; color: var(--warning); display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-id-badge"></i> Gatekeeper Permissions
+                    </h3>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color);">
+                        <div>
+                            <strong>View Students</strong>
+                            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Allow Gatekeepers to view the Manage Students tab</p>
+                        </div>
+                        <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" id="gatekeeper-view-students" {% if gatekeeper_perms.can_view_students %}checked{% endif %} style="opacity: 0; width: 0; height: 0;">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color);">
+                        <div>
+                            <strong>View History/Details</strong>
+                            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Allow Gatekeepers to view student outing history</p>
+                        </div>
+                        <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" id="gatekeeper-view-details" {% if gatekeeper_perms.can_view_details %}checked{% endif %} style="opacity: 0; width: 0; height: 0;">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color);">
+                        <div>
+                            <strong>Mark OUT (Exit)</strong>
+                            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Allow Gatekeepers to mark students as OUT</p>
+                        </div>
+                        <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" id="gatekeeper-mark-out" {% if gatekeeper_perms.can_mark_out %}checked{% endif %} style="opacity: 0; width: 0; height: 0;">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0;">
+                        <div>
+                            <strong>Mark IN (Return)</strong>
+                            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">Allow Gatekeepers to mark students as IN</p>
+                        </div>
+                        <label class="switch" style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" id="gatekeeper-mark-in" {% if gatekeeper_perms.can_mark_in %}checked{% endif %} style="opacity: 0; width: 0; height: 0;">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; display: flex; justify-content: flex-end;">
+                <button type="submit" class="btn btn-primary btn-gradient-blue" id="btn-save-permissions" style="min-width: 150px; font-weight: 600;">
+                    <span class="btn-text">Save Permissions</span>
+                    <div class="spinner hidden"><i class="fas fa-spinner fa-spin"></i></div>
+                </button>
+            </div>
+        </form>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Toggle Switch Styles */
+.switch input { 
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e2e8f0;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+input:checked + .slider {
+  background-color: #10b981;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #10b981;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('permissions-form');
+    const saveBtn = document.getElementById('btn-save-permissions');
+    const msgDiv = document.getElementById('permission-message');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        saveBtn.disabled = true;
+        saveBtn.querySelector('.btn-text').classList.add('hidden');
+        saveBtn.querySelector('.spinner').classList.remove('hidden');
+        msgDiv.innerHTML = '';
+
+        const payload = {
+            'Warden': {
+                'can_view_students': document.getElementById('warden-view-students').checked,
+                'can_view_details': document.getElementById('warden-view-details').checked,
+                'can_approve': document.getElementById('warden-approve').checked
+            },
+            'Gatekeeper': {
+                'can_view_students': document.getElementById('gatekeeper-view-students').checked,
+                'can_view_details': document.getElementById('gatekeeper-view-details').checked,
+                'can_mark_out': document.getElementById('gatekeeper-mark-out').checked,
+                'can_mark_in': document.getElementById('gatekeeper-mark-in').checked
+            }
+        };
+
+        try {
+            const response = await fetch('/api/permissions/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': window.CSRF_TOKEN
+                },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                msgDiv.innerHTML = `<div class="alert alert-success"><i class="fas fa-check-circle"></i> ${data.message}</div>`;
+                setTimeout(() => {
+                    msgDiv.innerHTML = '';
+                }, 3000);
+            } else {
+                msgDiv.innerHTML = `<div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> ${data.message}</div>`;
+            }
+        } catch (error) {
+            msgDiv.innerHTML = `<div class="alert alert-danger"><i class="fas fa-exclamation-circle"></i> Error saving permissions.</div>`;
+        } finally {
+            saveBtn.disabled = false;
+            saveBtn.querySelector('.btn-text').classList.remove('hidden');
+            saveBtn.querySelector('.spinner').classList.add('hidden');
+        }
+    });
+});
+</script>
+{% endblock %}

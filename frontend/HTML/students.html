@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Students - Outpass System{% endblock %}
+
+{% block content %}
+{% if no_permission %}
+<div class="card" style="text-align: center; padding: 40px; margin-top: 20px;">
+    <h2><i class="fas fa-ban" style="color: var(--danger); font-size: 2rem; margin-bottom: 10px;"></i></h2>
+    <h3>Permission Denied</h3>
+    <p style="color: var(--text-muted); margin-top: 10px;">You do not have permission to view or manage students.</p>
+</div>
+{% else %}
+<div class="dashboard-grid">
+    <!-- Student Registration Form -->
+    <section class="card form-section">
+        <h2 id="form-title"><i class="fas fa-user-plus"></i> Register New Student</h2>
+        <form id="student-form" enctype="multipart/form-data" novalidate>
+            <input type="hidden" id="form-mode" value="create">
+            
+            <!-- Profile Image upload and preview (consistent with User Management style) -->
+            <div class="form-group" style="margin-bottom: 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                <div id="profile-preview-container" style="width: 120px; height: 120px; border: 2px dashed var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: #fafafa; position: relative; flex-shrink: 0;">
+                    <span id="profile-preview-placeholder" style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 4px;">No Image</span>
+                    <img id="profile-preview-img" src="" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                </div>
+                
+                <div style="width: 280px; min-width: 250px;">
+                    <label for="student-profile-image-input" style="font-weight: 500; display: block; margin-bottom: 6px;">Profile Image</label>
+                    <div style="position: relative; border: 1px dashed var(--primary-blue); padding: 8px 12px; border-radius: 6px; background-color: rgba(0, 102, 204, 0.03); display: flex; align-items: center; gap: 8px;">
+                        <input type="file" id="student-profile-image-input" accept=".jpg,.jpeg,.png,.webp" style="cursor: pointer; width: 100%; font-size: 0.9rem;">
+                    </div>
+                    <small style="color: var(--text-muted); display: block; margin-top: 4px; font-size: 0.8rem;">Allowed: JPG, JPEG, PNG, WEBP</small>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reg-scholar-id">Scholar ID *</label>
+                    <input type="text" id="reg-scholar-id" placeholder="e.g. 230101001">
+                    <span class="field-error-message" id="error-reg-scholar-id"></span>
+                </div>
+                <div class="form-group">
+                    <label for="reg-name">Student Name *</label>
+                    <input type="text" id="reg-name" placeholder="Full Name">
+                    <span class="field-error-message" id="error-reg-name"></span>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reg-email">Email Address *</label>
+                    <input type="email" id="reg-email" placeholder="e.g. student@example.com">
+                    <span class="field-error-message" id="error-reg-email"></span>
+                </div>
+                <div class="form-group">
+                    <label for="reg-mobile">Mobile Number *</label>
+                    <input type="text" id="reg-mobile" placeholder="10-digit number" maxlength="10">
+                    <span class="field-error-message" id="error-reg-mobile"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reg-department">Department *</label>
+                    <select id="reg-department">
+                        <option value="" disabled selected>Select Department</option>
+                        <option value="Computer Science Department">Computer Science Department</option>
+                        <option value="Mechanical Department">Mechanical Department</option>
+                        <option value="Management Department">Management Department</option>
+                        <option value="Animation Department">Animation Department</option>
+                        <option value="Journalism Department">Journalism Department</option>
+                        <option value="Hindi Department">Hindi Department</option>
+                        <option value="Music Department">Music Department</option>
+                        <option value="English Department">English Department</option>
+                        <option value="Tourism Department">Tourism Department</option>
+                    </select>
+                    <span class="field-error-message" id="error-reg-department"></span>
+                </div>
+                <div class="form-group">
+                    <label for="reg-course">Course *</label>
+                    <select id="reg-course">
+                        <option value="" disabled selected>Select Course</option>
+                        <option value="B.SC.IT">B.SC.IT</option>
+                        <option value="BCA">BCA</option>
+                        <option value="BBA">BBA</option>
+                        <option value="B.Voc.Animation">Animation</option>
+                        <option value="BJMC">Journalism</option>
+                        <option value="B.A.H">Hindi</option>
+                        <option value="B.Mus">Music</option>
+                        <option value="English">English</option>
+                        <option value="Tourism">Tourism</option>
+                    </select>
+                    <span class="field-error-message" id="error-reg-course"></span>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="reg-semester">Semester *</label>
+                    <input type="number" id="reg-semester" min="1" max="10" placeholder="e.g. 5">
+                    <span class="field-error-message" id="error-reg-semester"></span>
+                </div>
+                <div class="form-group">
+                    <label for="reg-hostel">Hostel Name *</label>
+                    <select id="reg-hostel">
+                        <option value="" disabled selected>Select Hostel</option>
+                        <option value="Hostel A">Hostel A</option>
+                        <option value="Hostel B">Hostel B</option>
+                        <option value="Hostel C">Hostel C</option>
+                        <option value="Hostel D">Hostel D</option>
+                        <option value="Hostel E">Hostel E</option>
+                    </select>
+                    <span class="field-error-message" id="error-reg-hostel"></span>
+                </div>
+            </div>
+
+            <div class="form-actions" style="display: flex; gap: 10px; margin-top: 15px;">
+                <button type="button" id="btn-cancel-edit" class="btn btn-secondary hidden">Cancel Edit</button>
+                <button type="submit" id="btn-save-student" class="btn btn-primary" style="flex: 1;">
+                    <span class="btn-text">Save Student</span>
+                    <div class="spinner hidden"><i class="fas fa-spinner fa-spin"></i></div>
+                </button>
+            </div>
+            <div id="student-form-message"></div>
+        </form>
+    </section>
+
+    <!-- Students Table Section -->
+    <section class="card table-section">
+        <div class="table-header">
+            <h2><i class="fas fa-users"></i> Registered Students</h2>
+            <div class="table-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="student-search" placeholder="Search Scholar ID or Name...">
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="students-table">
+                <thead>
+                    <tr>
+                        <th class="checkbox-column"><input type="checkbox" id="student-master-checkbox" class="table-checkbox"></th>
+                        <th>Scholar ID</th>
+                        <th>Profile</th>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Course</th>
+                        <th>Sem</th>
+                        <th>Hostel</th>
+                        <th>Bio Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td class="checkbox-column"><input type="checkbox" class="table-checkbox student-row-checkbox" data-id="{{ student.scholar_id }}"></td>
+                        <td>{{ student.scholar_id }}</td>
+                        <td>
+                            {% if student.profile_image %}
+                            <img src="{{ student.profile_image.url }}" alt="{{ student.student_name }}" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: block; margin: 0 auto;">
+                            {% else %}
+                            <div style="width: 45px; height: 45px; border-radius: 50%; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); margin: 0 auto; color: #475569;">
+                                <i class="fas fa-user" style="font-size: 1.2rem;"></i>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td>{{ student.student_name }}</td>
+                        <td>{{ student.email|default:"-" }}</td>
+                        <td>{{ student.mobile_number }}</td>
+                        <td>{{ student.course }}</td>
+                        <td>{{ student.semester }}</td>
+                        <td>{{ student.hostel_name }}</td>
+                        <td>
+                            {% if student.biometric_status == 'IN' %}
+                            <span class="status-badge initial" style="font-size:10px;">IN</span>
+                            {% else %}
+                            <span class="status-badge danger" style="font-size:10px;">OUT</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <button class="btn-action edit-student-btn" data-id="{{ student.scholar_id }}" data-name="{{ student.student_name }}" data-mobile="{{ student.mobile_number }}" data-department="{{ student.department }}" data-course="{{ student.course }}" data-semester="{{ student.semester }}" data-hostel="{{ student.hostel_name }}" data-email="{{ student.email|default:'' }}" data-profile="{% if student.profile_image %}{{ student.profile_image.url }}{% endif %}" title="Edit"><i class="fas fa-edit" style="color: var(--primary-blue);"></i></button>
+                            <button class="btn-action delete-student-btn" data-id="{{ student.scholar_id }}" title="Delete"><i class="fas fa-trash" style="color: var(--danger);"></i></button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="10" class="text-center">No students registered yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {% if students.has_other_pages %}
+        <div class="pagination" style="margin-top: 15px; display: flex; justify-content: center; gap: 10px;">
+            <span class="step-links">
+                {% if students.has_previous %}
+                    <a href="?page=1" class="btn btn-sm btn-secondary">&laquo; First</a>
+                    <a href="?page={{ students.previous_page_number }}" class="btn btn-sm btn-secondary">Previous</a>
+                {% endif %}
+
+                <span class="current" style="padding: 5px 10px;">
+                    Page {{ students.number }} of {{ students.paginator.num_pages }}
+                </span>
+
+                {% if students.has_next %}
+                    <a href="?page={{ students.next_page_number }}" class="btn btn-sm btn-secondary">Next</a>
+                    <a href="?page={{ students.paginator.num_pages }}" class="btn btn-sm btn-secondary">Last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        {% endif %}
+    </section>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+asgiref==3.11.1
+Django==5.2.15
+pillow==12.2.0
+psycopg2-binary==2.9.12
+sqlparse==0.5.5
+typing_extensions==4.15.0
+pyzk==0.9
+djangorestframework==3.17.1
+requests==2.34.2
+gunicorn==23.0.0
+dj-database-url==2.3.0
+whitenoise==6.9.0
+python-dotenv==1.0.1
+

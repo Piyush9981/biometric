@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+{% load tz %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card info">
+        <div class="stat-icon"><i class="fas fa-check-double"></i></div>
+        <div class="stat-details">
+            <h3>Approved (Expected)</h3>
+            <p id="stat-total-expected" class="counter" data-target="{{ stats.total_expected }}">0</p>
+        </div>
+    </div>
+    <div class="stat-card success">
+        <div class="stat-icon"><i class="fas fa-thumbs-up"></i></div>
+        <div class="stat-details">
+            <h3>OUT</h3>
+            <p id="stat-currently-out" class="counter" data-target="{{ stats.out }}">0</p>
+        </div>
+    </div>
+    <div class="stat-card" style="border-left: 4px solid #3b82f6;">
+        <div class="stat-icon" style="color:#3b82f6;"><i class="fas fa-sign-in-alt"></i></div>
+        <div class="stat-details">
+            <h3>IN (Returned)</h3>
+            <p id="stat-returned-today" class="counter" data-target="{{ stats.returned_today }}">0</p>
+        </div>
+    </div>
+    <div class="stat-card danger">
+        <div class="stat-icon"><i class="fas fa-ban"></i></div>
+        <div class="stat-details">
+            <h3>Decline</h3>
+            <p id="stat-declined" class="counter" data-target="{{ stats.declined }}">0</p>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+
+
+    <section class="card table-section" style="grid-column: 1 / -1;">
+        <div class="table-header">
+            <h2><i class="fas fa-list-alt"></i> Outpass Requests</h2>
+            <div class="table-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="table-search" placeholder="Search by ID or Name...">
+                </div>
+                <select id="status-filter" class="filter-select">
+                    <option value="All">All Status</option>
+                    <option value="Accept">Approved</option>
+                    <option value="OUT">OUT</option>
+                </select>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="requests-table">
+                <thead>
+                    <tr>
+                        <th>Scholar ID</th>
+                        <th>Student Name</th>
+                        <th>Purpose</th>
+                        <th>Destination</th>
+                        <th>Departure Window</th>
+                        <th>Expected Return</th>
+                        <th>Actual Out</th>
+                        <th>Actual In</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requests %}
+                    <tr data-status="{{ req.request_status }}">
+                        <td>{{ req.student_id.student_id }}</td>
+                        <td>
+                            <div class="student-profile-container" style="display: none;">
+                                {% if req.student_id.profile_image %}
+                                <img src="{{ req.student_id.profile_image.url }}" alt="Profile" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
+                                {% else %}
+                                <div style="width: 48px; height: 48px; border-radius: 50%; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); color: #475569; margin: 0 auto;">
+                                    <i class="fas fa-user" style="font-size: 1.2rem;"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {{ req.student_id.student_name }}
+                        </td>
+                        <td>{{ req.outing_reason }}</td>
+                        <td>{{ req.destination }}</td>
+                        <td>
+                            {{ req.requested_exit_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}
+                            {% if req.early_grace or req.late_grace %}
+                            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
+                                <i class="far fa-clock"></i> Grace: -{{ req.early_grace }}m to +{{ req.late_grace }}m
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td>{{ req.requested_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}</td>
+                        <td>{% if req.actual_exit_datetime %}{{ req.actual_exit_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else %}-{% endif %}</td>
+                        <td>{% if req.actual_entry_datetime %}{{ req.actual_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else %}-{% endif %}</td>
+                        <td><span class="status-badge {{ req.request_status|slugify }}">{{ req.request_status }}</span>
+                        </td>
+                        <td>
+                            <div class="actions-wrapper" style="display: flex; gap: 8px; align-items: center;">
+                                <button type="button" class="btn btn-secondary btn-sm view-req-detail-btn"
+                                    data-request-id="{{ req.request_id }}"
+                                    data-scholar-id="{{ req.student_id.student_id }}"
+                                    data-student-name="{{ req.student_id.student_name }}"
+                                    data-student-mobile="{{ req.student_id.mobile_no }}"
+                                    data-course="{{ req.student_id.course }}"
+                                    data-semester="{{ req.student_id.semester }}"
+                                    data-hostel="{{ req.student_id.hostel_name }}"
+                                    data-purpose="{{ req.outing_reason }}"
+                                    data-destination="{{ req.destination }}"
+                                    data-reason="{{ req.note|default:'N/A' }}"
+                                    data-leave-reason="{{ req.leave_reason|default:'' }}"
+                                    data-parent-confirmed="{{ req.parent_confirmed }}"
+                                    data-exit="{{ req.requested_exit_datetime|date:'c' }}"
+                                    data-entry="{{ req.requested_entry_datetime|date:'c' }}"
+                                    data-warden="{{ req.approved_by|default:'Pending' }}"
+                                    data-warden-contact="{{ req.warden_contact }}"
+                                    data-requested-by="{{ req.requested_by|default:'N/A' }}"
+                                    data-profile="{% if req.student_id.profile_image %}{{ req.student_id.profile_image.url }}{% endif %}">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                {% if not req.actual_exit_datetime and req.request_status == 'Accept' or not req.actual_exit_datetime and req.request_status == 'ACCEPTED' %}
+                                {% if not perms or perms.can_mark_out %}
+                                <button class="btn-action gatekeeper-mark-out-btn" data-id="{{ req.request_id }}"
+                                    title="Mark OUT"
+                                    style="background:#1f2937; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold;">
+                                    <i class="fas fa-sign-out-alt"></i> OUT
+                                </button>
+                                {% else %}
+                                <span class="action-done" style="color:var(--text-muted);"><i class="fas fa-lock"></i> No
+                                    Permission</span>
+                                {% endif %}
+                                {% elif req.actual_exit_datetime and not req.actual_entry_datetime %}
+                                {% if req.biometric_verification and req.biometric_verification.verification_status == 'READY_FOR_IN' %}
+                                <div style="display:flex; gap:4px; flex-wrap:wrap;">
+                                    {% if not perms or perms.can_mark_in %}
+                                    <button class="btn-action gatekeeper-mark-in-btn" data-id="{{ req.request_id }}"
+                                        title="Mark IN"
+                                        style="background:#1f2937; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold;">
+                                        <i class="fas fa-sign-in-alt"></i> IN
+                                    </button>
+                                    {% else %}
+                                    <span class="action-done" style="color:var(--text-muted);"><i class="fas fa-lock"></i>
+                                        No Permission</span>
+                                    {% endif %}
+                                </div>
+                                {% else %}
+                                <span
+                                    style="color: #ea580c; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">
+                                    <i class="fas fa-fingerprint"></i> Waiting for Biometric Scan
+                                </span>
+                                {% endif %}
+                                {% else %}
+                                <span style="color: var(--text-muted);font-size:12px;">{{ req.request_status }}</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center">No requests found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- Gatekeeper Mark OUT ---
+        document.querySelectorAll('.gatekeeper-mark-out-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = e.currentTarget.getAttribute('data-id');
+                if (confirm('Mark this student as OUT?')) {
+                    try {
+                        const res = await fetch('/api/outpass/gatekeeper-mark-out/', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
+                            body: JSON.stringify({ request_id: id })
+                        });
+                        const data = await res.json();
+                        alert(data.message);
+                        if (data.success) window.location.reload();
+                    } catch (err) { alert('Network error.'); }
+                }
+            });
+        });
+
+        // --- Gatekeeper Mark IN ---
+        document.querySelectorAll('.gatekeeper-mark-in-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = e.currentTarget.getAttribute('data-id');
+                if (confirm('Mark this student as IN?')) {
+                    try {
+                        const res = await fetch('/api/outpass/gatekeeper-mark-in/', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
+                            body: JSON.stringify({ request_id: id })
+                        });
+                        const data = await res.json();
+                        alert(data.message);
+                        if (data.success) window.location.reload();
+                    } catch (err) { alert('Network error.'); }
+                }
+            });
+        });
+
+    });
+</script>
+{% endblock %}

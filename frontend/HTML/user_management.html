@@ -1,0 +1,521 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+
+{% block title %}User Management - Outpass System{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* User Management Action Buttons Hover Effects */
+    .view-user-btn {
+        transition: all 0.2s ease !important;
+    }
+
+    .view-user-btn:hover {
+        background-color: rgba(30, 41, 59, 0.06) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .reset-pw-btn {
+        transition: all 0.2s ease !important;
+    }
+
+    .reset-pw-btn:hover {
+        background-color: rgba(245, 158, 11, 0.06) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 6px rgba(245, 158, 11, 0.1) !important;
+    }
+
+    .delete-user-btn {
+        transition: all 0.2s ease !important;
+    }
+
+    .delete-user-btn:hover {
+        background-color: rgba(239, 68, 68, 0.06) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 6px rgba(239, 68, 68, 0.1) !important;
+    }
+
+    /* Edit button in view details modal */
+    #btn-edit-from-view {
+        transition: all 0.2s ease !important;
+    }
+
+    #btn-edit-from-view:hover {
+        background-color: rgba(37, 99, 235, 0.06) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 6px rgba(37, 99, 235, 0.1) !important;
+    }
+
+    /* Password Toggle Visibility Utility Styles */
+    .password-container {
+        position: relative !important;
+        width: 100% !important;
+        display: block !important;
+    }
+
+    .password-container input {
+        padding-right: 40px !important;
+    }
+
+    .password-toggle-btn {
+        position: absolute !important;
+        right: 12px !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        background: none !important;
+        border: none !important;
+        cursor: pointer !important;
+        color: var(--text-muted) !important;
+        padding: 4px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        outline: none !important;
+        transition: color 0.2s !important;
+        z-index: 10 !important;
+    }
+
+    .password-toggle-btn:hover {
+        color: var(--primary-blue) !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <!-- User Management Header / Summary -->
+    <div
+        style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 8px;">
+        <div>
+            <h1 style="font-size: 1.5rem; font-weight: 600; color: var(--text-dark); margin: 0;">User Management</h1>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 4px;">Manage Warden and Gatekeeper
+                Accounts</p>
+        </div>
+        <button id="btn-create-user" class="btn btn-primary btn-gradient-blue"
+            style="padding: 10px 20px; font-weight: 600; border-radius: 8px;">
+            <i class="fas fa-user-plus"></i> Create User
+        </button>
+    </div>
+
+    <!-- Search & Controls Section -->
+    <section class="card" style="padding: 16px 24px;">
+        <div style="display: flex; gap: 16px; align-items: center; justify-content: flex-start; flex-wrap: wrap;">
+            <div class="search-box" style="flex: 1; max-width: 400px; min-width: 250px;">
+                <i class="fas fa-search"></i>
+                <input type="text" id="user-search" placeholder="Search by Name or Username..." class="form-control"
+                    style="width: 100%;">
+            </div>
+        </div>
+    </section>
+
+    <!-- Users Table Section -->
+    <section class="card table-section">
+        <div class="table-header">
+            <h2><i class="fas fa-users-cog"></i> System Users</h2>
+        </div>
+        <div class="table-responsive">
+            <table id="users-table">
+                <thead>
+                    <tr>
+                        <th class="checkbox-column"><input type="checkbox" id="user-master-checkbox"
+                                class="table-checkbox"></th>
+                        <th style="width: 80px;">ID</th>
+                        <th style="width: 100px; text-align: center;">Profile</th>
+                        <th>Full Name</th>
+                        <th>Role</th>
+                        <th>Assigned Hostel/Gate</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Created Date</th>
+                        <th style="width: 200px; text-align: right;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr data-role="{{ user.role }}">
+                        <td class="checkbox-column"><input type="checkbox" class="table-checkbox user-row-checkbox"
+                                data-id="{{ user.id }}"></td>
+                        <td>{{ user.user_id }}</td>
+                        <td style="text-align: center; vertical-align: middle;">
+                            {% if user.profile_image %}
+                            <img src="{{ user.profile_image.url }}" alt="{{ user.full_name }}"
+                                style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: block; margin: 0 auto;">
+                            {% else %}
+                            <div
+                                style="width: 45px; height: 45px; border-radius: 50%; background-color: var(--border-color); color: var(--text-dark); display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1rem; border: 1px solid var(--border-color); margin: 0 auto; box-shadow: var(--shadow-sm);">
+                                {{ user.full_name|slice:":1"|upper }}
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td class="user-full-name">{{ user.full_name }}</td>
+                        <td>
+                            {% if user.role == 'Warden' %}
+                            <span class="status-badge approved"
+                                style="font-size: 0.8rem; padding: 4px 10px;">Warden</span>
+                            {% else %}
+                            <span class="status-badge info"
+                                style="font-size: 0.8rem; padding: 4px 10px;">Gatekeeper</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if user.role == 'Warden' %}
+                            {{ user.hostel_name }}
+                            {% else %}
+                            {{ user.gate_name }}
+                            {% endif %}
+                        </td>
+                        <td class="user-username">{{ user.user_name }}</td>
+                        <td class="user-email">{{ user.email }}</td>
+                        <td>{{ user.created_at|timezone:"Asia/Kolkata"|date:"d-m-Y" }}</td>
+                        <td style="text-align: right; min-width: 250px;">
+                            <button class="view-user-btn" data-id="{{ user.user_id }}" data-name="{{ user.full_name }}"
+                                data-username="{{ user.user_name }}" data-email="{{ user.email }}"
+                                data-contact="{{ user.contact|default:'' }}"
+                                data-department="{{ user.department|default:'' }}" data-role="{{ user.role }}"
+                                data-hostel="{{ user.hostel_name|default:'' }}"
+                                data-gate="{{ user.gate_name|default:'' }}"
+                                data-purposes="{{ user.allowed_purposes|default:'' }}"
+                                data-profile="{% if user.profile_image %}{{ user.profile_image.url }}{% endif %}"
+                                title="View"
+                                style="margin-right: 6px; padding: 5px 12px; font-size: 0.85rem; border: 1px solid var(--text-dark); color: var(--text-dark); background: transparent; border-radius: 4px; cursor: pointer; transition: all 0.2s;">
+                                View
+                            </button>
+                            <button class="reset-pw-btn" data-id="{{ user.user_id }}" data-name="{{ user.full_name }}"
+                                title="Reset Password"
+                                style="margin-right: 6px; padding: 5px 12px; font-size: 0.85rem; border: 1px solid var(--warning); color: var(--warning); background: transparent; border-radius: 4px; cursor: pointer; transition: all 0.2s;">
+                                Reset
+                            </button>
+                            <button class="delete-user-btn" data-id="{{ user.user_id }}"
+                                data-name="{{ user.full_name }}" title="Delete"
+                                style="padding: 5px 12px; font-size: 0.85rem; border: 1px solid var(--danger); color: var(--danger); background: transparent; border-radius: 4px; cursor: pointer; transition: all 0.2s;">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="10" class="text-center" style="padding: 24px; color: var(--text-muted);">No users
+                            found. Create a user to get started.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if users.has_other_pages %}
+        <div class="pagination" style="margin-top: 15px; display: flex; justify-content: center; gap: 10px;">
+            <span class="step-links">
+                {% if users.has_previous %}
+                <a href="?page=1" class="btn btn-sm btn-secondary">&laquo; First</a>
+                <a href="?page={{ users.previous_page_number }}" class="btn btn-sm btn-secondary">Previous</a>
+                {% endif %}
+
+                <span class="current" style="padding: 5px 10px;">
+                    Page {{ users.number }} of {{ users.paginator.num_pages }}
+                </span>
+
+                {% if users.has_next %}
+                <a href="?page={{ users.next_page_number }}" class="btn btn-sm btn-secondary">Next</a>
+                <a href="?page={{ users.paginator.num_pages }}" class="btn btn-sm btn-secondary">Last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+        {% endif %}
+    </section>
+</div>
+
+<!-- Create / Edit User Glassmorphism Modal -->
+<div id="user-modal" class="modal-overlay hidden">
+    <div class="modal-glass" style="max-width: 550px;">
+        <div class="modal-header">
+            <h3 id="modal-user-title">Register New User</h3>
+            <button class="btn-close-modal" id="btn-close-user-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="user-form">
+                <input type="hidden" id="form-mode" value="create">
+                <input type="hidden" id="user-id" value="">
+
+                <div class="form-group"
+                    style="margin-bottom: 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                    <!-- Square preview box -->
+                    <div id="profile-preview-container"
+                        style="width: 120px; height: 120px; border: 2px dashed var(--border-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: #fafafa; position: relative;">
+                        <!-- Placeholder text -->
+                        <span id="profile-preview-placeholder"
+                            style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 4px;">No
+                            Image</span>
+                        <img id="profile-preview-img" src="" alt="Preview"
+                            style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                    </div>
+
+                    <!-- Dashed border upload area -->
+                    <div style="flex: 1; min-width: 200px;">
+                        <label for="user-profile-image-input"
+                            style="font-weight: 500; display: block; margin-bottom: 6px;">Profile Image</label>
+                        <div
+                            style="position: relative; border: 1px dashed var(--primary-blue); padding: 8px 12px; border-radius: 6px; background-color: rgba(0, 102, 204, 0.03); display: flex; align-items: center; gap: 8px;">
+                            <input type="file" id="user-profile-image-input" accept=".jpg,.jpeg,.png,.webp"
+                                style="cursor: pointer; width: 100%; font-size: 0.9rem;">
+                        </div>
+                        <small
+                            style="color: var(--text-muted); display: block; margin-top: 4px; font-size: 0.8rem;">Allowed:
+                            JPG, JPEG, PNG, WEBP</small>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="user-full-name">Full Name *</label>
+                    <input type="text" id="user-full-name" name="full_name" autocomplete="name" required
+                        placeholder="e.g. John Doe">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="user-username">Username *</label>
+                    <input type="text" id="user-username" name="username" autocomplete="username" required
+                        placeholder="e.g. warden_john">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="user-email">Email *</label>
+                    <input type="email" id="user-email" name="email" autocomplete="email" required
+                        placeholder="e.g. staff@school.com"
+                        style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; transition: all 0.2s;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="user-contact">Contact Number *</label>
+                    <input type="text" id="user-contact" name="contact_number" required placeholder="e.g. 9876543210"
+                        maxlength="10" pattern="\d{10}"
+                        style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; transition: all 0.2s;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="user-department">Department *</label>
+                    <select id="user-department" name="department" required
+                        style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; font-family: inherit; background: white;">
+                        <option value="" disabled selected>Select Department</option>
+                        <option value="Hostel Department">Hostel Department</option>
+                        <option value="Security Department">Security Department</option>
+                    </select>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="user-password" id="password-label">Password *</label>
+                    <div class="password-container">
+                        <input type="password" id="user-password" name="password" autocomplete="new-password"
+                            placeholder="Password"
+                            style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; transition: all 0.2s;">
+                        <button type="button" class="password-toggle-btn" tabindex="-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <small id="password-help" class="hidden"
+                        style="color: var(--text-muted); display: block; margin-top: 4px;">Leave blank to keep current
+                        password.</small>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="user-role">Role *</label>
+                    <select id="user-role" required
+                        style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; font-family: inherit; background: white;">
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="Warden">Warden</option>
+                        <option value="Gatekeeper">Gatekeeper</option>
+                    </select>
+                </div>
+
+                <!-- Hostel Dropdown (Warden only) -->
+                <div id="hostel-container" class="form-group hidden" style="margin-bottom: 16px;">
+                    <label for="user-hostel-name">Hostel Name *</label>
+                    <select id="user-hostel-name"
+                        style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; font-family: inherit; background: white;">
+                        <option value="" disabled selected>Select Hostel</option>
+                        <option value="Hostel A">Hostel A</option>
+                        <option value="Hostel B">Hostel B</option>
+                        <option value="Hostel C">Hostel C</option>
+                        <option value="Hostel D">Hostel D</option>
+                        <option value="Hostel E">Hostel E</option>
+                    </select>
+                </div>
+
+                <!-- Allowed Purposes (Warden only) -->
+                <div id="purposes-container" class="form-group hidden" style="margin-bottom: 16px;">
+                    <label>Allowed Purposes *</label>
+                    <div
+                        style="padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #fafafa;">
+                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"
+                                name="allowed_purposes" value="All"> <strong>All</strong></label>
+                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"
+                                name="allowed_purposes" value="Medical"> Medical</label>
+                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"
+                                name="allowed_purposes" value="Personal"> Personal</label>
+                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"
+                                name="allowed_purposes" value="Education leave"> Education leave</label>
+                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"
+                                name="allowed_purposes" value="Sunday Outing"> Sunday Outing</label>
+                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"
+                                name="allowed_purposes" value="Semester Break"> Semester Break</label>
+                        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;"><input type="checkbox"
+                                name="allowed_purposes" value="Emergency"> Emergency</label>
+                    </div>
+                </div>
+
+                <!-- Gate Dropdown (Gatekeeper only) -->
+                <div id="gate-container" class="form-group hidden" style="margin-bottom: 16px;">
+                    <label for="user-gate-name">Gate Name *</label>
+                    <select id="user-gate-name"
+                        style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; font-family: inherit; background: white;">
+                        <option value="" disabled selected>Select Gate</option>
+                        <option value="Main Gate">Main Gate</option>
+                        <option value="Academic Block Gate">Academic Block Gate</option>
+                        <option value="Hostel Gate">Hostel Gate</option>
+                        <option value="Library Gate">Library Gate</option>
+                        <option value="Sports Complex Gate">Sports Complex Gate</option>
+                    </select>
+                </div>
+
+                <div id="user-form-message"></div>
+
+                <div class="form-actions"
+                    style="display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" id="btn-cancel-user-modal"
+                        style="width: auto; min-width: 100px;">Cancel</button>
+                    <button type="submit" id="btn-save-user" class="btn btn-primary btn-gradient-blue"
+                        style="width: auto; min-width: 100px;">
+                        <span class="btn-text">Save</span>
+                        <div class="spinner hidden"><i class="fas fa-spinner fa-spin"></i></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div id="reset-password-modal" class="modal-overlay hidden">
+    <div class="modal-glass" style="max-width: 450px;">
+        <div class="modal-header">
+            <h3>Reset Password</h3>
+            <button class="btn-close-modal" id="btn-close-reset-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom: 16px; color: var(--text-muted);">Resetting password for <strong
+                    id="reset-username-display" style="color: var(--text-dark);"></strong></p>
+            <form id="reset-password-form">
+                <input type="hidden" id="reset-user-id" value="">
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="reset-new-password">New Password *</label>
+                    <div class="password-container">
+                        <input type="password" id="reset-new-password" required placeholder="Minimum 6 characters"
+                            style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; transition: all 0.2s;">
+                        <button type="button" class="password-toggle-btn" tabindex="-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="reset-confirm-password">Confirm Password *</label>
+                    <div class="password-container">
+                        <input type="password" id="reset-confirm-password" required placeholder="Confirm Password"
+                            style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px; outline: none; transition: all 0.2s;">
+                        <button type="button" class="password-toggle-btn" tabindex="-1">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="reset-password-message"></div>
+
+                <div class="form-actions"
+                    style="display: flex; gap: 12px; margin-top: 24px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" id="btn-cancel-reset-modal"
+                        style="width: auto; min-width: 100px;">Cancel</button>
+                    <button type="submit" id="btn-save-password" class="btn btn-primary btn-gradient-blue"
+                        style="width: auto; min-width: 150px;">
+                        <span class="btn-text">Save Password</span>
+                        <div class="spinner hidden"><i class="fas fa-spinner fa-spin"></i></div>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="delete-confirm-modal" class="modal-overlay hidden">
+    <div class="modal-glass" style="max-width: 450px;">
+        <div class="modal-header">
+            <h3 style="color: var(--danger);"><i class="fas fa-exclamation-triangle"></i> Delete Account</h3>
+            <button class="btn-close-modal" id="btn-close-delete-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <p style="font-size: 1.05rem; margin-bottom: 12px; color: var(--text-dark);">
+                Are you sure you want to delete <strong id="delete-user-name-display"></strong>?
+            </p>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px;">
+                This action is permanent and cannot be undone. The user will lose all access to the system.
+            </p>
+
+            <div id="delete-message"></div>
+
+            <div class="form-actions" style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 16px;">
+                <button type="button" class="btn btn-secondary" id="btn-cancel-delete"
+                    style="width: auto; min-width: 100px;">Cancel</button>
+                <button type="button" class="btn" id="btn-confirm-delete"
+                    style="background-color: var(--danger); color: white; width: auto; min-width: 100px;">
+                    <span class="btn-text">Delete</span>
+                    <div class="spinner hidden"><i class="fas fa-spinner fa-spin"></i></div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View User Details Modal -->
+<div id="view-modal" class="modal-overlay hidden">
+    <div class="modal-glass" style="max-width: 500px;">
+        <div class="modal-header">
+            <h3><i class="fas fa-id-card"></i> User Details</h3>
+            <button class="btn-close-modal" id="btn-close-view-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 1.05rem; color: var(--text-dark);">
+                <div style="text-align: center; margin-bottom: 16px;">
+                    <img id="view-profile-pic" src="" alt="Profile Image"
+                        style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); box-shadow: var(--shadow-md); display: none; margin: 0 auto;">
+                    <div id="view-profile-placeholder"
+                        style="width: 90px; height: 90px; border-radius: 50%; background-color: var(--border-color); color: var(--text-dark); display: none; align-items: center; justify-content: center; font-weight: 600; font-size: 2rem; border: 2px solid var(--border-color); margin: 0 auto; box-shadow: var(--shadow-md);">
+                    </div>
+                </div>
+                <div><strong>Full Name:</strong> <span id="view-full-name"></span></div>
+                <div><strong>Username:</strong> <span id="view-username"></span></div>
+                <div><strong>Email:</strong> <span id="view-email"></span></div>
+                <div><strong>Contact Number:</strong> <span id="view-contact"></span></div>
+                <div><strong>Department:</strong> <span id="view-department"></span></div>
+                <div><strong>Role:</strong> <span id="view-role"></span></div>
+                <div id="view-hostel-container" class="hidden"><strong>Assigned Hostel:</strong> <span
+                        id="view-hostel"></span></div>
+                <div id="view-gate-container" class="hidden"><strong>Assigned Gate:</strong> <span
+                        id="view-gate"></span></div>
+            </div>
+
+            <div class="form-actions" style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+                <button type="button" class="btn" id="btn-edit-from-view"
+                    style="padding: 4px 10px; font-size: 0.78rem; border: 1px solid var(--primary-blue); color: var(--primary-blue); background: transparent; border-radius: 4px; cursor: pointer; transition: all 0.2s; min-width: 75px; height: auto;">Edit</button>
+                <button type="button" class="btn btn-secondary" id="btn-cancel-view-modal"
+                    style="width: auto; min-width: 100px;">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'JavaScript/script.js' %}?v=1.3"></script>
+{% endblock %}

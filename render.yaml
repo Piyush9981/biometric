@@ -1,0 +1,23 @@
+databases:
+  - name: outpass-db
+    databaseName: outpass_db
+    user: postgres
+
+services:
+  - type: web
+    name: student-outpass-system
+    env: python
+    rootDir: backend
+    buildCommand: ./build.sh
+    startCommand: gunicorn core.wsgi:application
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: outpass-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: "*"

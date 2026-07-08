@@ -1,0 +1,647 @@
+{% extends 'base.html' %}
+{% load tz %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-details">
+            <h3>Total Students</h3>
+            <p id="stat-total-students" class="counter" data-target="{{ stats.total_students }}">0</p>
+        </div>
+    </div>
+    <div class="stat-card warning">
+        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+        <div class="stat-details">
+            <h3>Initiate</h3>
+            <p id="stat-initial-requests" class="counter" data-target="{{ stats.initial_requests }}">0</p>
+        </div>
+    </div>
+    <div class="stat-card success">
+        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="stat-details">
+            <h3>Approved</h3>
+            <p id="stat-warden-approved" class="counter" data-target="{{ stats.warden_approved_requests }}">0</p>
+        </div>
+    </div>
+    <div class="stat-card danger">
+        <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+        <div class="stat-details">
+            <h3>Decline</h3>
+            <p id="stat-declined-requests" class="counter" data-target="{{ stats.declined_requests }}">0</p>
+        </div>
+    </div>
+    <div class="stat-card info">
+        <div class="stat-icon"><i class="fas fa-calendar-day"></i></div>
+        <div class="stat-details">
+            <h3>Today's Requests</h3>
+            <p id="stat-today-requests" class="counter" data-target="{{ stats.today_requests }}">0</p>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-grid">
+    <!-- Mobile Quick Actions Section -->
+    <div class="mobile-quick-actions">
+        <div class="quick-actions-card">
+            <h3>Quick Actions</h3>
+            <button type="button" class="btn-create-request" id="mobile-create-request-btn">
+                <i class="fas fa-plus"></i> Create New Outpass Request
+            </button>
+        </div>
+    </div>
+
+    <!-- Outpass Form Section -->
+    <section class="card form-section">
+        <h2>
+            <i class="fas fa-plus-circle"></i> Create Outpass Request
+            <span class="mobile-form-close" id="mobile-form-close-btn"><i class="fas fa-times"></i></span>
+        </h2>
+        <form id="outpass-form">
+            <div class="inline-form-row">
+                <div class="form-group scholar-group">
+                    <label for="scholar-id">Scholar ID</label>
+                    <input type="text" id="scholar-id" placeholder="e.g. 230101001" required>
+                </div>
+                <div class="form-group name-group">
+                    <label>Student Name</label>
+                    <div id="student-name-display" class="readonly-display">Enter ID to fetch</div>
+                </div>
+                <div class="form-group">
+                    <label for="purpose">Purpose</label>
+                    <select id="purpose" required>
+                        <option value="" disabled selected>Select Category</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Education leave">Education leave</option>
+                        <option value="Sunday Outing">Sunday Outing</option>
+                        <option value="Semester Break">Semester Break</option>
+                        <option value="Emergency">Emergency</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="destination">Destination</label>
+                    <input type="text" id="destination" placeholder="e.g. Home" required>
+                </div>
+                <div class="form-group">
+                    <label for="requested-exit-datetime">Requested Exit</label>
+                    <input type="datetime-local" id="requested-exit-datetime" required>
+                </div>
+                <div class="form-group">
+                    <label for="requested-entry-datetime">Requested Entry</label>
+                    <input type="datetime-local" id="requested-entry-datetime" required>
+                </div>
+                <div class="form-group button-group">
+                    <label>&nbsp;</label>
+                    <button type="button" id="btn-view" class="btn btn-secondary">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                </div>
+                <div class="form-group button-group">
+                    <label>&nbsp;</label>
+                    <button type="submit" id="btn-submit" class="btn btn-primary">
+                        <span class="btn-text">Send Request</span>
+                        <div class="spinner hidden"><i class="fas fa-spinner fa-spin"></i></div>
+                    </button>
+                </div>
+            </div>
+            <div id="form-message"></div>
+        </form>
+    </section>
+
+    <!-- Table Section -->
+    <section class="card table-section">
+        <div class="table-header">
+            <h2><i class="fas fa-list-alt"></i> Outpass Requests {% if warden_hostel %}({{ warden_hostel }}){% endif %}
+            </h2>
+            <div class="table-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="table-search" placeholder="Search by ID or Name...">
+                </div>
+                <select id="status-filter" class="filter-select">
+                    <option value="All">All Status</option>
+                    <option value="Initiate">Initiate</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Accept">Accept</option>
+                    <option value="OUT">OUT</option>
+                    <option value="IN">IN</option>
+                    <option value="Decline">Decline</option>
+                </select>
+                <details class="column-visibility-dropdown" style="position: relative; margin-left: 10px;">
+                    <summary class="btn-action">
+                        <i class="fas fa-columns"></i> Columns
+                    </summary>
+                    <div class="dropdown-content"
+                        style="position: absolute; right: 0; top: 100%; background: white; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 180px; margin-top: 5px;">
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="0" checked> Scholar ID</label>
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="1" checked> Profile</label>
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="2" checked> Student Name</label>
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="3" checked> Purpose</label>
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="4" checked> Destination</label>
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="5" checked> Exit Date/Time</label>
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="6" checked> Entry Date/Time</label>
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="7" checked> Actual Exit</label>
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="8" checked> Actual Entry</label>
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="9" checked> Detail</label>
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="10" checked> Status</label>
+                        <label style="display: block;"><input type="checkbox" class="col-toggle" data-col="11" checked>
+                            Actions</label>
+                    </div>
+                </details>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="requests-table">
+                <thead>
+                    <tr>
+                        <th>Scholar ID</th>
+                        <th>Profile</th>
+                        <th>Student Name</th>
+                        <th>Purpose</th>
+                        <th>Destination</th>
+                        <th>Exit Date/Time</th>
+                        <th>Entry Date/Time</th>
+                        <th>Actual Exit</th>
+                        <th>Actual Entry</th>
+                        <th>Detail</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requests %}
+                    <tr data-status="{{ req.request_status }}">
+                        <td>{{ req.student_id.student_id }}</td>
+                        <td>
+                            {% if req.student_id.profile_image %}
+                            <img src="{{ req.student_id.profile_image.url }}" alt="Profile" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: block; margin: 0 auto;">
+                            {% else %}
+                            <div style="width: 45px; height: 45px; border-radius: 50%; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); margin: 0 auto; color: #475569;">
+                                <i class="fas fa-user" style="font-size: 1.2rem;"></i>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td>{{ req.student_id.student_name }}</td>
+                        <td>{{ req.outing_reason }}</td>
+                        <td>{{ req.destination }}</td>
+                        <td>{{ req.requested_exit_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}</td>
+                        <td>{{ req.requested_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}</td>
+                        <td>{% if req.actual_exit_datetime %}{{ req.actual_exit_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else
+                            %}-{% endif %}</td>
+                        <td>{% if req.actual_entry_datetime %}{{ req.actual_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else
+                            %}-{% endif %}</td>
+                        <td>
+                            <button type="button" class="btn btn-secondary btn-sm view-req-detail-btn"
+                                data-scholar-id="{{ req.student_id.student_id }}"
+                                data-student-name="{{ req.student_id.student_name }}"
+                                data-student-mobile="{{ req.student_id.mobile_no }}"
+                                data-course="{{ req.student_id.course }}" data-semester="{{ req.student_id.semester }}"
+                                data-hostel="{{ req.student_id.hostel_name }}" data-purpose="{{ req.outing_reason }}"
+                                data-destination="{{ req.destination }}" data-reason="{{ req.note|default:'N/A' }}"
+                                data-exit="{{ req.requested_exit_datetime|date:'c' }}"
+                                data-entry="{{ req.requested_entry_datetime|date:'c' }}"
+                                data-warden="{{ req.approved_by|default:'Pending' }}"
+                                data-warden-contact="{{ req.warden_contact }}"
+                                data-requested-by="{{ req.requested_by|default:'N/A' }}"
+                                data-profile="{% if req.student_id.profile_image %}{{ req.student_id.profile_image.url }}{% endif %}">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </td>
+                        <td><span class="status-badge {{ req.request_status|slugify }}">{{ req.request_status }}</span>
+                        </td>
+
+                        <td>
+                            {% if req.request_status == 'Initiate' %}
+                            {% if not perms or perms.can_approve %}
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn-action approve-btn" data-id="{{ req.request_id }}"
+                                    title="Approve (Default Time)"
+                                    style="background:#10b981; color:white; border:none; border-radius:6px; padding:4px 8px; cursor:pointer; font-size:12px;"><i
+                                        class="fas fa-check"></i> Approve</button>
+                                <button class="btn-action configure-btn" data-id="{{ req.request_id }}"
+                                    title="Configure Time"
+                                    style="background:#3b82f6; color:white; border:none; border-radius:6px; padding:4px 8px; cursor:pointer; font-size:12px;"><i
+                                        class="fas fa-clock"></i> Configure</button>
+                                <button class="btn-action reject-btn" data-id="{{ req.request_id }}" title="Decline"
+                                    style="background:#ef4444; color:white; border:none; border-radius:6px; padding:4px 8px; cursor:pointer; font-size:12px;"><i
+                                        class="fas fa-ban"></i> Decline</button>
+                            </div>
+                            {% else %}
+                            <span class="action-done" style="color:var(--text-muted);"><i class="fas fa-lock"></i> No
+                                Permission</span>
+                            {% endif %}
+                            {% elif req.request_status == 'Approved' %}
+                            <div style="display: flex; gap: 8px;">
+
+                            </div>
+                            {% else %}
+                            <span class="action-done"><i class="fas fa-check-double"></i></span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="9" class="text-center">No requests found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<!-- Glassmorphism Modal -->
+<div id="student-modal" class="modal-overlay hidden">
+    <div class="modal-glass" style="max-width: 900px; width: 95%;">
+        <div class="modal-header" style="border-bottom: none; padding-bottom: 10px;">
+            <h3><span id="modal-title-student-name"></span> Student Details</h3>
+            <button class="btn-close-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-tabs">
+            <div class="modal-tab active" data-tab="details">Student Details</div>
+            <div class="modal-tab" data-tab="history">Outpass History</div>
+        </div>
+        <div class="modal-tab-wrapper">
+            <div class="modal-tab-slides">
+                <!-- Slide 1: Details -->
+                <div class="modal-slide-content">
+                    <div class="modal-body">
+                        <div class="detail-row" style="align-items: center;">
+                            <span class="detail-label">Profile:</span>
+                            <span class="detail-value">
+                                <img id="modal-profile-img" src="" alt="Profile Image" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: none;">
+                                <div id="modal-profile-placeholder" style="width: 60px; height: 60px; border-radius: 8px; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); color: #475569;">
+                                    <i class="fas fa-user" style="font-size: 1.5rem;"></i>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="detail-row"><span class="detail-label">Name:</span><span class="detail-value"
+                                id="modal-name"></span></div>
+                        <div class="detail-row"><span class="detail-label">Mobile:</span><span class="detail-value"
+                                id="modal-mobile"></span></div>
+                        <div class="detail-row"><span class="detail-label">Course:</span><span class="detail-value"
+                                id="modal-course"></span></div>
+                        <div class="detail-row"><span class="detail-label">Semester:</span><span class="detail-value"
+                                id="modal-semester"></span></div>
+                        <div class="detail-row"><span class="detail-label">Hostel:</span><span class="detail-value"
+                                id="modal-hostel"></span></div>
+                        <div class="detail-row"><span class="detail-label">Parent Name:</span><span class="detail-value"
+                                id="modal-parent-name"></span></div>
+                        <div class="detail-row"><span class="detail-label">Relation:</span><span class="detail-value"
+                                id="modal-parent-relation"></span></div>
+                        <div class="detail-row"><span class="detail-label">Contact:</span><span class="detail-value"
+                                id="modal-parent-contact"></span></div>
+                    </div>
+                </div>
+                <!-- Slide 2: Outpass History -->
+                <div class="modal-slide-content">
+                    <div class="modal-body" style="max-height: 60vh; overflow-y: auto;">
+                        <div class="history-summary">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+                                <div class="stat-details">
+                                    <h3>Total Requests</h3>
+                                    <div class="counter" id="student-total-requests">0</div>
+                                </div>
+                            </div>
+                            <div class="stat-card success">
+                                <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                                <div class="stat-details">
+                                    <h3>Approved</h3>
+                                    <div class="counter" id="student-approved-requests">0</div>
+                                </div>
+                            </div>
+                            <div class="stat-card danger">
+                                <div class="stat-icon"><i class="fas fa-times-circle"></i></div>
+                                <div class="stat-details">
+                                    <h3>Reject</h3>
+                                    <div class="counter" id="student-rejected-requests">0</div>
+                                </div>
+                            </div>
+                            <div class="stat-card warning">
+                                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                                <div class="stat-details">
+                                    <h3>Pending</h3>
+                                    <div class="counter" id="student-pending-requests">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="history-table" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Sch. Time</th>
+                                        <th>Actual Time</th>
+                                        <th>Purpose</th>
+                                        <th>Destination</th>
+                                        <th>Status</th>
+                                        <th>Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="student-history-tbody">
+                                    <tr>
+                                        <td colspan="7" class="text-center">Loading...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary btn-close-modal">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<!-- Action Reason Modal (Warden Approve) -->
+<div id="action-reason-modal" class="modal-overlay hidden">
+    <div class="modal-glass" style="max-width: 400px; width: 95%;">
+        <div class="modal-header">
+            <h3 id="action-modal-title">Approve Request</h3>
+            <button class="btn-close-action-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="action-reason-form">
+                <input type="hidden" id="action-request-id">
+                <input type="hidden" id="action-status" value="warden-approve">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="action-reason-text">Reason <span style="color:var(--danger)">*</span></label>
+                    <textarea id="action-reason-text" rows="2"
+                        style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px;"
+                        placeholder="Please provide a reason..." required></textarea>
+                </div>
+
+                <div id="action-form-message" style="margin-bottom: 10px;"></div>
+                <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary btn-close-action-modal">Cancel</button>
+                    <button type="submit" id="btn-submit-action" class="btn btn-primary">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Configure Time Modal -->
+<div id="configure-time-modal" class="modal-overlay hidden">
+    <div class="modal-glass" style="max-width: 400px; width: 95%;">
+        <div class="modal-header">
+            <h3>Configure Grace Periods</h3>
+            <button class="btn-close-modal" id="btn-close-configure-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="configure-time-form">
+                <input type="hidden" id="configure-request-id">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="configure-early-grace">Early Grace Period (Minutes) <span
+                            style="color:var(--danger)">*</span></label>
+                    <input type="number" id="configure-early-grace"
+                        style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px;"
+                        min="0" value="15" required>
+                    <small style="color:var(--text-muted);">How many minutes early the student can leave.</small>
+                </div>
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="configure-late-grace">Late Grace Period (Minutes) <span
+                            style="color:var(--danger)">*</span></label>
+                    <input type="number" id="configure-late-grace"
+                        style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px;"
+                        min="0" value="0" required>
+                    <small style="color:var(--text-muted);">How many minutes late the student can leave before timing
+                        out.</small>
+                </div>
+                <div id="configure-form-message" style="margin-bottom: 10px;"></div>
+                <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" id="btn-cancel-configure-modal">Cancel</button>
+                    <button type="submit" id="btn-submit-configure" class="btn btn-primary">Save & Approve</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% if request.session.is_first_login %}
+<!-- First Time Setup Modal (Inescapable) -->
+<div id="first-login-modal" class="modal-overlay" style="display: flex; z-index: 9999; background: rgba(0,0,0,0.85);">
+    <div class="modal-glass"
+        style="max-width: 450px; width: 90%; background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <i class="fas fa-shield-alt" style="font-size: 3rem; color: var(--primary-blue); margin-bottom: 12px;"></i>
+            <h3 style="color: var(--text-dark); font-size: 1.4rem;">First-Time Setup</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 8px;">For security reasons, you must
+                change your default username and password before accessing the dashboard.</p>
+        </div>
+        <form id="first-login-form">
+            <div class="form-group" style="margin-bottom: 16px;">
+                <label for="setup-username">New Username <span style="color:var(--danger)">*</span></label>
+                <input type="text" id="setup-username" required placeholder="Choose a unique username"
+                    style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px;">
+            </div>
+            <style>
+                .first-login-pw-container {
+                    position: relative;
+                    width: 100%;
+                }
+
+                .first-login-pw-container input {
+                    padding-right: 40px !important;
+                }
+
+                .first-login-pw-toggle {
+                    position: absolute;
+                    right: 12px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: var(--text-muted);
+                    padding: 4px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    outline: none;
+                }
+
+                .first-login-pw-toggle:hover {
+                    color: var(--primary-blue);
+                }
+            </style>
+            <div class="form-group" style="margin-bottom: 16px;">
+                <label for="setup-password">New Password <span style="color:var(--danger)">*</span></label>
+                <div class="first-login-pw-container">
+                    <input type="password" id="setup-password" required placeholder="Minimum 6 characters"
+                        style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px;">
+                    <button type="button" class="first-login-pw-toggle" tabindex="-1"><i
+                            class="fas fa-eye"></i></button>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 24px;">
+                <label for="setup-confirm-password">Confirm Password <span style="color:var(--danger)">*</span></label>
+                <div class="first-login-pw-container">
+                    <input type="password" id="setup-confirm-password" required placeholder="Re-type new password"
+                        style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 6px;">
+                    <button type="button" class="first-login-pw-toggle" tabindex="-1"><i
+                            class="fas fa-eye"></i></button>
+                </div>
+            </div>
+            <div id="setup-message" style="margin-bottom: 16px; font-size: 0.9rem;"></div>
+            <button type="submit" class="btn btn-primary btn-gradient-blue"
+                style="width: 100%; padding: 12px; font-size: 1.05rem; font-weight: 600;">
+                Complete Setup
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Password Eye Toggle
+        document.querySelectorAll('.first-login-pw-toggle').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const input = this.previousElementSibling;
+                const icon = this.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+
+        const setupForm = document.getElementById('first-login-form');
+        if (setupForm) {
+            setupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const username = document.getElementById('setup-username').value.trim();
+                const pw = document.getElementById('setup-password').value;
+                const confirmPw = document.getElementById('setup-confirm-password').value;
+                const msg = document.getElementById('setup-message');
+
+                msg.textContent = '';
+
+                if (pw.length < 6) {
+                    msg.style.color = 'var(--danger)';
+                    msg.textContent = 'Password must be at least 6 characters.';
+                    return;
+                }
+                if (pw !== confirmPw) {
+                    msg.style.color = 'var(--danger)';
+                    msg.textContent = 'Passwords do not match.';
+                    return;
+                }
+
+                msg.style.color = 'var(--text-muted)';
+                msg.textContent = 'Saving...';
+
+                try {
+                    const res = await fetch('/api/user/warden-first-login/', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
+                        body: JSON.stringify({ new_username: username, new_password: pw })
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        msg.style.color = 'var(--success)';
+                        msg.textContent = 'Setup successful! Reloading...';
+                        setTimeout(() => window.location.reload(), 1000);
+                    } else {
+                        msg.style.color = 'var(--danger)';
+                        msg.textContent = data.message || 'Error occurred.';
+                    }
+                } catch (err) {
+                    msg.style.color = 'var(--danger)';
+                    msg.textContent = 'Network error.';
+                }
+            });
+        }
+    });
+</script>
+{% endif %}
+<!-- Send Request Modal -->
+<div id="send-request-modal" class="modal-overlay hidden">
+    <div class="modal-glass" style="max-width: 450px; width: 95%;">
+        <div class="modal-header">
+            <h3>Send Request</h3>
+            <button type="button" class="btn-close-modal" id="btn-close-send-modal"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="send-request-form">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="popup-leave-reason">Leave Reason <span style="color:var(--danger)">*</span></label>
+                    <textarea id="popup-leave-reason" rows="3"
+                        style="width:100%; padding:10px; border:1px solid var(--border-color); border-radius:6px; font-family: inherit;"
+                        placeholder="Write the reason for requesting leave..." required></textarea>
+                </div>
+                <div class="form-group" style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                    <input type="checkbox" id="popup-parent-confirmed" required style="width:18px; height:18px;">
+                    <label for="popup-parent-confirmed" style="margin:0; cursor:pointer; color: #334155; font-size: 0.95rem;">Parents have been informed and confirmed this leave. <span style="color:var(--danger)">*</span></label>
+                </div>
+                <div id="send-form-message" style="margin-bottom: 10px;"></div>
+                <div class="form-actions" style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" id="btn-cancel-send-modal">Cancel</button>
+                    <button type="submit" id="btn-confirm-send" class="btn btn-primary">Confirm & Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const createBtn = document.getElementById('mobile-create-request-btn');
+        const closeBtn = document.getElementById('mobile-form-close-btn');
+        const formSection = document.querySelector('.form-section');
+
+        if (createBtn && formSection) {
+            createBtn.addEventListener('click', () => {
+                formSection.classList.add('open-mobile-modal');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        if (closeBtn && formSection) {
+            closeBtn.addEventListener('click', () => {
+                formSection.classList.remove('open-mobile-modal');
+                document.body.style.overflow = '';
+            });
+        }
+
+        // Close on form submission if successful
+        const outpassForm = document.getElementById('outpass-form');
+        if (outpassForm && formSection) {
+            outpassForm.addEventListener('submit', () => {
+                // We can close the modal after some timeout or directly
+                // to give the user immediate feedback that request was sent
+                setTimeout(() => {
+                    if (!document.getElementById('form-message').classList.contains('error')) {
+                        formSection.classList.remove('open-mobile-modal');
+                        document.body.style.overflow = '';
+                    }
+                }, 1000);
+            });
+        }
+    });
+</script>
+{% endblock %}
+
+{% endblock %}

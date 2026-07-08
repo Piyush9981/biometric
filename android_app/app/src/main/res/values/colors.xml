@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4F46E5</color>
+    <color name="colorPrimaryDark">#3730A3</color>
+    <color name="colorAccent">#10B981</color>
+    <color name="colorSecondary">#0D9488</color>
+    
+    <!-- State colors -->
+    <color name="colorSuccess">#10B981</color>
+    <color name="colorError">#EF4444</color>
+    <color name="colorWarning">#F59E0B</color>
+    <color name="colorInfo">#3B82F6</color>
+
+    <!-- Grays and backgrounds -->
+    <color name="bgLight">#F9FAFB</color>
+    <color name="surfaceLight">#FFFFFF</color>
+    <color name="onSurfaceLight">#111827</color>
+    <color name="onSurfaceSecondaryLight">#6B7280</color>
+
+    <color name="bgDark">#0F172A</color>
+    <color name="surfaceDark">#1E293B</color>
+    <color name="onSurfaceDark">#F8FAFC</color>
+    <color name="onSurfaceSecondaryDark">#94A3B8</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="divider">#E5E7EB</color>
+    <color name="dividerDark">#334155</color>
+</resources>
