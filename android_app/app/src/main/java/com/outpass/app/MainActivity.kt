@@ -61,6 +61,9 @@ class MainActivity : AppCompatActivity() {
             webView.reload()
         }
 
+        // Add JavascriptInterface for precise scroll and modal handling
+        webView.addJavascriptInterface(WebAppInterface(), "AndroidScroll")
+
         // Configure Cookie Manager
         val cookieManager = CookieManager.getInstance()
         cookieManager.setAcceptCookie(true)
@@ -91,6 +94,24 @@ class MainActivity : AppCompatActivity() {
                     webView.evaluateJavascript("javascript:if(typeof window.openRequestDetails !== 'undefined') { window.openRequestDetails('$requestId'); }", null)
                     pendingRequestId = null
                 }
+                
+                val js = """
+                    function __checkScroll() {
+                        if (!window.AndroidScroll) return;
+                        var hasOpenModal = document.querySelector('.modal-overlay:not(.hidden), .modal[style*="block"]') != null;
+                        if (hasOpenModal) {
+                            window.AndroidScroll.setSwipeRefreshEnabled(false);
+                            return;
+                        }
+                        var container = document.querySelector('.main-content');
+                        var y = container ? container.scrollTop : window.scrollY;
+                        window.AndroidScroll.setSwipeRefreshEnabled(y === 0);
+                    }
+                    document.addEventListener('scroll', __checkScroll, true);
+                    setInterval(__checkScroll, 300);
+                    __checkScroll();
+                """.trimIndent()
+                webView.evaluateJavascript("javascript:(function(){$js})()", null)
             }
 
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
@@ -176,11 +197,28 @@ class MainActivity : AppCompatActivity() {
         // Configure Back Button behavior (WebView back history traversal)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (webView.canGoBack()) {
-                    webView.goBack()
-                } else {
-                    isEnabled = false
-                    onBackPressedDispatcher.onBackPressed()
+                webView.evaluateJavascript(
+                    "javascript:(function() {" +
+                    "var m1 = document.querySelector('.modal-overlay:not(.hidden) .btn-close-modal');" +
+                    "var m2 = document.querySelector('.modal[style*=\"block\"] .close-modal');" +
+                    "var m3 = document.querySelector('.modal-overlay:not(.hidden) .btn-close');" +
+                    "if (m1) { m1.click(); return 'MODAL_CLOSED'; }" +
+                    "if (m2) { m2.click(); return 'MODAL_CLOSED'; }" +
+                    "if (m3) { m3.click(); return 'MODAL_CLOSED'; }" +
+                    "var sidebar = document.querySelector('#sidebar.open');" +
+                    "var overlay = document.querySelector('#sidebar-overlay.active');" +
+                    "if (sidebar && overlay) { overlay.click(); return 'SIDEBAR_CLOSED'; }" +
+                    "return 'NO_MODAL'; })()"
+                ) { result ->
+                    if (result == "\"MODAL_CLOSED\"" || result == "\"SIDEBAR_CLOSED\"") {
+                        // Handled by JS
+                    } else if (webView.canGoBack()) {
+                        webView.goBack()
+                    } else {
+                        isEnabled = false
+                        this@MainActivity.onBackPressedDispatcher.onBackPressed()
+                        isEnabled = true // Re-enable in case activity isn't destroyed
+                    }
                 }
             }
         })
@@ -512,6 +550,15 @@ class MainActivity : AppCompatActivity() {
         webView.evaluateJavascript("javascript:if(typeof window.openRequestDetails !== 'undefined') { window.openRequestDetails('$requestId'); 'SUCCESS'; } else { 'FAILED'; }") { result ->
             if (result == "\"SUCCESS\"") {
                 pendingRequestId = null
+            }
+        }
+    }
+
+    inner class WebAppInterface {
+        @JavascriptInterface
+        fun setSwipeRefreshEnabled(enabled: Boolean) {
+            runOnUiThread {
+                swipeRefresh.isEnabled = enabled
             }
         }
     }
