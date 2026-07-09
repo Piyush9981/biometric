@@ -1147,6 +1147,9 @@ tbody tr:hover {
     
     /* Top Header Bar styled like a Native Mobile App Bar */
     .top-header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
         background: linear-gradient(135deg, #1d4ed8, #1e3a8a) !important;
         color: #ffffff !important;
         border-bottom: none !important;
@@ -1155,8 +1158,8 @@ tbody tr:hover {
         position: sticky !important;
         top: 0 !important;
         z-index: 1000 !important;
-        flex-wrap: wrap !important;
-        gap: 12px !important;
+        flex-wrap: nowrap !important;
+        gap: 8px !important;
     }
     
     .header-profile {
@@ -1298,6 +1301,10 @@ tbody tr:hover {
     
     /* Layout structural containers */
     .content-body {
+        padding: 20px 16px 24px 16px !important;
+    }
+    
+    .page-dashboard .content-body {
         padding: 0 0 24px 0 !important;
     }
     
@@ -1308,10 +1315,14 @@ tbody tr:hover {
     }
     
     .card.table-section {
-        padding: 0 16px !important;
+        padding: 0 !important;
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
+    }
+    
+    .page-dashboard .card.table-section {
+        padding: 0 16px !important;
     }
     
     .table-header {
