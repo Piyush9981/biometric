@@ -49,7 +49,8 @@ function applyColumnVisibility() {
 // Warden & Super Admin Dashboard Updater
 async function updateWardenDashboard() {
     try {
-        const response = await fetch('/api/dashboard/warden/updates/');
+        const timestamp = new Date().getTime();
+        const response = await fetch(`/api/dashboard/warden/updates/?_=${timestamp}`, { cache: 'no-store' });
         const data = await response.json();
         if (!data.success) return;
 
@@ -169,7 +170,8 @@ async function updateWardenDashboard() {
 // Gatekeeper Dashboard Updater
 async function updateGatekeeperDashboard() {
     try {
-        const response = await fetch('/api/dashboard/gatekeeper/updates/');
+        const timestamp = new Date().getTime();
+        const response = await fetch(`/api/dashboard/gatekeeper/updates/?_=${timestamp}`, { cache: 'no-store' });
         const data = await response.json();
         if (!data.success) return;
 
@@ -343,11 +345,12 @@ async function updateGatekeeperDashboard() {
     }
 }
 
-// Biometric Diagnostics Dashboard (Machines Status & Queue Logs)
+// Biometric Diagnostics Updater
 async function updateBiometricDiagnostics() {
     try {
+        const timestamp = new Date().getTime();
         // 1. Fetch & update registered devices
-        const machRes = await fetch('/api/dashboard/biometric/machines/updates/');
+        const machRes = await fetch(`/api/dashboard/biometric/machines/updates/?_=${timestamp}`, { cache: 'no-store' });
         const machData = await machRes.json();
         if (machData.success) {
             const container = document.getElementById('machines-container');
@@ -393,7 +396,7 @@ async function updateBiometricDiagnostics() {
         }
 
         // 2. Fetch & update verification queue logs
-        const queueRes = await fetch('/api/dashboard/biometric/queue/updates/');
+        const queueRes = await fetch(`/api/dashboard/biometric/queue/updates/?_=${timestamp}`, { cache: 'no-store' });
         const queueData = await queueRes.json();
         if (queueData.success) {
             const tbody = document.querySelector('#requests-table tbody');
