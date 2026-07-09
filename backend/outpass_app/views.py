@@ -49,6 +49,41 @@ def custom_login_required(view_func):
 
 @csrf_exempt
 def login_view(request):
+    # Ensure initial owner/super admin exists in database if database has no Super Admin
+    try:
+        from .models import system_user
+        import os
+
+        email = os.environ.get('SUPER_ADMIN_EMAIL')
+        password = os.environ.get('SUPER_ADMIN_PASSWORD')
+        username = os.environ.get('SUPER_ADMIN_USERNAME')
+
+        # Fallback defaults if not set in environment
+        if not email:
+            email = 'amittiwari2236@gmail.com'
+        if not password:
+            password = 'Scholar@1910'
+        if not username:
+            username = 'superadmin'
+
+        if not system_user.objects.filter(role='Super Admin').exists():
+            if not system_user.objects.filter(user_name=username).exists() and not system_user.objects.filter(email=email).exists():
+                system_user.objects.create(
+                    user_name=username,
+                    password=password,
+                    role='Super Admin',
+                    full_name='Super Admin',
+                    email=email,
+                    contact='0000000000',
+                    department='Admin',
+                    hostel_name='N/A',
+                    gate_name='N/A',
+                    allowed_purposes='Emergency,Sunday Outing',
+                    is_first_login=False
+                )
+    except Exception:
+        pass
+
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
