@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private var currentWebViewUrl: String? = TARGET_URL
 
     companion object {
-        private const val TARGET_URL = "http://10.0.2.2:8000"
+        private const val TARGET_URL = "https://student-outpass-system-sowi.onrender.com"
         private const val PERMISSION_REQUEST_CODE = 1001
         private const val GEOLOCATION_REQUEST_CODE = 1002
         private const val FILE_CHOOSER_REQUEST_CODE = 2002

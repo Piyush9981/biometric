@@ -21,6 +21,7 @@
             <table id="requests-table">
                 <thead>
                     <tr>
+                        <th>Req ID</th>
                         <th>Scholar ID</th>
                         <th>Student Name</th>
                         <th>Purpose</th>
@@ -34,6 +35,7 @@
                 <tbody>
                     {% for req in requests %}
                     <tr data-status="{{ req.request_status }}">
+                        <td>{{ req.request_id }}</td>
                         <td>{{ req.student_id.student_id }}</td>
                         <td>{{ req.student_id.student_name }}</td>
                         <td>{{ req.outing_reason }}</td>
@@ -101,5 +103,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'JavaScript/main.js' %}?v=1.5"></script>
+<script src="{% static 'JavaScript/main_v2.js' %}?v=1.5"></script>
 {% endblock %}

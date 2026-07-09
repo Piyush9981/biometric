@@ -55,6 +55,7 @@
             <table id="requests-table">
                 <thead>
                     <tr>
+                        <th>Req ID</th>
                         <th>Scholar ID</th>
                         <th>Student Name</th>
                         <th>Purpose</th>
@@ -63,6 +64,8 @@
                         <th>Expected Return</th>
                         <th>Actual Out</th>
                         <th>Actual In</th>
+                        <!-- FUTURE DEVELOPER: Uncomment this line to enable the Detail column header -->
+                        <!-- <th>Detail</th> -->
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -70,9 +73,10 @@
                 <tbody>
                     {% for req in requests %}
                     <tr data-status="{{ req.request_status }}">
-                        <td>{{ req.student_id.student_id }}</td>
-                        <td>
-                            <div class="student-profile-container" style="display: none;">
+                        <td class="col-req-id">{{ req.request_id }}</td>
+                        <td class="col-scholar-id">{{ req.student_id.student_id }}</td>
+                        <td class="col-student-name">
+                            <div class="student-profile-container col-profile" style="display: none;">
                                 {% if req.student_id.profile_image %}
                                 <img src="{{ req.student_id.profile_image.url }}" alt="Profile" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
                                 {% else %}
@@ -83,9 +87,9 @@
                             </div>
                             {{ req.student_id.student_name }}
                         </td>
-                        <td>{{ req.outing_reason }}</td>
-                        <td>{{ req.destination }}</td>
-                        <td>
+                        <td class="col-purpose">{{ req.outing_reason }}</td>
+                        <td class="col-destination">{{ req.destination }}</td>
+                        <td class="col-exit-time">
                             {{ req.requested_exit_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}
                             {% if req.early_grace or req.late_grace %}
                             <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">
@@ -93,34 +97,20 @@
                             </div>
                             {% endif %}
                         </td>
-                        <td>{{ req.requested_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}</td>
-                        <td>{% if req.actual_exit_datetime %}{{ req.actual_exit_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else %}-{% endif %}</td>
-                        <td>{% if req.actual_entry_datetime %}{{ req.actual_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else %}-{% endif %}</td>
-                        <td><span class="status-badge {{ req.request_status|slugify }}">{{ req.request_status }}</span>
-                        </td>
-                        <td>
+                        <td class="col-entry-time">{{ req.requested_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}</td>
+                        <td class="col-actual-exit">{% if req.actual_exit_datetime %}{{ req.actual_exit_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else %}-{% endif %}</td>
+                        <td class="col-actual-entry">{% if req.actual_entry_datetime %}{{ req.actual_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else %}-{% endif %}</td>
+                        <!-- FUTURE DEVELOPER: Uncomment this block to enable the View Detail button column -->
+                        <!-- <td class="col-detail">
+                            <button type="button" class="btn btn-secondary btn-sm view-req-detail-btn"
+                                data-request-id="{{ req.request_id }}"
+                                ...
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                        </td> -->
+                        <td class="col-status"><span class="status-badge {{ req.request_status|slugify }}">{{ req.request_status }}</span></td>
+                        <td class="col-actions">
                             <div class="actions-wrapper" style="display: flex; gap: 8px; align-items: center;">
-                                <button type="button" class="btn btn-secondary btn-sm view-req-detail-btn"
-                                    data-request-id="{{ req.request_id }}"
-                                    data-scholar-id="{{ req.student_id.student_id }}"
-                                    data-student-name="{{ req.student_id.student_name }}"
-                                    data-student-mobile="{{ req.student_id.mobile_no }}"
-                                    data-course="{{ req.student_id.course }}"
-                                    data-semester="{{ req.student_id.semester }}"
-                                    data-hostel="{{ req.student_id.hostel_name }}"
-                                    data-purpose="{{ req.outing_reason }}"
-                                    data-destination="{{ req.destination }}"
-                                    data-reason="{{ req.note|default:'N/A' }}"
-                                    data-leave-reason="{{ req.leave_reason|default:'' }}"
-                                    data-parent-confirmed="{{ req.parent_confirmed }}"
-                                    data-exit="{{ req.requested_exit_datetime|date:'c' }}"
-                                    data-entry="{{ req.requested_entry_datetime|date:'c' }}"
-                                    data-warden="{{ req.approved_by|default:'Pending' }}"
-                                    data-warden-contact="{{ req.warden_contact }}"
-                                    data-requested-by="{{ req.requested_by|default:'N/A' }}"
-                                    data-profile="{% if req.student_id.profile_image %}{{ req.student_id.profile_image.url }}{% endif %}">
-                                    <i class="fas fa-eye"></i> View
-                                </button>
                                 {% if not req.actual_exit_datetime and req.request_status == 'Accept' or not req.actual_exit_datetime and req.request_status == 'ACCEPTED' %}
                                 {% if not perms or perms.can_mark_out %}
                                 <button class="btn-action gatekeeper-mark-out-btn" data-id="{{ req.request_id }}"
@@ -160,7 +150,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="8" class="text-center">No requests found.</td>
+                        <td colspan="11" class="text-center">No requests found.</td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -135,28 +135,30 @@
                     <div class="dropdown-content"
                         style="position: absolute; right: 0; top: 100%; background: white; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 180px; margin-top: 5px;">
                         <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
-                                data-col="0" checked> Scholar ID</label>
+                                data-col="0" checked> Req ID</label>
                         <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
-                                data-col="1" checked> Profile</label>
+                                data-col="1" checked> Scholar ID</label>
                         <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
-                                data-col="2" checked> Student Name</label>
+                                data-col="2" checked> Profile</label>
                         <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
-                                data-col="3" checked> Purpose</label>
+                                data-col="3" checked> Student Name</label>
                         <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
-                                data-col="4" checked> Destination</label>
+                                data-col="4" checked> Purpose</label>
                         <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
-                                data-col="5" checked> Exit Date/Time</label>
+                                data-col="5" checked> Destination</label>
                         <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
-                                data-col="6" checked> Entry Date/Time</label>
+                                data-col="6" checked> Exit Date/Time</label>
                         <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
-                                data-col="7" checked> Actual Exit</label>
+                                data-col="7" checked> Entry Date/Time</label>
                         <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
-                                data-col="8" checked> Actual Entry</label>
+                                data-col="8" checked> Actual Exit</label>
                         <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
-                                data-col="9" checked> Detail</label>
+                                data-col="9" checked> Actual Entry</label>
                         <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
-                                data-col="10" checked> Status</label>
-                        <label style="display: block;"><input type="checkbox" class="col-toggle" data-col="11" checked>
+                                data-col="10" checked> Detail</label>
+                        <label style="display: block; margin-bottom: 5px;"><input type="checkbox" class="col-toggle"
+                                data-col="11" checked> Status</label>
+                        <label style="display: block;"><input type="checkbox" class="col-toggle" data-col="12" checked>
                             Actions</label>
                     </div>
                 </details>
@@ -166,6 +168,7 @@
             <table id="requests-table">
                 <thead>
                     <tr>
+                        <th>Req ID</th>
                         <th>Scholar ID</th>
                         <th>Profile</th>
                         <th>Student Name</th>
@@ -183,8 +186,9 @@
                 <tbody>
                     {% for req in requests %}
                     <tr data-status="{{ req.request_status }}">
-                        <td>{{ req.student_id.student_id }}</td>
-                        <td>
+                        <td class="col-req-id">{{ req.request_id }}</td>
+                        <td class="col-scholar-id">{{ req.student_id.student_id }}</td>
+                        <td class="col-profile">
                             {% if req.student_id.profile_image %}
                             <img src="{{ req.student_id.profile_image.url }}" alt="Profile" style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: block; margin: 0 auto;">
                             {% else %}
@@ -193,16 +197,14 @@
                             </div>
                             {% endif %}
                         </td>
-                        <td>{{ req.student_id.student_name }}</td>
-                        <td>{{ req.outing_reason }}</td>
-                        <td>{{ req.destination }}</td>
-                        <td>{{ req.requested_exit_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}</td>
-                        <td>{{ req.requested_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}</td>
-                        <td>{% if req.actual_exit_datetime %}{{ req.actual_exit_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else
-                            %}-{% endif %}</td>
-                        <td>{% if req.actual_entry_datetime %}{{ req.actual_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else
-                            %}-{% endif %}</td>
-                        <td>
+                        <td class="col-student-name">{{ req.student_id.student_name }}</td>
+                        <td class="col-purpose">{{ req.outing_reason }}</td>
+                        <td class="col-destination">{{ req.destination }}</td>
+                        <td class="col-exit-time">{{ req.requested_exit_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}</td>
+                        <td class="col-entry-time">{{ req.requested_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}</td>
+                        <td class="col-actual-exit">{% if req.actual_exit_datetime %}{{ req.actual_exit_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else %}-{% endif %}</td>
+                        <td class="col-actual-entry">{% if req.actual_entry_datetime %}{{ req.actual_entry_datetime|timezone:"Asia/Kolkata"|date:"d/m/Y h:i A" }}{% else %}-{% endif %}</td>
+                        <td class="col-detail">
                             <button type="button" class="btn btn-secondary btn-sm view-req-detail-btn"
                                 data-scholar-id="{{ req.student_id.student_id }}"
                                 data-student-name="{{ req.student_id.student_name }}"
@@ -219,10 +221,8 @@
                                 <i class="fas fa-eye"></i> View
                             </button>
                         </td>
-                        <td><span class="status-badge {{ req.request_status|slugify }}">{{ req.request_status }}</span>
-                        </td>
-
-                        <td>
+                        <td class="col-status"><span class="status-badge {{ req.request_status|slugify }}">{{ req.request_status }}</span></td>
+                        <td class="col-actions">
                             {% if req.request_status == 'Initiate' %}
                             {% if not perms or perms.can_approve %}
                             <div style="display: flex; gap: 8px;">
@@ -253,7 +253,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="9" class="text-center">No requests found.</td>
+                        <td colspan="13" class="text-center">No requests found.</td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -1,0 +1,1087 @@
+WARNING:root:No DATABASE_URL environment variable set, and so no databases setup
+Creating test database for alias 'default'...
+/home/mcal315/Documents/biometric Project moblie/student_outpass_system/.venv/lib/python3.10/site-packages/django/core/handlers/base.py:61: UserWarning: No directory at: /home/mcal315/Documents/biometric Project moblie/student_outpass_system/backend/staticfiles/
+  mw_instance = middleware(adapted_handler)
+.INFO 2026-07-09 04:45:07,949 Signal: Created PendingBiometricVerification for Request 444 (Expires at 2026-07-09 04:55:07.948672+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 444 (Expires at 2026-07-09 04:55:07.948672+00:00).
+INFO 2026-07-09 04:45:07,951 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:07,951 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:07,951 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:07,951 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:07,951 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:07,951 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:07,951 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+WARNING 2026-07-09 04:45:07,952 Attendance Skipped: Skipped attendance. Machine User ID: 101. Reason: No BiometricUser mapping found.
+WARNING:biometric.attendance:Attendance Skipped: Skipped attendance. Machine User ID: 101. Reason: No BiometricUser mapping found.
+WARNING 2026-07-09 04:45:07,953 Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+WARNING:biometric.attendance:Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+INFO 2026-07-09 04:45:07,953 Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:07,954 Verification parameters for Request 444:
+INFO:biometric.verification:Verification parameters for Request 444:
+INFO 2026-07-09 04:45:07,954   Student ID: 3005
+INFO:biometric.verification:  Student ID: 3005
+INFO 2026-07-09 04:45:07,954   Approved At: 2026-07-09 04:25:07.948672+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:25:07.948672+00:00
+INFO 2026-07-09 04:45:07,954   Expires At: 2026-07-09 04:55:07.948672+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 04:55:07.948672+00:00
+INFO 2026-07-09 04:45:07,954   Requested Exit: 2026-07-09 04:55:07.948672+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:55:07.948672+00:00
+INFO 2026-07-09 04:45:07,954   Allowed Window: 2026-07-09 04:40:07.948672+00:00 to 2026-07-09 04:55:07.948672+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:40:07.948672+00:00 to 2026-07-09 04:55:07.948672+00:00
+INFO 2026-07-09 04:45:07,954 Total AttendanceLogs found for student 3005: 1
+INFO:biometric.verification:Total AttendanceLogs found for student 3005: 1
+INFO 2026-07-09 04:45:07,955 Checking AttendanceLog ID 1: time=2026-07-09 04:39:07.948672+00:00, determined_actual_utc=2026-07-09 04:39:07.948672+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 1: time=2026-07-09 04:39:07.948672+00:00, determined_actual_utc=2026-07-09 04:39:07.948672+00:00, processed=False
+INFO 2026-07-09 04:45:07,955   Attendance log rejected. Reasons: attendance_time 2026-07-09 04:39:07.948672+00:00 < earliest_allowed 2026-07-09 04:40:07.948672+00:00
+INFO:biometric.verification:  Attendance log rejected. Reasons: attendance_time 2026-07-09 04:39:07.948672+00:00 < earliest_allowed 2026-07-09 04:40:07.948672+00:00
+INFO 2026-07-09 04:45:07,955 Request 444 remains WAITING for scan.
+INFO:biometric.verification:Request 444 remains WAITING for scan.
+INFO 2026-07-09 04:45:07,956 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:07,956 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:07,956 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:07,956 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:07,956 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:07,956 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:07,956 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+WARNING 2026-07-09 04:45:07,957 Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+WARNING:biometric.attendance:Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+INFO 2026-07-09 04:45:07,957 Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:07,958 Verification parameters for Request 444:
+INFO:biometric.verification:Verification parameters for Request 444:
+INFO 2026-07-09 04:45:07,958   Student ID: 3005
+INFO:biometric.verification:  Student ID: 3005
+INFO 2026-07-09 04:45:07,958   Approved At: 2026-07-09 04:25:07.948672+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:25:07.948672+00:00
+INFO 2026-07-09 04:45:07,958   Expires At: 2026-07-09 04:55:07.948672+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 04:55:07.948672+00:00
+INFO 2026-07-09 04:45:07,958   Requested Exit: 2026-07-09 04:55:07.948672+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:55:07.948672+00:00
+INFO 2026-07-09 04:45:07,958   Allowed Window: 2026-07-09 04:40:07.948672+00:00 to 2026-07-09 04:55:07.948672+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:40:07.948672+00:00 to 2026-07-09 04:55:07.948672+00:00
+INFO 2026-07-09 04:45:07,958 Total AttendanceLogs found for student 3005: 2
+INFO:biometric.verification:Total AttendanceLogs found for student 3005: 2
+INFO 2026-07-09 04:45:07,959 Checking AttendanceLog ID 1: time=2026-07-09 04:39:07.948672+00:00, determined_actual_utc=2026-07-09 04:39:07.948672+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 1: time=2026-07-09 04:39:07.948672+00:00, determined_actual_utc=2026-07-09 04:39:07.948672+00:00, processed=False
+INFO 2026-07-09 04:45:07,959   Attendance log rejected. Reasons: attendance_time 2026-07-09 04:39:07.948672+00:00 < earliest_allowed 2026-07-09 04:40:07.948672+00:00
+INFO:biometric.verification:  Attendance log rejected. Reasons: attendance_time 2026-07-09 04:39:07.948672+00:00 < earliest_allowed 2026-07-09 04:40:07.948672+00:00
+INFO 2026-07-09 04:45:07,959 Checking AttendanceLog ID 2: time=2026-07-09 04:41:07.948672+00:00, determined_actual_utc=2026-07-09 04:41:07.948672+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 2: time=2026-07-09 04:41:07.948672+00:00, determined_actual_utc=2026-07-09 04:41:07.948672+00:00, processed=False
+INFO 2026-07-09 04:45:07,959   Matched successfully!
+INFO:biometric.verification:  Matched successfully!
+INFO 2026-07-09 04:45:07,959 Saving PendingBiometricVerification status to ACCEPTED for Request 444
+INFO:biometric.verification:Saving PendingBiometricVerification status to ACCEPTED for Request 444
+INFO 2026-07-09 04:45:07,959 Signal: Updated outpass_request 444 status to ACCEPTED.
+INFO:biometric.verification:Signal: Updated outpass_request 444 status to ACCEPTED.
+INFO 2026-07-09 04:45:07,959 Saving AttendanceLog as processed for Log ID 2
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 2
+INFO 2026-07-09 04:45:07,959 Current outpass_request status after saving PV: ACCEPTED
+INFO:biometric.verification:Current outpass_request status after saving PV: ACCEPTED
+INFO 2026-07-09 04:45:07,959 Request 444 exit scan ACCEPTED.
+INFO:biometric.verification:Request 444 exit scan ACCEPTED.
+.INFO 2026-07-09 04:45:08,115 Signal: Created PendingBiometricVerification for Request 999 (Expires at 2026-07-09 04:45:07.961083+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 999 (Expires at 2026-07-09 04:45:07.961083+00:00).
+INFO 2026-07-09 04:45:08,116 Signal: Reset PendingBiometricVerification to OUT for Request 999 for return scan.
+INFO:biometric.verification:Signal: Reset PendingBiometricVerification to OUT for Request 999 for return scan.
+INFO 2026-07-09 04:45:08,116 Verification Started
+INFO:biometric.verification:Verification Started
+INFO 2026-07-09 04:45:08,117 match_pending_verifications executed. Found 1 pending verification records.
+INFO:biometric.verification:match_pending_verifications executed. Found 1 pending verification records.
+INFO 2026-07-09 04:45:08,118 Bulk match checking return Request ID 999:
+INFO:biometric.verification:Bulk match checking return Request ID 999:
+INFO 2026-07-09 04:45:08,118   Student ID: S999
+INFO:biometric.verification:  Student ID: S999
+INFO 2026-07-09 04:45:08,118   Exit Time: 2026-07-09 04:45:07.961083+00:00
+INFO:biometric.verification:  Exit Time: 2026-07-09 04:45:07.961083+00:00
+INFO 2026-07-09 04:45:08,118   Min Return Time: 2026-07-09 04:47:07.961083+00:00
+INFO:biometric.verification:  Min Return Time: 2026-07-09 04:47:07.961083+00:00
+INFO 2026-07-09 04:45:08,118 Bulk match: Marked stale/exit scan log 3 for student S999 as processed.
+INFO:biometric.verification:Bulk match: Marked stale/exit scan log 3 for student S999 as processed.
+INFO 2026-07-09 04:45:08,119 Checking Return AttendanceLog ID 3: time=2026-07-09 04:45:37.961083+00:00, determined_actual_utc=2026-07-09 04:45:37.961083+00:00, processed=True
+INFO:biometric.verification:Checking Return AttendanceLog ID 3: time=2026-07-09 04:45:37.961083+00:00, determined_actual_utc=2026-07-09 04:45:37.961083+00:00, processed=True
+INFO 2026-07-09 04:45:08,119   Attendance rejected for Request 999. Reason: processed=True
+INFO:biometric.verification:  Attendance rejected for Request 999. Reason: processed=True
+WARNING:django.request:Bad Request: /api/outpass/gatekeeper-mark-in/
+INFO 2026-07-09 04:45:08,132 Verification Started
+INFO:biometric.verification:Verification Started
+INFO 2026-07-09 04:45:08,132 match_pending_verifications executed. Found 1 pending verification records.
+INFO:biometric.verification:match_pending_verifications executed. Found 1 pending verification records.
+INFO 2026-07-09 04:45:08,133 Bulk match checking return Request ID 999:
+INFO:biometric.verification:Bulk match checking return Request ID 999:
+INFO 2026-07-09 04:45:08,133   Student ID: S999
+INFO:biometric.verification:  Student ID: S999
+INFO 2026-07-09 04:45:08,133   Exit Time: 2026-07-09 04:45:07.961083+00:00
+INFO:biometric.verification:  Exit Time: 2026-07-09 04:45:07.961083+00:00
+INFO 2026-07-09 04:45:08,133   Min Return Time: 2026-07-09 04:47:07.961083+00:00
+INFO:biometric.verification:  Min Return Time: 2026-07-09 04:47:07.961083+00:00
+INFO 2026-07-09 04:45:08,134 Checking Return AttendanceLog ID 3: time=2026-07-09 04:45:37.961083+00:00, determined_actual_utc=2026-07-09 04:45:37.961083+00:00, processed=True
+INFO:biometric.verification:Checking Return AttendanceLog ID 3: time=2026-07-09 04:45:37.961083+00:00, determined_actual_utc=2026-07-09 04:45:37.961083+00:00, processed=True
+INFO 2026-07-09 04:45:08,134   Attendance rejected for Request 999. Reason: processed=True
+INFO:biometric.verification:  Attendance rejected for Request 999. Reason: processed=True
+INFO 2026-07-09 04:45:08,134 Checking Return AttendanceLog ID 4: time=2026-07-09 04:48:07.961083+00:00, determined_actual_utc=2026-07-09 04:48:07.961083+00:00, processed=False
+INFO:biometric.verification:Checking Return AttendanceLog ID 4: time=2026-07-09 04:48:07.961083+00:00, determined_actual_utc=2026-07-09 04:48:07.961083+00:00, processed=False
+INFO 2026-07-09 04:45:08,134   Matched return successfully!
+INFO:biometric.verification:  Matched return successfully!
+INFO 2026-07-09 04:45:08,134 Saving PendingBiometricVerification status to READY_FOR_IN for Request 999
+INFO:biometric.verification:Saving PendingBiometricVerification status to READY_FOR_IN for Request 999
+INFO 2026-07-09 04:45:08,134 Saving AttendanceLog as processed for Log ID 4
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 4
+INFO 2026-07-09 04:45:08,134 Current outpass_request status after saving PV: OUT
+INFO:biometric.verification:Current outpass_request status after saving PV: OUT
+.WARNING:django.request:Bad Request: /api/outpass/gatekeeper-mark-in/
+.FINFO 2026-07-09 04:45:08,156 Signal: Created PendingBiometricVerification for Request 445 (Expires at 2026-07-09 03:00:08.155948+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 445 (Expires at 2026-07-09 03:00:08.155948+00:00).
+INFO 2026-07-09 04:45:08,157 Signal: Reset PendingBiometricVerification to OUT for Request 445 for return scan.
+INFO:biometric.verification:Signal: Reset PendingBiometricVerification to OUT for Request 445 for return scan.
+INFO 2026-07-09 04:45:08,158 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,158 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,158 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,158 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,158 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,158 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,158 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,159 Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,160 Verification parameters for Return Request 445:
+INFO:biometric.verification:Verification parameters for Return Request 445:
+INFO 2026-07-09 04:45:08,160   Student ID: 3006
+INFO:biometric.verification:  Student ID: 3006
+INFO 2026-07-09 04:45:08,160   Exit Time: 2026-07-09 03:00:08.155948+00:00
+INFO:biometric.verification:  Exit Time: 2026-07-09 03:00:08.155948+00:00
+INFO 2026-07-09 04:45:08,160   Min Return Time: 2026-07-09 03:02:08.155948+00:00
+INFO:biometric.verification:  Min Return Time: 2026-07-09 03:02:08.155948+00:00
+INFO 2026-07-09 04:45:08,161 Checking Return AttendanceLog ID 5: time=2026-07-09 04:45:08.155948+00:00, determined_actual_utc=2026-07-09 04:45:08.155948+00:00, processed=False
+INFO:biometric.verification:Checking Return AttendanceLog ID 5: time=2026-07-09 04:45:08.155948+00:00, determined_actual_utc=2026-07-09 04:45:08.155948+00:00, processed=False
+INFO 2026-07-09 04:45:08,161   Matched return successfully!
+INFO:biometric.verification:  Matched return successfully!
+INFO 2026-07-09 04:45:08,161 Saving PendingBiometricVerification status to READY_FOR_IN for Request 445
+INFO:biometric.verification:Saving PendingBiometricVerification status to READY_FOR_IN for Request 445
+INFO 2026-07-09 04:45:08,162 Saving AttendanceLog as processed for Log ID 5
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 5
+INFO 2026-07-09 04:45:08,162 Current outpass_request status after saving PV: OUT
+INFO:biometric.verification:Current outpass_request status after saving PV: OUT
+INFO 2026-07-09 04:45:08,163 Request 445 return scan READY_FOR_IN.
+INFO:biometric.verification:Request 445 return scan READY_FOR_IN.
+.INFO 2026-07-09 04:45:08,171 Signal: Reset PendingBiometricVerification to OUT for Request 889 for return scan.
+INFO:biometric.verification:Signal: Reset PendingBiometricVerification to OUT for Request 889 for return scan.
+INFO 2026-07-09 04:45:08,171 Verification Started
+INFO:biometric.verification:Verification Started
+INFO 2026-07-09 04:45:08,172 match_pending_verifications executed. Found 1 pending verification records.
+INFO:biometric.verification:match_pending_verifications executed. Found 1 pending verification records.
+INFO 2026-07-09 04:45:08,173 Bulk match checking return Request ID 889:
+INFO:biometric.verification:Bulk match checking return Request ID 889:
+INFO 2026-07-09 04:45:08,173   Student ID: 220101999
+INFO:biometric.verification:  Student ID: 220101999
+INFO 2026-07-09 04:45:08,173   Exit Time: 2026-07-09 04:45:08.169952+00:00
+INFO:biometric.verification:  Exit Time: 2026-07-09 04:45:08.169952+00:00
+INFO 2026-07-09 04:45:08,173   Min Return Time: 2026-07-09 04:47:08.169952+00:00
+INFO:biometric.verification:  Min Return Time: 2026-07-09 04:47:08.169952+00:00
+INFO 2026-07-09 04:45:08,174 Bulk match: Marked stale/exit scan log 6 for student 220101999 as processed.
+INFO:biometric.verification:Bulk match: Marked stale/exit scan log 6 for student 220101999 as processed.
+INFO 2026-07-09 04:45:08,174 Checking Return AttendanceLog ID 6: time=2026-07-09 04:46:08.169952+00:00, determined_actual_utc=2026-07-09 04:46:08.169952+00:00, processed=True
+INFO:biometric.verification:Checking Return AttendanceLog ID 6: time=2026-07-09 04:46:08.169952+00:00, determined_actual_utc=2026-07-09 04:46:08.169952+00:00, processed=True
+INFO 2026-07-09 04:45:08,174   Attendance rejected for Request 889. Reason: processed=True
+INFO:biometric.verification:  Attendance rejected for Request 889. Reason: processed=True
+INFO 2026-07-09 04:45:08,176 Verification Started
+INFO:biometric.verification:Verification Started
+INFO 2026-07-09 04:45:08,176 match_pending_verifications executed. Found 1 pending verification records.
+INFO:biometric.verification:match_pending_verifications executed. Found 1 pending verification records.
+INFO 2026-07-09 04:45:08,178 Bulk match checking return Request ID 889:
+INFO:biometric.verification:Bulk match checking return Request ID 889:
+INFO 2026-07-09 04:45:08,178   Student ID: 220101999
+INFO:biometric.verification:  Student ID: 220101999
+INFO 2026-07-09 04:45:08,178   Exit Time: 2026-07-09 04:45:08.169952+00:00
+INFO:biometric.verification:  Exit Time: 2026-07-09 04:45:08.169952+00:00
+INFO 2026-07-09 04:45:08,178   Min Return Time: 2026-07-09 04:47:08.169952+00:00
+INFO:biometric.verification:  Min Return Time: 2026-07-09 04:47:08.169952+00:00
+INFO 2026-07-09 04:45:08,179 Checking Return AttendanceLog ID 6: time=2026-07-09 04:46:08.169952+00:00, determined_actual_utc=2026-07-09 04:46:08.169952+00:00, processed=True
+INFO:biometric.verification:Checking Return AttendanceLog ID 6: time=2026-07-09 04:46:08.169952+00:00, determined_actual_utc=2026-07-09 04:46:08.169952+00:00, processed=True
+INFO 2026-07-09 04:45:08,179   Attendance rejected for Request 889. Reason: processed=True
+INFO:biometric.verification:  Attendance rejected for Request 889. Reason: processed=True
+INFO 2026-07-09 04:45:08,179 Checking Return AttendanceLog ID 7: time=2026-07-09 04:48:08.169952+00:00, determined_actual_utc=2026-07-09 04:48:08.169952+00:00, processed=False
+INFO:biometric.verification:Checking Return AttendanceLog ID 7: time=2026-07-09 04:48:08.169952+00:00, determined_actual_utc=2026-07-09 04:48:08.169952+00:00, processed=False
+INFO 2026-07-09 04:45:08,179   Matched return successfully!
+INFO:biometric.verification:  Matched return successfully!
+INFO 2026-07-09 04:45:08,179 Saving PendingBiometricVerification status to READY_FOR_IN for Request 889
+INFO:biometric.verification:Saving PendingBiometricVerification status to READY_FOR_IN for Request 889
+INFO 2026-07-09 04:45:08,179 Saving AttendanceLog as processed for Log ID 7
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 7
+INFO 2026-07-09 04:45:08,180 Current outpass_request status after saving PV: OUT
+INFO:biometric.verification:Current outpass_request status after saving PV: OUT
+.INFO 2026-07-09 04:45:08,187 Scheduler: Started automated biometric sync (Interval: 30s).
+INFO:biometric.sync:Scheduler: Started automated biometric sync (Interval: 30s).
+.INFO 2026-07-09 04:45:08,188 Synchronization Started
+INFO:biometric.sync:Synchronization Started
+INFO 2026-07-09 04:45:08,189 Starting attendance log sync for machine: Test Office Machine
+INFO:biometric.sync:Starting attendance log sync for machine: Test Office Machine
+INFO 2026-07-09 04:45:08,189 Verification Started
+INFO:biometric.verification:Verification Started
+INFO 2026-07-09 04:45:08,189 match_pending_verifications executed. Found 0 pending verification records.
+INFO:biometric.verification:match_pending_verifications executed. Found 0 pending verification records.
+INFO 2026-07-09 04:45:08,189 Bulk verification complete. Matched and updated 0 requests.
+INFO:biometric.sync:Bulk verification complete. Matched and updated 0 requests.
+INFO 2026-07-09 04:45:08,189 Synchronization Finished
+INFO:biometric.sync:Synchronization Finished
+INFO 2026-07-09 04:45:08,190 Synchronization Started
+INFO:biometric.sync:Synchronization Started
+INFO 2026-07-09 04:45:08,190 Starting attendance log sync for machine: Test Office Machine
+INFO:biometric.sync:Starting attendance log sync for machine: Test Office Machine
+INFO 2026-07-09 04:45:08,190 Verification Started
+INFO:biometric.verification:Verification Started
+INFO 2026-07-09 04:45:08,191 match_pending_verifications executed. Found 0 pending verification records.
+INFO:biometric.verification:match_pending_verifications executed. Found 0 pending verification records.
+INFO 2026-07-09 04:45:08,191 Bulk verification complete. Matched and updated 0 requests.
+INFO:biometric.sync:Bulk verification complete. Matched and updated 0 requests.
+INFO 2026-07-09 04:45:08,191 Synchronization Finished
+INFO:biometric.sync:Synchronization Finished
+INFO 2026-07-09 04:45:08,192 Starting user sync for machine: Test Office Machine
+INFO:biometric.sync:Starting user sync for machine: Test Office Machine
+INFO 2026-07-09 04:45:08,193 Starting user sync for machine: Test Office Machine
+INFO:biometric.sync:Starting user sync for machine: Test Office Machine
+.INFO 2026-07-09 04:45:08,195 Signal: Created PendingBiometricVerification for Request 100 (Expires at 2026-07-09 04:55:08.194590+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 100 (Expires at 2026-07-09 04:55:08.194590+00:00).
+INFO 2026-07-09 04:45:08,197 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,197 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,197 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,197 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,197 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,197 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,197 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,199 Attendance Saved: Log 8 for student 2001 saved.
+INFO:biometric.attendance:Attendance Saved: Log 8 for student 2001 saved.
+WARNING 2026-07-09 04:45:08,200 Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+WARNING:biometric.attendance:Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+INFO 2026-07-09 04:45:08,200 Successfully downloaded 1 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 1 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,201 Verification parameters for Request 100:
+INFO:biometric.verification:Verification parameters for Request 100:
+INFO 2026-07-09 04:45:08,201   Student ID: 2001
+INFO:biometric.verification:  Student ID: 2001
+INFO 2026-07-09 04:45:08,201   Approved At: 2026-07-09 04:35:08.194590+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:35:08.194590+00:00
+INFO 2026-07-09 04:45:08,201   Expires At: 2026-07-09 04:55:08.194590+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 04:55:08.194590+00:00
+INFO 2026-07-09 04:45:08,201   Requested Exit: 2026-07-09 04:40:08.194590+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:40:08.194590+00:00
+INFO 2026-07-09 04:45:08,201   Allowed Window: 2026-07-09 04:25:08.194590+00:00 to 2026-07-09 04:55:08.194590+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:25:08.194590+00:00 to 2026-07-09 04:55:08.194590+00:00
+INFO 2026-07-09 04:45:08,201 Total AttendanceLogs found for student 2001: 1
+INFO:biometric.verification:Total AttendanceLogs found for student 2001: 1
+INFO 2026-07-09 04:45:08,202 Checking AttendanceLog ID 8: time=2026-07-09 04:40:08.197808+00:00, determined_actual_utc=2026-07-09 04:40:08.197808+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 8: time=2026-07-09 04:40:08.197808+00:00, determined_actual_utc=2026-07-09 04:40:08.197808+00:00, processed=False
+INFO 2026-07-09 04:45:08,202   Matched successfully!
+INFO:biometric.verification:  Matched successfully!
+INFO 2026-07-09 04:45:08,202 Saving PendingBiometricVerification status to ACCEPTED for Request 100
+INFO:biometric.verification:Saving PendingBiometricVerification status to ACCEPTED for Request 100
+INFO 2026-07-09 04:45:08,202 Signal: Updated outpass_request 100 status to ACCEPTED.
+INFO:biometric.verification:Signal: Updated outpass_request 100 status to ACCEPTED.
+INFO 2026-07-09 04:45:08,202 Saving AttendanceLog as processed for Log ID 8
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 8
+INFO 2026-07-09 04:45:08,203 Current outpass_request status after saving PV: ACCEPTED
+INFO:biometric.verification:Current outpass_request status after saving PV: ACCEPTED
+INFO 2026-07-09 04:45:08,203 Request 100 exit scan ACCEPTED.
+INFO:biometric.verification:Request 100 exit scan ACCEPTED.
+.INFO 2026-07-09 04:45:08,211 Signal: Created PendingBiometricVerification for Request 9002 (Expires at 2026-07-09 04:00:08.210183+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 9002 (Expires at 2026-07-09 04:00:08.210183+00:00).
+INFO 2026-07-09 04:45:08,212 Timeout Check Started
+INFO:biometric.verification:Timeout Check Started
+INFO 2026-07-09 04:45:08,212 check_expired_verifications executed. Current Time (UTC): 2026-07-09 04:45:08.212251+00:00
+INFO:biometric.verification:check_expired_verifications executed. Current Time (UTC): 2026-07-09 04:45:08.212251+00:00
+INFO 2026-07-09 04:45:08,212 Query returned 1 WAITING verification records.
+INFO:biometric.verification:Query returned 1 WAITING verification records.
+INFO 2026-07-09 04:45:08,213 Tracing WAITING verification: Request ID 9002, Expires At 2026-07-09 04:40:08.210183+00:00, Status WAITING
+INFO:biometric.verification:Tracing WAITING verification: Request ID 9002, Expires At 2026-07-09 04:40:08.210183+00:00, Status WAITING
+INFO 2026-07-09 04:45:08,213 Timeout Executed: Request ID 9002 transitioned to TIME_OUT.
+INFO:biometric.verification:Timeout Executed: Request ID 9002 transitioned to TIME_OUT.
+INFO 2026-07-09 04:45:08,213 Request ID 9002 expired. now (2026-07-09 04:45:08.212251+00:00) > expires_at (2026-07-09 04:40:08.210183+00:00) or latest_allowed (2026-07-09 04:00:08.210183+00:00)
+INFO:biometric.verification:Request ID 9002 expired. now (2026-07-09 04:45:08.212251+00:00) > expires_at (2026-07-09 04:40:08.210183+00:00) or latest_allowed (2026-07-09 04:00:08.210183+00:00)
+INFO 2026-07-09 04:45:08,214 Signal: Updated outpass_request 9002 status to TIME OUT.
+INFO:biometric.verification:Signal: Updated outpass_request 9002 status to TIME OUT.
+.INFO 2026-07-09 04:45:08,217 Signal: Created PendingBiometricVerification for Request 9001 (Expires at 2026-07-09 07:10:08.216937+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 9001 (Expires at 2026-07-09 07:10:08.216937+00:00).
+.INFO 2026-07-09 04:45:08,219 Signal: Created PendingBiometricVerification for Request 9003 (Expires at 2026-07-09 05:05:08.218549+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 9003 (Expires at 2026-07-09 05:05:08.218549+00:00).
+INFO 2026-07-09 04:45:08,220 Verification Started
+INFO:biometric.verification:Verification Started
+INFO 2026-07-09 04:45:08,220 match_pending_verifications executed. Found 1 pending verification records.
+INFO:biometric.verification:match_pending_verifications executed. Found 1 pending verification records.
+INFO 2026-07-09 04:45:08,221 Bulk match checking WAITING Request ID 9003:
+INFO:biometric.verification:Bulk match checking WAITING Request ID 9003:
+INFO 2026-07-09 04:45:08,221   Student ID: 1007
+INFO:biometric.verification:  Student ID: 1007
+INFO 2026-07-09 04:45:08,221   Approved At: 2026-07-09 04:45:08.219551+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:45:08.219551+00:00
+INFO 2026-07-09 04:45:08,221   Expires At: 2026-07-09 05:05:08.218549+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 05:05:08.218549+00:00
+INFO 2026-07-09 04:45:08,221   Allowed Window: 2026-07-09 04:35:08.218549+00:00 to 2026-07-09 05:05:08.218549+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:35:08.218549+00:00 to 2026-07-09 05:05:08.218549+00:00
+INFO 2026-07-09 04:45:08,222 Total AttendanceLogs found for student 1007: 1
+INFO:biometric.verification:Total AttendanceLogs found for student 1007: 1
+INFO 2026-07-09 04:45:08,222 Checking AttendanceLog ID 9: time=2026-07-09 04:50:08.218549+00:00, determined_actual_utc=2026-07-09 04:50:08.218549+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 9: time=2026-07-09 04:50:08.218549+00:00, determined_actual_utc=2026-07-09 04:50:08.218549+00:00, processed=False
+INFO 2026-07-09 04:45:08,222   Matched successfully!
+INFO:biometric.verification:  Matched successfully!
+INFO 2026-07-09 04:45:08,222 Verification Successful: Request ID 9003 verification status updated to ACCEPTED.
+INFO:biometric.verification:Verification Successful: Request ID 9003 verification status updated to ACCEPTED.
+INFO 2026-07-09 04:45:08,222 Saving PendingBiometricVerification status to ACCEPTED for Request 9003
+INFO:biometric.verification:Saving PendingBiometricVerification status to ACCEPTED for Request 9003
+INFO 2026-07-09 04:45:08,223 Signal: Updated outpass_request 9003 status to ACCEPTED.
+INFO:biometric.verification:Signal: Updated outpass_request 9003 status to ACCEPTED.
+INFO 2026-07-09 04:45:08,223 Saving AttendanceLog as processed for Log ID 9
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 9
+INFO 2026-07-09 04:45:08,224 Current outpass_request status after saving PV: ACCEPTED
+INFO:biometric.verification:Current outpass_request status after saving PV: ACCEPTED
+.INFO 2026-07-09 04:45:08,226 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,226 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,226 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,226 Retrieved 2 users from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 users from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,226 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,226 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,228 Downloaded new biometric user: Piyush (ID: 101)
+INFO:biometric.services.users:Downloaded new biometric user: Piyush (ID: 101)
+INFO 2026-07-09 04:45:08,229 Downloaded new biometric user: Ankit Nag (ID: 102)
+INFO:biometric.services.users:Downloaded new biometric user: Ankit Nag (ID: 102)
+INFO 2026-07-09 04:45:08,230 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,231 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,231 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,231 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,231 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,231 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,231 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,233 Attendance Saved: Log 10 for student 101 saved.
+INFO:biometric.attendance:Attendance Saved: Log 10 for student 101 saved.
+WARNING 2026-07-09 04:45:08,233 Attendance Skipped: Skipped attendance. Machine User ID: 999. Reason: No BiometricUser mapping found.
+WARNING:biometric.attendance:Attendance Skipped: Skipped attendance. Machine User ID: 999. Reason: No BiometricUser mapping found.
+INFO 2026-07-09 04:45:08,234 Successfully downloaded 1 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 1 new logs from machine Test Office Machine.
+..INFO 2026-07-09 04:45:08,247 Signal: Created PendingBiometricVerification for Request 8005 (Expires at 2026-07-09 05:05:08.246295+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 8005 (Expires at 2026-07-09 05:05:08.246295+00:00).
+INFO 2026-07-09 04:45:08,249 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,249 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,249 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,249 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,249 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,249 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,249 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,250 Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,251 Verification parameters for Request 8005:
+INFO:biometric.verification:Verification parameters for Request 8005:
+INFO 2026-07-09 04:45:08,251   Student ID: test_after_exp
+INFO:biometric.verification:  Student ID: test_after_exp
+INFO 2026-07-09 04:45:08,251   Approved At: 2026-07-09 04:35:08.246295+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:35:08.246295+00:00
+INFO 2026-07-09 04:45:08,251   Expires At: 2026-07-09 04:55:08.246295+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 04:55:08.246295+00:00
+INFO 2026-07-09 04:45:08,251   Requested Exit: 2026-07-09 04:45:08.246295+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:45:08.246295+00:00
+INFO 2026-07-09 04:45:08,251   Allowed Window: 2026-07-09 04:30:08.246295+00:00 to 2026-07-09 05:05:08.246295+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:30:08.246295+00:00 to 2026-07-09 05:05:08.246295+00:00
+INFO 2026-07-09 04:45:08,251 Total AttendanceLogs found for student test_after_exp: 1
+INFO:biometric.verification:Total AttendanceLogs found for student test_after_exp: 1
+INFO 2026-07-09 04:45:08,252 Checking AttendanceLog ID 11: time=2026-07-09 05:00:08.246295+00:00, determined_actual_utc=2026-07-09 05:00:08.246295+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 11: time=2026-07-09 05:00:08.246295+00:00, determined_actual_utc=2026-07-09 05:00:08.246295+00:00, processed=False
+INFO 2026-07-09 04:45:08,252   Attendance log rejected. Reasons: attendance_time 2026-07-09 05:00:08.246295+00:00 > expires_at 2026-07-09 04:55:08.246295+00:00
+INFO:biometric.verification:  Attendance log rejected. Reasons: attendance_time 2026-07-09 05:00:08.246295+00:00 > expires_at 2026-07-09 04:55:08.246295+00:00
+INFO 2026-07-09 04:45:08,252 Request 8005 remains WAITING for scan.
+INFO:biometric.verification:Request 8005 remains WAITING for scan.
+.INFO 2026-07-09 04:45:08,254 Signal: Created PendingBiometricVerification for Request 8004 (Expires at 2026-07-09 05:00:08.253043+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 8004 (Expires at 2026-07-09 05:00:08.253043+00:00).
+INFO 2026-07-09 04:45:08,255 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,255 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,255 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,255 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,255 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,255 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,255 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+WARNING 2026-07-09 04:45:08,256 Attendance Skipped: Skipped attendance. Machine User ID: 101. Reason: No BiometricUser mapping found.
+WARNING:biometric.attendance:Attendance Skipped: Skipped attendance. Machine User ID: 101. Reason: No BiometricUser mapping found.
+WARNING 2026-07-09 04:45:08,257 Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+WARNING:biometric.attendance:Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+INFO 2026-07-09 04:45:08,257 Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,258 Verification parameters for Request 8004:
+INFO:biometric.verification:Verification parameters for Request 8004:
+INFO 2026-07-09 04:45:08,258   Student ID: test_before_appr
+INFO:biometric.verification:  Student ID: test_before_appr
+INFO 2026-07-09 04:45:08,258   Approved At: 2026-07-09 04:45:08.253043+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:45:08.253043+00:00
+INFO 2026-07-09 04:45:08,258   Expires At: 2026-07-09 05:15:08.253043+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 05:15:08.253043+00:00
+INFO 2026-07-09 04:45:08,258   Requested Exit: 2026-07-09 04:45:08.253043+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:45:08.253043+00:00
+INFO 2026-07-09 04:45:08,258   Allowed Window: 2026-07-09 04:30:08.253043+00:00 to 2026-07-09 05:00:08.253043+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:30:08.253043+00:00 to 2026-07-09 05:00:08.253043+00:00
+INFO 2026-07-09 04:45:08,258 Total AttendanceLogs found for student test_before_appr: 1
+INFO:biometric.verification:Total AttendanceLogs found for student test_before_appr: 1
+INFO 2026-07-09 04:45:08,259 Checking AttendanceLog ID 12: time=2026-07-09 04:40:08.253043+00:00, determined_actual_utc=2026-07-09 04:40:08.253043+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 12: time=2026-07-09 04:40:08.253043+00:00, determined_actual_utc=2026-07-09 04:40:08.253043+00:00, processed=False
+INFO 2026-07-09 04:45:08,259   Attendance log rejected. Reasons: attendance_time 2026-07-09 04:40:08.253043+00:00 < approval/recovery time 2026-07-09 04:45:08.253043+00:00
+INFO:biometric.verification:  Attendance log rejected. Reasons: attendance_time 2026-07-09 04:40:08.253043+00:00 < approval/recovery time 2026-07-09 04:45:08.253043+00:00
+INFO 2026-07-09 04:45:08,259 Request 8004 remains WAITING for scan.
+INFO:biometric.verification:Request 8004 remains WAITING for scan.
+.INFO 2026-07-09 04:45:08,260 Signal: Created PendingBiometricVerification for Request 8006 (Expires at 2026-07-09 05:00:08.259668+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 8006 (Expires at 2026-07-09 05:00:08.259668+00:00).
+INFO 2026-07-09 04:45:08,261 Signal: Created PendingBiometricVerification for Request 8007 (Expires at 2026-07-09 05:05:08.259668+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 8007 (Expires at 2026-07-09 05:05:08.259668+00:00).
+INFO 2026-07-09 04:45:08,263 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,263 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,263 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,263 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,263 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,263 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,263 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,264 Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,265 Verification parameters for Request 8006:
+INFO:biometric.verification:Verification parameters for Request 8006:
+INFO 2026-07-09 04:45:08,265   Student ID: test_dup
+INFO:biometric.verification:  Student ID: test_dup
+INFO 2026-07-09 04:45:08,265   Approved At: 2026-07-09 04:35:08.259668+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:35:08.259668+00:00
+INFO 2026-07-09 04:45:08,265   Expires At: 2026-07-09 05:05:08.259668+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 05:05:08.259668+00:00
+INFO 2026-07-09 04:45:08,265   Requested Exit: 2026-07-09 04:45:08.259668+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:45:08.259668+00:00
+INFO 2026-07-09 04:45:08,265   Allowed Window: 2026-07-09 04:30:08.259668+00:00 to 2026-07-09 05:00:08.259668+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:30:08.259668+00:00 to 2026-07-09 05:00:08.259668+00:00
+INFO 2026-07-09 04:45:08,266 Total AttendanceLogs found for student test_dup: 1
+INFO:biometric.verification:Total AttendanceLogs found for student test_dup: 1
+INFO 2026-07-09 04:45:08,266 Checking AttendanceLog ID 13: time=2026-07-09 04:45:08.259668+00:00, determined_actual_utc=2026-07-09 04:45:08.259668+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 13: time=2026-07-09 04:45:08.259668+00:00, determined_actual_utc=2026-07-09 04:45:08.259668+00:00, processed=False
+INFO 2026-07-09 04:45:08,266   Matched successfully!
+INFO:biometric.verification:  Matched successfully!
+INFO 2026-07-09 04:45:08,266 Saving PendingBiometricVerification status to ACCEPTED for Request 8006
+INFO:biometric.verification:Saving PendingBiometricVerification status to ACCEPTED for Request 8006
+INFO 2026-07-09 04:45:08,267 Signal: Updated outpass_request 8006 status to ACCEPTED.
+INFO:biometric.verification:Signal: Updated outpass_request 8006 status to ACCEPTED.
+INFO 2026-07-09 04:45:08,267 Saving AttendanceLog as processed for Log ID 13
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 13
+INFO 2026-07-09 04:45:08,267 Current outpass_request status after saving PV: ACCEPTED
+INFO:biometric.verification:Current outpass_request status after saving PV: ACCEPTED
+INFO 2026-07-09 04:45:08,267 Request 8006 exit scan ACCEPTED.
+INFO:biometric.verification:Request 8006 exit scan ACCEPTED.
+INFO 2026-07-09 04:45:08,268 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,268 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,268 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,268 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,268 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,268 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,268 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,269 Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,270 Verification parameters for Request 8007:
+INFO:biometric.verification:Verification parameters for Request 8007:
+INFO 2026-07-09 04:45:08,270   Student ID: test_dup
+INFO:biometric.verification:  Student ID: test_dup
+INFO 2026-07-09 04:45:08,270   Approved At: 2026-07-09 04:35:08.259668+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:35:08.259668+00:00
+INFO 2026-07-09 04:45:08,270   Expires At: 2026-07-09 05:05:08.259668+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 05:05:08.259668+00:00
+INFO 2026-07-09 04:45:08,270   Requested Exit: 2026-07-09 04:50:08.259668+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:50:08.259668+00:00
+INFO 2026-07-09 04:45:08,270   Allowed Window: 2026-07-09 04:35:08.259668+00:00 to 2026-07-09 05:05:08.259668+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:35:08.259668+00:00 to 2026-07-09 05:05:08.259668+00:00
+INFO 2026-07-09 04:45:08,270 Total AttendanceLogs found for student test_dup: 1
+INFO:biometric.verification:Total AttendanceLogs found for student test_dup: 1
+INFO 2026-07-09 04:45:08,270 Checking AttendanceLog ID 13: time=2026-07-09 04:45:08.259668+00:00, determined_actual_utc=2026-07-09 04:45:08.259668+00:00, processed=True
+INFO:biometric.verification:Checking AttendanceLog ID 13: time=2026-07-09 04:45:08.259668+00:00, determined_actual_utc=2026-07-09 04:45:08.259668+00:00, processed=True
+INFO 2026-07-09 04:45:08,270   Attendance rejected for Request 8007. Reason: processed=True
+INFO:biometric.verification:  Attendance rejected for Request 8007. Reason: processed=True
+INFO 2026-07-09 04:45:08,270 Request 8007 remains WAITING for scan.
+INFO:biometric.verification:Request 8007 remains WAITING for scan.
+.ERROR 2026-07-09 04:45:08,271 [MockZK] Connecting to Offline Device failed: Machine offline.
+ERROR:biometric.machine:[MockZK] Connecting to Offline Device failed: Machine offline.
+.INFO 2026-07-09 04:45:08,272 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,272 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,272 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+.INFO 2026-07-09 04:45:08,273 Signal: Created PendingBiometricVerification for Request 8001 (Expires at 2026-07-09 05:00:08.272544+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 8001 (Expires at 2026-07-09 05:00:08.272544+00:00).
+INFO 2026-07-09 04:45:08,274 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,274 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,274 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,274 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,274 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,274 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,274 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+WARNING 2026-07-09 04:45:08,275 Attendance Skipped: Skipped attendance. Machine User ID: 101. Reason: No BiometricUser mapping found.
+WARNING:biometric.attendance:Attendance Skipped: Skipped attendance. Machine User ID: 101. Reason: No BiometricUser mapping found.
+WARNING 2026-07-09 04:45:08,276 Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+WARNING:biometric.attendance:Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+INFO 2026-07-09 04:45:08,276 Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,277 Verification parameters for Request 8001:
+INFO:biometric.verification:Verification parameters for Request 8001:
+INFO 2026-07-09 04:45:08,277   Student ID: test_new_req
+INFO:biometric.verification:  Student ID: test_new_req
+INFO 2026-07-09 04:45:08,277   Approved At: 2026-07-09 04:35:08.272544+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:35:08.272544+00:00
+INFO 2026-07-09 04:45:08,277   Expires At: 2026-07-09 05:05:08.272544+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 05:05:08.272544+00:00
+INFO 2026-07-09 04:45:08,277   Requested Exit: 2026-07-09 04:45:08.272544+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:45:08.272544+00:00
+INFO 2026-07-09 04:45:08,277   Allowed Window: 2026-07-09 04:30:08.272544+00:00 to 2026-07-09 05:00:08.272544+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:30:08.272544+00:00 to 2026-07-09 05:00:08.272544+00:00
+INFO 2026-07-09 04:45:08,277 Total AttendanceLogs found for student test_new_req: 1
+INFO:biometric.verification:Total AttendanceLogs found for student test_new_req: 1
+INFO 2026-07-09 04:45:08,277 Checking AttendanceLog ID 14: time=2026-07-09 04:40:08.272544+00:00, determined_actual_utc=2026-07-09 04:40:08.272544+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 14: time=2026-07-09 04:40:08.272544+00:00, determined_actual_utc=2026-07-09 04:40:08.272544+00:00, processed=False
+INFO 2026-07-09 04:45:08,277   Matched successfully!
+INFO:biometric.verification:  Matched successfully!
+INFO 2026-07-09 04:45:08,277 Saving PendingBiometricVerification status to ACCEPTED for Request 8001
+INFO:biometric.verification:Saving PendingBiometricVerification status to ACCEPTED for Request 8001
+INFO 2026-07-09 04:45:08,278 Signal: Updated outpass_request 8001 status to ACCEPTED.
+INFO:biometric.verification:Signal: Updated outpass_request 8001 status to ACCEPTED.
+INFO 2026-07-09 04:45:08,278 Saving AttendanceLog as processed for Log ID 14
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 14
+INFO 2026-07-09 04:45:08,278 Current outpass_request status after saving PV: ACCEPTED
+INFO:biometric.verification:Current outpass_request status after saving PV: ACCEPTED
+INFO 2026-07-09 04:45:08,278 Request 8001 exit scan ACCEPTED.
+INFO:biometric.verification:Request 8001 exit scan ACCEPTED.
+INFO 2026-07-09 04:45:08,279 Signal: Created PendingBiometricVerification for Request 8002 (Expires at 2026-07-09 07:00:08.272544+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 8002 (Expires at 2026-07-09 07:00:08.272544+00:00).
+INFO 2026-07-09 04:45:08,280 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,280 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,281 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,281 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,281 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,281 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,281 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+WARNING 2026-07-09 04:45:08,281 Attendance Skipped: Skipped attendance. Machine User ID: 101. Reason: No BiometricUser mapping found.
+WARNING:biometric.attendance:Attendance Skipped: Skipped attendance. Machine User ID: 101. Reason: No BiometricUser mapping found.
+WARNING 2026-07-09 04:45:08,282 Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+WARNING:biometric.attendance:Attendance Skipped: Skipped attendance. Machine User ID: 102. Reason: No BiometricUser mapping found.
+INFO 2026-07-09 04:45:08,282 Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,283 Verification parameters for Request 8002:
+INFO:biometric.verification:Verification parameters for Request 8002:
+INFO 2026-07-09 04:45:08,283   Student ID: test_new_req
+INFO:biometric.verification:  Student ID: test_new_req
+INFO 2026-07-09 04:45:08,283   Approved At: 2026-07-09 04:50:08.272544+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:50:08.272544+00:00
+INFO 2026-07-09 04:45:08,283   Expires At: 2026-07-09 05:20:08.272544+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 05:20:08.272544+00:00
+INFO 2026-07-09 04:45:08,283   Requested Exit: 2026-07-09 06:45:08.272544+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 06:45:08.272544+00:00
+INFO 2026-07-09 04:45:08,283   Allowed Window: 2026-07-09 06:30:08.272544+00:00 to 2026-07-09 07:00:08.272544+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 06:30:08.272544+00:00 to 2026-07-09 07:00:08.272544+00:00
+INFO 2026-07-09 04:45:08,283 Total AttendanceLogs found for student test_new_req: 1
+INFO:biometric.verification:Total AttendanceLogs found for student test_new_req: 1
+INFO 2026-07-09 04:45:08,284 Checking AttendanceLog ID 14: time=2026-07-09 04:40:08.272544+00:00, determined_actual_utc=2026-07-09 04:40:08.272544+00:00, processed=True
+INFO:biometric.verification:Checking AttendanceLog ID 14: time=2026-07-09 04:40:08.272544+00:00, determined_actual_utc=2026-07-09 04:40:08.272544+00:00, processed=True
+INFO 2026-07-09 04:45:08,284   Attendance rejected for Request 8002. Reason: processed=True
+INFO:biometric.verification:  Attendance rejected for Request 8002. Reason: processed=True
+INFO 2026-07-09 04:45:08,284 Request 8002 remains WAITING for scan.
+INFO:biometric.verification:Request 8002 remains WAITING for scan.
+.INFO 2026-07-09 04:45:08,285 Signal: Created PendingBiometricVerification for Request 8003 (Expires at 2026-07-09 04:30:08.284718+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 8003 (Expires at 2026-07-09 04:30:08.284718+00:00).
+INFO 2026-07-09 04:45:08,285 Timeout Check Started
+INFO:biometric.verification:Timeout Check Started
+INFO 2026-07-09 04:45:08,285 check_expired_verifications executed. Current Time (UTC): 2026-07-09 04:45:08.285890+00:00
+INFO:biometric.verification:check_expired_verifications executed. Current Time (UTC): 2026-07-09 04:45:08.285890+00:00
+INFO 2026-07-09 04:45:08,286 Query returned 1 WAITING verification records.
+INFO:biometric.verification:Query returned 1 WAITING verification records.
+INFO 2026-07-09 04:45:08,286 Tracing WAITING verification: Request ID 8003, Expires At 2026-07-09 04:40:08.284718+00:00, Status WAITING
+INFO:biometric.verification:Tracing WAITING verification: Request ID 8003, Expires At 2026-07-09 04:40:08.284718+00:00, Status WAITING
+INFO 2026-07-09 04:45:08,286 Timeout Executed: Request ID 8003 transitioned to TIME_OUT.
+INFO:biometric.verification:Timeout Executed: Request ID 8003 transitioned to TIME_OUT.
+INFO 2026-07-09 04:45:08,287 Request ID 8003 expired. now (2026-07-09 04:45:08.285890+00:00) > expires_at (2026-07-09 04:40:08.284718+00:00) or latest_allowed (2026-07-09 04:30:08.284718+00:00)
+INFO:biometric.verification:Request ID 8003 expired. now (2026-07-09 04:45:08.285890+00:00) > expires_at (2026-07-09 04:40:08.284718+00:00) or latest_allowed (2026-07-09 04:30:08.284718+00:00)
+INFO 2026-07-09 04:45:08,287 Signal: Updated outpass_request 8003 status to TIME OUT.
+INFO:biometric.verification:Signal: Updated outpass_request 8003 status to TIME OUT.
+.INFO 2026-07-09 04:45:08,289 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,289 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,289 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,289 Retrieved 2 users from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 users from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,289 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,289 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,290 Downloaded new biometric user: Piyush (ID: 101)
+INFO:biometric.services.users:Downloaded new biometric user: Piyush (ID: 101)
+INFO 2026-07-09 04:45:08,290 Downloaded new biometric user: Ankit Nag (ID: 102)
+INFO:biometric.services.users:Downloaded new biometric user: Ankit Nag (ID: 102)
+.INFO 2026-07-09 04:45:08,292 Signal: Created PendingBiometricVerification for Request 777 (Expires at 2026-07-09 04:45:08.291410+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 777 (Expires at 2026-07-09 04:45:08.291410+00:00).
+ERROR 2026-07-09 04:45:08,293 [MockZK] Connecting to Broken Offline Device failed: Machine offline.
+ERROR:biometric.machine:[MockZK] Connecting to Broken Offline Device failed: Machine offline.
+ERROR 2026-07-09 04:45:08,293 Failed to fetch attendance logs for machine 27: Machine offline (mock)
+ERROR:biometric.attendance:Failed to fetch attendance logs for machine 27: Machine offline (mock)
+ERROR 2026-07-09 04:45:08,293 Sync failed for machine Broken Offline Device during verify: Machine offline (mock)
+ERROR:biometric.verification:Sync failed for machine Broken Offline Device during verify: Machine offline (mock)
+ERROR 2026-07-09 04:45:08,293 Request 777 status set to FAILED.
+ERROR:biometric.verification:Request 777 status set to FAILED.
+.INFO 2026-07-09 04:45:08,294 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,295 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,295 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,295 Retrieved 2 users from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 users from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,295 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,295 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,295 Downloaded new biometric user: Piyush (ID: 101)
+INFO:biometric.services.users:Downloaded new biometric user: Piyush (ID: 101)
+INFO 2026-07-09 04:45:08,296 Downloaded new biometric user: Ankit Nag (ID: 102)
+INFO:biometric.services.users:Downloaded new biometric user: Ankit Nag (ID: 102)
+INFO 2026-07-09 04:45:08,297 Signal: Created PendingBiometricVerification for Request 999 (Expires at 2026-07-09 04:55:08.294617+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 999 (Expires at 2026-07-09 04:55:08.294617+00:00).
+INFO 2026-07-09 04:45:08,298 Signal: Created PendingBiometricVerification for Request 888 (Expires at 2026-07-09 04:40:08.294617+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 888 (Expires at 2026-07-09 04:40:08.294617+00:00).
+INFO 2026-07-09 04:45:08,299 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,299 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,300 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,300 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,300 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,300 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,300 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,301 Attendance Saved: Log 15 for student 1001 saved.
+INFO:biometric.attendance:Attendance Saved: Log 15 for student 1001 saved.
+INFO 2026-07-09 04:45:08,302 Attendance Saved: Log 16 for student 1002 saved.
+INFO:biometric.attendance:Attendance Saved: Log 16 for student 1002 saved.
+INFO 2026-07-09 04:45:08,302 Successfully downloaded 2 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 2 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,303 Verification parameters for Request 999:
+INFO:biometric.verification:Verification parameters for Request 999:
+INFO 2026-07-09 04:45:08,303   Student ID: 1001
+INFO:biometric.verification:  Student ID: 1001
+INFO 2026-07-09 04:45:08,303   Approved At: 2026-07-09 04:35:08.294617+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:35:08.294617+00:00
+INFO 2026-07-09 04:45:08,303   Expires At: 2026-07-09 04:55:08.294617+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 04:55:08.294617+00:00
+INFO 2026-07-09 04:45:08,303   Requested Exit: 2026-07-09 04:40:08.294617+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:40:08.294617+00:00
+INFO 2026-07-09 04:45:08,303   Allowed Window: 2026-07-09 04:25:08.294617+00:00 to 2026-07-09 04:55:08.294617+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:25:08.294617+00:00 to 2026-07-09 04:55:08.294617+00:00
+INFO 2026-07-09 04:45:08,303 Total AttendanceLogs found for student 1001: 1
+INFO:biometric.verification:Total AttendanceLogs found for student 1001: 1
+INFO 2026-07-09 04:45:08,304 Checking AttendanceLog ID 15: time=2026-07-09 04:40:08.299994+00:00, determined_actual_utc=2026-07-09 04:40:08.299994+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 15: time=2026-07-09 04:40:08.299994+00:00, determined_actual_utc=2026-07-09 04:40:08.299994+00:00, processed=False
+INFO 2026-07-09 04:45:08,304   Matched successfully!
+INFO:biometric.verification:  Matched successfully!
+INFO 2026-07-09 04:45:08,304 Saving PendingBiometricVerification status to ACCEPTED for Request 999
+INFO:biometric.verification:Saving PendingBiometricVerification status to ACCEPTED for Request 999
+INFO 2026-07-09 04:45:08,304 Signal: Updated outpass_request 999 status to ACCEPTED.
+INFO:biometric.verification:Signal: Updated outpass_request 999 status to ACCEPTED.
+INFO 2026-07-09 04:45:08,304 Saving AttendanceLog as processed for Log ID 15
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 15
+INFO 2026-07-09 04:45:08,304 Current outpass_request status after saving PV: ACCEPTED
+INFO:biometric.verification:Current outpass_request status after saving PV: ACCEPTED
+INFO 2026-07-09 04:45:08,304 Request 999 exit scan ACCEPTED.
+INFO:biometric.verification:Request 999 exit scan ACCEPTED.
+INFO 2026-07-09 04:45:08,305 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,305 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,305 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,305 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,306 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,306 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,306 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,307 Attendance Saved: Log 17 for student 1002 saved.
+INFO:biometric.attendance:Attendance Saved: Log 17 for student 1002 saved.
+INFO 2026-07-09 04:45:08,307 Successfully downloaded 1 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 1 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,308 Verification parameters for Request 888:
+INFO:biometric.verification:Verification parameters for Request 888:
+INFO 2026-07-09 04:45:08,308   Student ID: 1002
+INFO:biometric.verification:  Student ID: 1002
+INFO 2026-07-09 04:45:08,308   Approved At: 2026-07-09 04:25:08.294617+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:25:08.294617+00:00
+INFO 2026-07-09 04:45:08,308   Expires At: 2026-07-09 04:40:08.294617+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 04:40:08.294617+00:00
+INFO 2026-07-09 04:45:08,308   Requested Exit: 2026-07-09 04:35:08.294617+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:35:08.294617+00:00
+INFO 2026-07-09 04:45:08,308   Allowed Window: 2026-07-09 04:20:08.294617+00:00 to 2026-07-09 04:40:08.294617+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:20:08.294617+00:00 to 2026-07-09 04:40:08.294617+00:00
+INFO 2026-07-09 04:45:08,308 Total AttendanceLogs found for student 1002: 2
+INFO:biometric.verification:Total AttendanceLogs found for student 1002: 2
+INFO 2026-07-09 04:45:08,308 Checking AttendanceLog ID 16: time=2026-07-09 04:43:08.299994+00:00, determined_actual_utc=2026-07-09 04:43:08.299994+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 16: time=2026-07-09 04:43:08.299994+00:00, determined_actual_utc=2026-07-09 04:43:08.299994+00:00, processed=False
+INFO 2026-07-09 04:45:08,308   Attendance log rejected. Reasons: attendance_time 2026-07-09 04:43:08.299994+00:00 > expires_at 2026-07-09 04:40:08.294617+00:00; attendance_time 2026-07-09 04:43:08.299994+00:00 > latest_allowed 2026-07-09 04:40:08.294617+00:00
+INFO:biometric.verification:  Attendance log rejected. Reasons: attendance_time 2026-07-09 04:43:08.299994+00:00 > expires_at 2026-07-09 04:40:08.294617+00:00; attendance_time 2026-07-09 04:43:08.299994+00:00 > latest_allowed 2026-07-09 04:40:08.294617+00:00
+INFO 2026-07-09 04:45:08,308 Checking AttendanceLog ID 17: time=2026-07-09 04:43:08.305973+00:00, determined_actual_utc=2026-07-09 04:43:08.305973+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 17: time=2026-07-09 04:43:08.305973+00:00, determined_actual_utc=2026-07-09 04:43:08.305973+00:00, processed=False
+INFO 2026-07-09 04:45:08,308   Attendance log rejected. Reasons: attendance_time 2026-07-09 04:43:08.305973+00:00 > expires_at 2026-07-09 04:40:08.294617+00:00; attendance_time 2026-07-09 04:43:08.305973+00:00 > latest_allowed 2026-07-09 04:40:08.294617+00:00
+INFO:biometric.verification:  Attendance log rejected. Reasons: attendance_time 2026-07-09 04:43:08.305973+00:00 > expires_at 2026-07-09 04:40:08.294617+00:00; attendance_time 2026-07-09 04:43:08.305973+00:00 > latest_allowed 2026-07-09 04:40:08.294617+00:00
+INFO 2026-07-09 04:45:08,308 Request ID 888 expired. now (2026-07-09 04:45:08.308986+00:00) > expires_at (2026-07-09 04:40:08.294617+00:00) or latest_allowed (2026-07-09 04:40:08.294617+00:00)
+INFO:biometric.verification:Request ID 888 expired. now (2026-07-09 04:45:08.308986+00:00) > expires_at (2026-07-09 04:40:08.294617+00:00) or latest_allowed (2026-07-09 04:40:08.294617+00:00)
+INFO 2026-07-09 04:45:08,309 Signal: Updated outpass_request 888 status to TIME OUT.
+INFO:biometric.verification:Signal: Updated outpass_request 888 status to TIME OUT.
+INFO 2026-07-09 04:45:08,309 Current outpass_request status after timeout: TIME OUT
+INFO:biometric.verification:Current outpass_request status after timeout: TIME OUT
+INFO 2026-07-09 04:45:08,309 Request 888 exit scan TIMED OUT due to validity expiry.
+INFO:biometric.verification:Request 888 exit scan TIMED OUT due to validity expiry.
+.INFO 2026-07-09 04:45:08,316 Signal: Created PendingBiometricVerification for Request 12347 (Expires at 2026-07-09 03:00:08.315744+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 12347 (Expires at 2026-07-09 03:00:08.315744+00:00).
+INFO 2026-07-09 04:45:08,317 Signal: Updated outpass_request 12347 status to TIME OUT.
+INFO:biometric.verification:Signal: Updated outpass_request 12347 status to TIME OUT.
+INFO 2026-07-09 04:45:08,318 Timeout Check Started
+INFO:biometric.verification:Timeout Check Started
+INFO 2026-07-09 04:45:08,318 check_expired_verifications executed. Current Time (UTC): 2026-07-09 04:45:08.318259+00:00
+INFO:biometric.verification:check_expired_verifications executed. Current Time (UTC): 2026-07-09 04:45:08.318259+00:00
+INFO 2026-07-09 04:45:08,318 Query returned 0 WAITING verification records.
+INFO:biometric.verification:Query returned 0 WAITING verification records.
+INFO 2026-07-09 04:45:08,319 Auto-terminating request 12347 after 30 mins in TIME_OUT.
+INFO:biometric.verification:Auto-terminating request 12347 after 30 mins in TIME_OUT.
+.INFO 2026-07-09 04:45:08,322 Signal: Created PendingBiometricVerification for Request 12345 (Expires at 2026-07-09 04:00:08.321125+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 12345 (Expires at 2026-07-09 04:00:08.321125+00:00).
+INFO 2026-07-09 04:45:08,323 Signal: Updated outpass_request 12345 status to TIME OUT.
+INFO:biometric.verification:Signal: Updated outpass_request 12345 status to TIME OUT.
+INFO 2026-07-09 04:45:08,327 Connecting to Mock biometric machine Test Office Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Test Office Machine...
+INFO 2026-07-09 04:45:08,328 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,328 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,328 Retrieved 2 attendance records from machine Test Office Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,328 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,328 Disconnected from machine Test Office Machine.
+INFO:biometric.machine:Disconnected from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,328 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,328 Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Test Office Machine.
+INFO 2026-07-09 04:45:08,329 Verification parameters for Request 12345:
+INFO:biometric.verification:Verification parameters for Request 12345:
+INFO 2026-07-09 04:45:08,329   Student ID: 99999
+INFO:biometric.verification:  Student ID: 99999
+INFO 2026-07-09 04:45:08,329   Approved At: 2026-07-09 03:45:08.321125+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 03:45:08.321125+00:00
+INFO 2026-07-09 04:45:08,329   Expires At: 2026-07-09 05:05:08.325757+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 05:05:08.325757+00:00
+INFO 2026-07-09 04:45:08,329   Requested Exit: 2026-07-09 04:45:08.325757+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:45:08.325757+00:00
+INFO 2026-07-09 04:45:08,329   Allowed Window: 2026-07-09 04:35:08.325757+00:00 to 2026-07-09 05:05:08.325757+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:35:08.325757+00:00 to 2026-07-09 05:05:08.325757+00:00
+INFO 2026-07-09 04:45:08,329 Total AttendanceLogs found for student 99999: 1
+INFO:biometric.verification:Total AttendanceLogs found for student 99999: 1
+INFO 2026-07-09 04:45:08,330 Checking AttendanceLog ID 18: time=2026-07-09 04:50:08.325757+00:00, determined_actual_utc=2026-07-09 04:50:08.325757+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 18: time=2026-07-09 04:50:08.325757+00:00, determined_actual_utc=2026-07-09 04:50:08.325757+00:00, processed=False
+INFO 2026-07-09 04:45:08,330   Matched successfully!
+INFO:biometric.verification:  Matched successfully!
+INFO 2026-07-09 04:45:08,330 Saving PendingBiometricVerification status to ACCEPTED for Request 12345
+INFO:biometric.verification:Saving PendingBiometricVerification status to ACCEPTED for Request 12345
+INFO 2026-07-09 04:45:08,330 Signal: Updated outpass_request 12345 status to ACCEPTED.
+INFO:biometric.verification:Signal: Updated outpass_request 12345 status to ACCEPTED.
+INFO 2026-07-09 04:45:08,330 Saving AttendanceLog as processed for Log ID 18
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 18
+INFO 2026-07-09 04:45:08,331 Current outpass_request status after saving PV: ACCEPTED
+INFO:biometric.verification:Current outpass_request status after saving PV: ACCEPTED
+INFO 2026-07-09 04:45:08,331 Request 12345 exit scan ACCEPTED.
+INFO:biometric.verification:Request 12345 exit scan ACCEPTED.
+.INFO 2026-07-09 04:45:08,333 Signal: Created PendingBiometricVerification for Request 12346 (Expires at 2026-07-09 03:00:08.332236+00:00).
+INFO:biometric.verification:Signal: Created PendingBiometricVerification for Request 12346 (Expires at 2026-07-09 03:00:08.332236+00:00).
+INFO 2026-07-09 04:45:08,333 Timeout Check Started
+INFO:biometric.verification:Timeout Check Started
+INFO 2026-07-09 04:45:08,333 check_expired_verifications executed. Current Time (UTC): 2026-07-09 04:45:08.333546+00:00
+INFO:biometric.verification:check_expired_verifications executed. Current Time (UTC): 2026-07-09 04:45:08.333546+00:00
+INFO 2026-07-09 04:45:08,333 Query returned 1 WAITING verification records.
+INFO:biometric.verification:Query returned 1 WAITING verification records.
+INFO 2026-07-09 04:45:08,334 Tracing WAITING verification: Request ID 12346, Expires At 2026-07-09 04:35:08.332236+00:00, Status WAITING
+INFO:biometric.verification:Tracing WAITING verification: Request ID 12346, Expires At 2026-07-09 04:35:08.332236+00:00, Status WAITING
+INFO 2026-07-09 04:45:08,334 Second Timeout Executed: Request ID 12346 transitioned to TERMINATED.
+INFO:biometric.verification:Second Timeout Executed: Request ID 12346 transitioned to TERMINATED.
+INFO 2026-07-09 04:45:08,335 Signal: Updated outpass_request 12346 status to TIME OUT.
+INFO:biometric.verification:Signal: Updated outpass_request 12346 status to TIME OUT.
+.INFO 2026-07-09 04:45:08,346 Dynamically created PendingBiometricVerification for Request 2
+INFO:biometric.verification:Dynamically created PendingBiometricVerification for Request 2
+INFO 2026-07-09 04:45:08,347 Connecting to Mock biometric machine Main Gate Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Main Gate Machine...
+INFO 2026-07-09 04:45:08,347 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,347 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,347 Retrieved 2 attendance records from machine Main Gate Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,347 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,347 Disconnected from machine Main Gate Machine.
+INFO:biometric.machine:Disconnected from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,347 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,347 Successfully downloaded 0 new logs from machine Main Gate Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,348 Verification parameters for Request 2:
+INFO:biometric.verification:Verification parameters for Request 2:
+INFO 2026-07-09 04:45:08,348   Student ID: 230101999
+INFO:biometric.verification:  Student ID: 230101999
+INFO 2026-07-09 04:45:08,348   Approved At: 2026-07-09 04:45:08.346282+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:45:08.346282+00:00
+INFO 2026-07-09 04:45:08,348   Expires At: 2026-07-09 05:15:08.346282+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 05:15:08.346282+00:00
+INFO 2026-07-09 04:45:08,348   Requested Exit: 2026-07-09 05:45:08.342920+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 05:45:08.342920+00:00
+INFO 2026-07-09 04:45:08,348   Allowed Window: 2026-07-09 05:35:08.342920+00:00 to 2026-07-09 05:55:08.342920+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 05:35:08.342920+00:00 to 2026-07-09 05:55:08.342920+00:00
+INFO 2026-07-09 04:45:08,349 Total AttendanceLogs found for student 230101999: 1
+INFO:biometric.verification:Total AttendanceLogs found for student 230101999: 1
+INFO 2026-07-09 04:45:08,349 Checking AttendanceLog ID 19: time=2026-07-09 04:45:08.344833+00:00, determined_actual_utc=2026-07-09 04:45:08.344833+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 19: time=2026-07-09 04:45:08.344833+00:00, determined_actual_utc=2026-07-09 04:45:08.344833+00:00, processed=False
+INFO 2026-07-09 04:45:08,349   Attendance log rejected. Reasons: attendance_time 2026-07-09 04:45:08.344833+00:00 < earliest_allowed 2026-07-09 05:35:08.342920+00:00
+INFO:biometric.verification:  Attendance log rejected. Reasons: attendance_time 2026-07-09 04:45:08.344833+00:00 < earliest_allowed 2026-07-09 05:35:08.342920+00:00
+INFO 2026-07-09 04:45:08,349 Request 2 remains WAITING for scan.
+INFO:biometric.verification:Request 2 remains WAITING for scan.
+WARNING:django.request:Bad Request: /api/biometric-scan/
+.INFO 2026-07-09 04:45:08,353 Dynamically created PendingBiometricVerification for Request 3
+INFO:biometric.verification:Dynamically created PendingBiometricVerification for Request 3
+INFO 2026-07-09 04:45:08,354 Connecting to Mock biometric machine Main Gate Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Main Gate Machine...
+INFO 2026-07-09 04:45:08,354 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,354 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,354 Retrieved 2 attendance records from machine Main Gate Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,354 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,354 Disconnected from machine Main Gate Machine.
+INFO:biometric.machine:Disconnected from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,354 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,354 Successfully downloaded 0 new logs from machine Main Gate Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,355 Verification parameters for Request 3:
+INFO:biometric.verification:Verification parameters for Request 3:
+INFO 2026-07-09 04:45:08,355   Student ID: 230101999
+INFO:biometric.verification:  Student ID: 230101999
+INFO 2026-07-09 04:45:08,355   Approved At: 2026-07-09 04:45:08.353257+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:45:08.353257+00:00
+INFO 2026-07-09 04:45:08,355   Expires At: 2026-07-09 05:15:08.353257+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 05:15:08.353257+00:00
+INFO 2026-07-09 04:45:08,355   Requested Exit: 2026-07-09 03:45:08.350877+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 03:45:08.350877+00:00
+INFO 2026-07-09 04:45:08,355   Allowed Window: 2026-07-09 03:30:08.350877+00:00 to 2026-07-09 04:00:08.350877+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 03:30:08.350877+00:00 to 2026-07-09 04:00:08.350877+00:00
+INFO 2026-07-09 04:45:08,356 Total AttendanceLogs found for student 230101999: 1
+INFO:biometric.verification:Total AttendanceLogs found for student 230101999: 1
+INFO 2026-07-09 04:45:08,356 Checking AttendanceLog ID 20: time=2026-07-09 04:45:08.352138+00:00, determined_actual_utc=2026-07-09 04:45:08.352138+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 20: time=2026-07-09 04:45:08.352138+00:00, determined_actual_utc=2026-07-09 04:45:08.352138+00:00, processed=False
+INFO 2026-07-09 04:45:08,356   Attendance log rejected. Reasons: attendance_time 2026-07-09 04:45:08.352138+00:00 > latest_allowed 2026-07-09 04:00:08.350877+00:00
+INFO:biometric.verification:  Attendance log rejected. Reasons: attendance_time 2026-07-09 04:45:08.352138+00:00 > latest_allowed 2026-07-09 04:00:08.350877+00:00
+INFO 2026-07-09 04:45:08,356 Request ID 3 expired. now (2026-07-09 04:45:08.356716+00:00) > expires_at (2026-07-09 05:15:08.353257+00:00) or latest_allowed (2026-07-09 04:00:08.350877+00:00)
+INFO:biometric.verification:Request ID 3 expired. now (2026-07-09 04:45:08.356716+00:00) > expires_at (2026-07-09 05:15:08.353257+00:00) or latest_allowed (2026-07-09 04:00:08.350877+00:00)
+INFO 2026-07-09 04:45:08,357 Signal: Updated outpass_request 3 status to TIME OUT.
+INFO:biometric.verification:Signal: Updated outpass_request 3 status to TIME OUT.
+INFO 2026-07-09 04:45:08,357 Current outpass_request status after timeout: TIME OUT
+INFO:biometric.verification:Current outpass_request status after timeout: TIME OUT
+INFO 2026-07-09 04:45:08,357 Request 3 exit scan TIMED OUT due to validity expiry.
+INFO:biometric.verification:Request 3 exit scan TIMED OUT due to validity expiry.
+WARNING:django.request:Bad Request: /api/biometric-scan/
+.INFO 2026-07-09 04:45:08,363 Dynamically created PendingBiometricVerification for Request 4
+INFO:biometric.verification:Dynamically created PendingBiometricVerification for Request 4
+INFO 2026-07-09 04:45:08,364 Connecting to Mock biometric machine Main Gate Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Main Gate Machine...
+INFO 2026-07-09 04:45:08,364 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,364 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,364 Retrieved 2 attendance records from machine Main Gate Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,364 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,364 Disconnected from machine Main Gate Machine.
+INFO:biometric.machine:Disconnected from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,364 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,365 Successfully downloaded 0 new logs from machine Main Gate Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,367 Verification parameters for Request 4:
+INFO:biometric.verification:Verification parameters for Request 4:
+INFO 2026-07-09 04:45:08,367   Student ID: 230101999
+INFO:biometric.verification:  Student ID: 230101999
+INFO 2026-07-09 04:45:08,367   Approved At: 2026-07-09 04:45:08.363029+00:00
+INFO:biometric.verification:  Approved At: 2026-07-09 04:45:08.363029+00:00
+INFO 2026-07-09 04:45:08,367   Expires At: 2026-07-09 05:15:08.363029+00:00
+INFO:biometric.verification:  Expires At: 2026-07-09 05:15:08.363029+00:00
+INFO 2026-07-09 04:45:08,367   Requested Exit: 2026-07-09 04:45:08.359358+00:00
+INFO:biometric.verification:  Requested Exit: 2026-07-09 04:45:08.359358+00:00
+INFO 2026-07-09 04:45:08,367   Allowed Window: 2026-07-09 04:30:08.359358+00:00 to 2026-07-09 05:15:08.359358+00:00
+INFO:biometric.verification:  Allowed Window: 2026-07-09 04:30:08.359358+00:00 to 2026-07-09 05:15:08.359358+00:00
+INFO 2026-07-09 04:45:08,368 Total AttendanceLogs found for student 230101999: 1
+INFO:biometric.verification:Total AttendanceLogs found for student 230101999: 1
+INFO 2026-07-09 04:45:08,368 Checking AttendanceLog ID 21: time=2026-07-09 04:45:08.361425+00:00, determined_actual_utc=2026-07-09 04:45:08.361425+00:00, processed=False
+INFO:biometric.verification:Checking AttendanceLog ID 21: time=2026-07-09 04:45:08.361425+00:00, determined_actual_utc=2026-07-09 04:45:08.361425+00:00, processed=False
+INFO 2026-07-09 04:45:08,368   Matched successfully!
+INFO:biometric.verification:  Matched successfully!
+INFO 2026-07-09 04:45:08,368 Saving PendingBiometricVerification status to ACCEPTED for Request 4
+INFO:biometric.verification:Saving PendingBiometricVerification status to ACCEPTED for Request 4
+INFO 2026-07-09 04:45:08,369 Signal: Updated outpass_request 4 status to ACCEPTED.
+INFO:biometric.verification:Signal: Updated outpass_request 4 status to ACCEPTED.
+INFO 2026-07-09 04:45:08,369 Saving AttendanceLog as processed for Log ID 21
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 21
+INFO 2026-07-09 04:45:08,369 Current outpass_request status after saving PV: ACCEPTED
+INFO:biometric.verification:Current outpass_request status after saving PV: ACCEPTED
+INFO 2026-07-09 04:45:08,369 Request 4 exit scan ACCEPTED.
+INFO:biometric.verification:Request 4 exit scan ACCEPTED.
+INFO 2026-07-09 04:45:08,370 Signal: Reset PendingBiometricVerification to OUT for Request 4 for return scan.
+INFO:biometric.verification:Signal: Reset PendingBiometricVerification to OUT for Request 4 for return scan.
+INFO 2026-07-09 04:45:08,375 Connecting to Mock biometric machine Main Gate Machine...
+INFO:biometric.machine:Connecting to Mock biometric machine Main Gate Machine...
+INFO 2026-07-09 04:45:08,375 [MockZK] Device disabled.
+INFO:biometric.machine:[MockZK] Device disabled.
+INFO 2026-07-09 04:45:08,375 [MockZK] Device enabled.
+INFO:biometric.machine:[MockZK] Device enabled.
+INFO 2026-07-09 04:45:08,375 Retrieved 2 attendance records from machine Main Gate Machine.
+INFO:biometric.machine:Retrieved 2 attendance records from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,375 [MockZK] Disconnected.
+INFO:biometric.machine:[MockZK] Disconnected.
+INFO 2026-07-09 04:45:08,375 Disconnected from machine Main Gate Machine.
+INFO:biometric.machine:Disconnected from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,375 Attendance Downloaded: 2 logs fetched from machine.
+INFO:biometric.attendance:Attendance Downloaded: 2 logs fetched from machine.
+INFO 2026-07-09 04:45:08,376 Successfully downloaded 0 new logs from machine Main Gate Machine.
+INFO:biometric.attendance:Successfully downloaded 0 new logs from machine Main Gate Machine.
+INFO 2026-07-09 04:45:08,378 Verification parameters for Return Request 4:
+INFO:biometric.verification:Verification parameters for Return Request 4:
+INFO 2026-07-09 04:45:08,378   Student ID: 230101999
+INFO:biometric.verification:  Student ID: 230101999
+INFO 2026-07-09 04:45:08,378   Exit Time: 2026-07-09 04:45:08.361425+00:00
+INFO:biometric.verification:  Exit Time: 2026-07-09 04:45:08.361425+00:00
+INFO 2026-07-09 04:45:08,378   Min Return Time: 2026-07-09 04:47:08.361425+00:00
+INFO:biometric.verification:  Min Return Time: 2026-07-09 04:47:08.361425+00:00
+INFO 2026-07-09 04:45:08,379 Checking Return AttendanceLog ID 21: time=2026-07-09 04:45:08.361425+00:00, determined_actual_utc=2026-07-09 04:45:08.361425+00:00, processed=True
+INFO:biometric.verification:Checking Return AttendanceLog ID 21: time=2026-07-09 04:45:08.361425+00:00, determined_actual_utc=2026-07-09 04:45:08.361425+00:00, processed=True
+INFO 2026-07-09 04:45:08,379   Attendance rejected for Request 4. Reason: processed=True
+INFO:biometric.verification:  Attendance rejected for Request 4. Reason: processed=True
+INFO 2026-07-09 04:45:08,379 Checking Return AttendanceLog ID 22: time=2026-07-09 04:48:08.361425+00:00, determined_actual_utc=2026-07-09 04:48:08.361425+00:00, processed=False
+INFO:biometric.verification:Checking Return AttendanceLog ID 22: time=2026-07-09 04:48:08.361425+00:00, determined_actual_utc=2026-07-09 04:48:08.361425+00:00, processed=False
+INFO 2026-07-09 04:45:08,379   Matched return successfully!
+INFO:biometric.verification:  Matched return successfully!
+INFO 2026-07-09 04:45:08,379 Saving PendingBiometricVerification status to READY_FOR_IN for Request 4
+INFO:biometric.verification:Saving PendingBiometricVerification status to READY_FOR_IN for Request 4
+INFO 2026-07-09 04:45:08,379 Saving AttendanceLog as processed for Log ID 22
+INFO:biometric.verification:Saving AttendanceLog as processed for Log ID 22
+INFO 2026-07-09 04:45:08,380 Current outpass_request status after saving PV: OUT
+INFO:biometric.verification:Current outpass_request status after saving PV: OUT
+INFO 2026-07-09 04:45:08,380 Request 4 return scan READY_FOR_IN.
+INFO:biometric.verification:Request 4 return scan READY_FOR_IN.
+.WARNING:django.request:Not Found: /api/biometric-scan/
+.WARNING:django.request:Not Found: /api/biometric-scan/
+......WARNING:django.request:Bad Request: /api/student/create/
+.............
+======================================================================
+FAIL: test_in_button_visibility_on_dashboard (biometric.tests.BiometricAPITestCase)
+Test that the gatekeeper dashboard shows the IN button only when biometric verification is completed.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/mcal315/Documents/biometric Project moblie/student_outpass_system/backend/biometric/tests.py", line 757, in test_in_button_visibility_on_dashboard
+    self.assertContains(response, "Waiting for Biometric Scan")
+AssertionError: False is not true : Couldn't find 'Waiting for Biometric Scan' in the following response
+b'\n<!DOCTYPE html>\n<html lang="en">\n\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Student Outpass System</title>\n    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">\n    <link rel="stylesheet" href="/static/CSS/styles.css?v=1.2">\n    \n</head>\n\n<body class="role-gatekeeper page-gatekeeper_dashboard">\n    \n    <div class="layout-container">\n        <!-- Sidebar Overlay for Mobile -->\n        <div class="sidebar-overlay" id="sidebar-overlay"></div>\n        <!-- Sidebar -->\n        <aside class="sidebar" id="sidebar">\n            <div class="sidebar-header">\n                <img src="/static/images/dsvv_logo.jpg" alt="DSVV Logo" class="sidebar-logo-img"\n                    style="height: 60px; width: 60px; object-fit: contain; border-radius: 50%;">\n                <h2>Gate Outpass</h2>\n            </div>\n            <nav class="sidebar-nav">\n                \n                <a href="/gatekeeper/"\n                    class="nav-item active">\n                    <i class="fas fa-chart-line"></i> Dashboard\n                </a>\n\n                <a href="/biometric/diagnostics/"\n                    class="nav-item ">\n                    <i class="fas fa-microchip"></i> Biometric Diagnostics\n                </a>\n\n                <a href="/history/"\n                    class="nav-item ">\n                    <i class="fas fa-history"></i> History\n                </a>\n\n\n                \n            </nav>\n        </aside>\n\n        <!-- Main Content -->\n        <main class="main-content">\n            <!-- Header -->\n            <header class="top-header">\n                <div class="header-title" style="display: flex; align-items: center; gap: 12px;">\n                    <i class="fas fa-bars mobile-menu-btn" id="mobile-menu-toggle"></i>\n                    <h1>Student Outpass Management System</h1>\n                </div>\n                <div class="header-profile" style="position: relative;">\n                    <div class="account-switcher" id="account-switcher-btn">\n                        <div class="profile-info">\n                            <span class="admin-name">\n                                \n                                \n                                \n                            </span>\n                            <span class="admin-role">Gatekeeper</span>\n                        </div>\n                        <div class="profile-avatar">\n                            <i class="fas fa-user-circle"></i>\n                        </div>\n                        <i class="fas fa-chevron-down"\n                            style="color: var(--text-muted); font-size: 0.8rem; margin-left: 8px;"></i>\n                    </div>\n\n                    <!-- Dropdown Menu -->\n                    <div class="account-dropdown hidden" id="account-dropdown">\n                        <div class="dropdown-header">User Profile</div>\n                        <div class="dropdown-item" style="pointer-events: none;">\n                            <i class="fas fa-user"></i> <strong> \n                                \n                                \n                                </strong>\n                        </div>\n                        <div class="dropdown-item" style="pointer-events: none;">\n                            <i class="fas fa-id-badge"></i> Gatekeeper\n                        </div>\n                        <div class="dropdown-divider"></div>\n                        <a href="#" class="dropdown-item" onclick="openChangePasswordModal(event)">\n                            <i class="fas fa-key"></i> Change Password\n                        </a>\n                        <div class="dropdown-divider"></div>\n                        <a href="/logout/" class="dropdown-item text-danger">\n                            <i class="fas fa-sign-out-alt"></i> Logout\n                        </a>\n                    </div>\n                </div>\n            </header>\n\n            <div class="content-body">\n                \n<div class="stats-grid">\n    <div class="stat-card info">\n        <div class="stat-icon"><i class="fas fa-check-double"></i></div>\n        <div class="stat-details">\n            <h3>Approved (Expected)</h3>\n            <p id="stat-total-expected" class="counter" data-target="0">0</p>\n        </div>\n    </div>\n    <div class="stat-card success">\n        <div class="stat-icon"><i class="fas fa-thumbs-up"></i></div>\n        <div class="stat-details">\n            <h3>OUT</h3>\n            <p id="stat-currently-out" class="counter" data-target="">0</p>\n        </div>\n    </div>\n    <div class="stat-card" style="border-left: 4px solid #3b82f6;">\n        <div class="stat-icon" style="color:#3b82f6;"><i class="fas fa-sign-in-alt"></i></div>\n        <div class="stat-details">\n            <h3>IN (Returned)</h3>\n            <p id="stat-returned-today" class="counter" data-target="0">0</p>\n        </div>\n    </div>\n    <div class="stat-card danger">\n        <div class="stat-icon"><i class="fas fa-ban"></i></div>\n        <div class="stat-details">\n            <h3>Decline</h3>\n            <p id="stat-declined" class="counter" data-target="">0</p>\n        </div>\n    </div>\n</div>\n\n<div class="dashboard-grid">\n\n\n    <section class="card table-section" style="grid-column: 1 / -1;">\n        <div class="table-header">\n            <h2><i class="fas fa-list-alt"></i> Outpass Requests</h2>\n            <div class="table-controls">\n                <div class="search-box">\n                    <i class="fas fa-search"></i>\n                    <input type="text" id="table-search" placeholder="Search by ID or Name...">\n                </div>\n                <select id="status-filter" class="filter-select">\n                    <option value="All">All Status</option>\n                    <option value="Accept">Approved</option>\n                    <option value="OUT">OUT</option>\n                </select>\n            </div>\n        </div>\n        <div class="table-responsive">\n            <table id="requests-table">\n                <thead>\n                    <tr>\n                        <th>Scholar ID</th>\n                        <th>Student Name</th>\n                        <th>Purpose</th>\n                        <th>Destination</th>\n                        <th>Departure Window</th>\n                        <th>Expected Return</th>\n                        <th>Actual Out</th>\n                        <th>Actual In</th>\n                        <th>Status</th>\n                        <th>Actions</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    \n                    <tr data-status="OUT">\n                        <td>S12345</td>\n                        <td>\n                            <div class="student-profile-container" style="display: none;">\n                                \n                                <div style="width: 48px; height: 48px; border-radius: 50%; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); color: #475569; margin: 0 auto;">\n                                    <i class="fas fa-user" style="font-size: 1.2rem;"></i>\n                                </div>\n                                \n                            </div>\n                            Dashboard Student\n                        </td>\n                        <td></td>\n                        <td></td>\n                        <td>\n                            09/07/2026 10:15 AM\n                            \n                        </td>\n                        <td>09/07/2026 12:15 PM</td>\n                        <td>09/07/2026 10:15 AM</td>\n                        <td>-</td>\n                        <td><span class="status-badge out">OUT</span>\n                        </td>\n                        <td>\n                            <div class="actions-wrapper" style="display: flex; gap: 8px; align-items: center;">\n                                <button type="button" class="btn btn-secondary btn-sm view-req-detail-btn"\n                                    data-request-id="9999"\n                                    data-scholar-id="S12345"\n                                    data-student-name="Dashboard Student"\n                                    data-student-mobile="1234567890"\n                                    data-course="BTech"\n                                    data-semester="1"\n                                    data-hostel="Hostel A"\n                                    data-purpose=""\n                                    data-destination=""\n                                    data-reason="N/A"\n                                    data-leave-reason=""\n                                    data-parent-confirmed="False"\n                                    data-exit="2026-07-09T10:15:08.149353+05:30"\n                                    data-entry="2026-07-09T12:15:08.149353+05:30"\n                                    data-warden="Pending"\n                                    data-warden-contact="N/A"\n                                    data-requested-by="N/A"\n                                    data-profile="">\n                                    <i class="fas fa-eye"></i> View\n                                </button>\n                                \n                                \n                                <span\n                                    style="color: #ea580c; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px;">\n                                    <i class="fas fa-fingerprint"></i> Waiting for Return Scan\n                                </span>\n                                \n                                \n                            </div>\n                        </td>\n                    </tr>\n                    \n                </tbody>\n            </table>\n        </div>\n    </section>\n</div>\n\n\n            </div>\n        </main>\n    </div>\n    \n\n    <!-- Change Password Modal -->\n    <div id="changePasswordModal" class="modal"\n        style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);">\n        <div class="modal-content"\n            style="background-color: #fefefe; margin: 10% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 400px; border-radius: 8px;">\n            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">\n                <h3 style="margin: 0;">Change Password</h3>\n                <span class="close-modal" onclick="closeChangePasswordModal()"\n                    style="cursor: pointer; font-size: 1.5rem;">&times;</span>\n            </div>\n            <form id="changePasswordForm" autocomplete="off">\n                <div class="form-group" style="margin-bottom: 15px;">\n                    <label style="display: block; margin-bottom: 5px;">Username</label>\n                    <input type="text" value="" readonly\n                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: #f0f0f0;">\n                </div>\n                <div class="form-group" style="margin-bottom: 15px; position: relative;">\n                    <label style="display: block; margin-bottom: 5px;">Current Password</label>\n                    <input type="password" id="cp_current" required autocomplete="new-password"\n                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; padding-right: 35px;">\n                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility(\'cp_current\', this)"\n                        style="position: absolute; right: 10px; top: 35px; cursor: pointer; color: #888;"></i>\n                </div>\n                <div class="form-group" style="margin-bottom: 15px; position: relative;">\n                    <label style="display: block; margin-bottom: 5px;">New Password</label>\n                    <input type="password" id="cp_new" required autocomplete="new-password"\n                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; padding-right: 35px;">\n                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility(\'cp_new\', this)"\n                        style="position: absolute; right: 10px; top: 35px; cursor: pointer; color: #888;"></i>\n                </div>\n                <div class="form-group" style="margin-bottom: 20px; position: relative;">\n                    <label style="display: block; margin-bottom: 5px;">Confirm New Password</label>\n                    <input type="password" id="cp_confirm" required autocomplete="new-password"\n                        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; padding-right: 35px;">\n                    <i class="fas fa-eye toggle-password" onclick="togglePasswordVisibility(\'cp_confirm\', this)"\n                        style="position: absolute; right: 10px; top: 35px; cursor: pointer; color: #888;"></i>\n                </div>\n                <div id="cp_message" style="margin-bottom: 15px; display: none; padding: 10px; border-radius: 4px;">\n                </div>\n                <div style="display: flex; justify-content: flex-end; gap: 10px;">\n                    <button type="button" onclick="closeChangePasswordModal()"\n                        style="padding: 8px 16px; border: 1px solid #ccc; background-color: white; border-radius: 4px; cursor: pointer;">Cancel</button>\n                    <button type="submit" id="cp_submit"\n                        style="padding: 8px 16px; border: none; background-color: #2563EB; color: white; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 5px;">\n                        <span>Save</span>\n                        <i class="fas fa-spinner fa-spin" id="cp_spinner" style="display: none;"></i>\n                    </button>\n                </div>\n            </form>\n        </div>\n    </div>\n\n    <!-- CSRF Token for JavaScript -->\n    <script>\n        window.CSRF_TOKEN = "nU6NZU2xzbbkT44mVO2fE0EUuokN1oxLN6pENhVY1HgqRjg4XjiGNQtCj1gCEFzJ";\n\n        // Account switcher logic\n        document.addEventListener(\'DOMContentLoaded\', () => {\n            const switcherBtn = document.getElementById(\'account-switcher-btn\');\n            const dropdown = document.getElementById(\'account-dropdown\');\n\n            if (switcherBtn && dropdown) {\n                switcherBtn.addEventListener(\'click\', (e) => {\n                    e.stopPropagation();\n                    dropdown.classList.toggle(\'hidden\');\n                });\n\n                document.addEventListener(\'click\', (e) => {\n                    if (!switcherBtn.contains(e.target) && !dropdown.contains(e.target)) {\n                        dropdown.classList.add(\'hidden\');\n                    }\n                });\n            }\n\n            // Mobile Sidebar Toggle\n            const mobileMenuToggle = document.getElementById(\'mobile-menu-toggle\');\n            const sidebar = document.getElementById(\'sidebar\');\n            const sidebarOverlay = document.getElementById(\'sidebar-overlay\');\n\n            if (mobileMenuToggle && sidebar && sidebarOverlay) {\n                mobileMenuToggle.addEventListener(\'click\', () => {\n                    sidebar.classList.add(\'open\');\n                    sidebarOverlay.classList.add(\'active\');\n                });\n\n                sidebarOverlay.addEventListener(\'click\', () => {\n                    sidebar.classList.remove(\'open\');\n                    sidebarOverlay.classList.remove(\'active\');\n                });\n            }\n        });\n\n        // Change Password Modal logic\n        function togglePasswordVisibility(inputId, icon) {\n            const input = document.getElementById(inputId);\n            if (input.type === \'password\') {\n                input.type = \'text\';\n                icon.classList.remove(\'fa-eye\');\n                icon.classList.add(\'fa-eye-slash\');\n            } else {\n                input.type = \'password\';\n                icon.classList.remove(\'fa-eye-slash\');\n                icon.classList.add(\'fa-eye\');\n            }\n        }\n\n        function openChangePasswordModal(e) {\n            e.preventDefault();\n            document.getElementById(\'changePasswordModal\').style.display = \'block\';\n            document.getElementById(\'account-dropdown\').classList.add(\'hidden\');\n        }\n\n        function closeChangePasswordModal() {\n            document.getElementById(\'changePasswordModal\').style.display = \'none\';\n            document.getElementById(\'changePasswordForm\').reset();\n            document.getElementById(\'cp_message\').style.display = \'none\';\n        }\n\n        document.getElementById(\'changePasswordForm\').addEventListener(\'submit\', async (e) => {\n            e.preventDefault();\n            const currentPassword = document.getElementById(\'cp_current\').value;\n            const newPassword = document.getElementById(\'cp_new\').value;\n            const confirmPassword = document.getElementById(\'cp_confirm\').value;\n            const messageDiv = document.getElementById(\'cp_message\');\n            const submitBtn = document.getElementById(\'cp_submit\');\n            const spinner = document.getElementById(\'cp_spinner\');\n\n            if (newPassword !== confirmPassword) {\n                messageDiv.textContent = \'New password and confirm password do not match.\';\n                messageDiv.style.color = \'#721c24\';\n                messageDiv.style.backgroundColor = \'#f8d7da\';\n                messageDiv.style.border = \'1px solid #f5c6cb\';\n                messageDiv.style.display = \'block\';\n                return;\n            }\n\n            submitBtn.disabled = true;\n            spinner.style.display = \'inline-block\';\n            messageDiv.style.display = \'none\';\n\n            try {\n                const response = await fetch(\'/api/change-password/\', {\n                    method: \'POST\',\n                    headers: {\n                        \'Content-Type\': \'application/json\',\n                        \'X-CSRFToken\': window.CSRF_TOKEN\n                    },\n                    body: JSON.stringify({\n                        current_password: currentPassword,\n                        new_password: newPassword,\n                        confirm_password: confirmPassword\n                    })\n                });\n\n                const data = await response.json();\n\n                if (data.success) {\n                    messageDiv.textContent = data.message;\n                    messageDiv.style.color = \'#155724\';\n                    messageDiv.style.backgroundColor = \'#d4edda\';\n                    messageDiv.style.border = \'1px solid #c3e6cb\';\n                    messageDiv.style.display = \'block\';\n\n                    setTimeout(() => {\n                        closeChangePasswordModal();\n                    }, 2000);\n                } else {\n                    messageDiv.textContent = data.message;\n                    messageDiv.style.color = \'#721c24\';\n                    messageDiv.style.backgroundColor = \'#f8d7da\';\n                    messageDiv.style.border = \'1px solid #f5c6cb\';\n                    messageDiv.style.display = \'block\';\n                }\n            } catch (err) {\n                messageDiv.textContent = \'An error occurred during the password change process.\';\n                messageDiv.style.color = \'#721c24\';\n                messageDiv.style.backgroundColor = \'#f8d7da\';\n                messageDiv.style.border = \'1px solid #f5c6cb\';\n                messageDiv.style.display = \'block\';\n            } finally {\n                submitBtn.disabled = false;\n                spinner.style.display = \'none\';\n            }\n        });\n    </script>\n    <!-- Request Detail Modal -->\n    <div id="request-detail-modal" class="modal-overlay hidden">\n        <div class="modal-glass" style="max-width: 900px; width: 95%;">\n            <div class="modal-header" style="border-bottom: none; padding-bottom: 10px;">\n                <h3><span id="req-modal-title-student-name"></span> Outpass Request Details</h3>\n                <button class="btn-close-modal btn-close-req-detail"><i class="fas fa-times"></i></button>\n            </div>\n            <div class="modal-tabs">\n                <div class="modal-tab active" data-tab="details">Request Details</div>\n                <div class="modal-tab" data-tab="history">Outpass History</div>\n            </div>\n            <div class="modal-tab-wrapper">\n                <div class="modal-tab-slides">\n                    <!-- Slide 1: Details -->\n                    <div class="modal-slide-content">\n                        <div class="modal-body" style="padding: 25px;">\n                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr)); gap: 20px; margin-bottom: 25px;">\n                                <!-- Student Details Card -->\n                                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">\n                                    <h4 style="margin-bottom: 12px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 8px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">\n                                        <i class="fas fa-user-graduate"></i> Student Details\n                                    </h4>\n                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px; align-items: center;">\n                                        <strong style="color: var(--text-muted);">Profile:</strong>\n                                        <span>\n                                            <img id="req-modal-profile-img" src="" alt="Profile Image" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); display: none;">\n                                            <div id="req-modal-profile-placeholder" style="width: 60px; height: 60px; border-radius: 8px; background-color: #e2e8f0; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); color: #475569;">\n                                                <i class="fas fa-user" style="font-size: 1.5rem;"></i>\n                                            </div>\n                                        </span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Name:</strong> <span id="req-modal-name" style="font-weight: 500;"></span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Course:</strong> <span id="req-modal-course"></span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Semester:</strong> <span id="req-modal-semester"></span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Hostel:</strong> <span id="req-modal-hostel"></span>\n                                    </div>\n                                </div>\n\n                                <!-- Contact & Family Card -->\n                                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">\n                                    <h4 style="margin-bottom: 12px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 8px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">\n                                        <i class="fas fa-address-book"></i> Contact Details\n                                    </h4>\n                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Student Mob:</strong> <span id="req-modal-mobile"></span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Parent Name:</strong> <span>N/A</span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Parent Mob:</strong> <span>N/A</span>\n                                    </div>\n                                </div>\n\n                                <!-- Leave Details Card -->\n                                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">\n                                    <h4 style="margin-bottom: 12px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 8px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">\n                                        <i class="fas fa-plane-departure"></i> Leave Details\n                                    </h4>\n                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Purpose:</strong> <span id="req-modal-purpose"></span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Destination:</strong> <span id="req-modal-destination"></span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Exit Time:</strong> <span id="req-modal-exit"></span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 100px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Entry Time:</strong> <span id="req-modal-entry"></span>\n                                    </div>\n                                </div>\n\n                                <!-- Approval Card -->\n                                <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">\n                                    <h4 style="margin-bottom: 12px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 8px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">\n                                        <i class="fas fa-check-circle"></i> Approval Info\n                                    </h4>\n                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Initiated By:</strong> <span id="req-modal-requested-by"></span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Approved By:</strong> <span id="req-modal-warden" style="font-weight: 500;"></span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 120px 1fr; gap: 8px; margin-bottom: 8px;">\n                                        <strong style="color: var(--text-muted);">Warden Mob:</strong> <span id="req-modal-warden-contact"></span>\n                                    </div>\n                                </div>\n                            </div>\n\n                            <!-- Leave Information (Full Width) -->\n                            <div style="background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">\n                                <h4 style="margin-bottom: 12px; border-bottom: 2px solid var(--primary-blue); padding-bottom: 8px; color: var(--primary-blue); display: flex; align-items: center; gap: 8px;">\n                                    <i class="fas fa-info-circle"></i> Leave Information\n                                </h4>\n                                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 8px; margin-bottom: 15px;">\n                                    <strong style="color: var(--text-muted);">Leave Reason:</strong>\n                                    <div id="req-modal-leave-reason" style="font-weight: 500; word-break: break-word; line-height: 1.5; color: #334155;"></div>\n                                </div>\n                                <div style="display: grid; grid-template-columns: 150px 1fr; gap: 8px; margin-bottom: 15px;">\n                                    <strong style="color: var(--text-muted);">Parents Confirmed:</strong>\n                                    <span id="req-modal-parent-confirmed" style="font-weight: 500;"></span>\n                                </div>\n\n                                <div id="req-modal-decline-section" style="display: none; border-top: 1px dashed var(--border-color); padding-top: 15px; margin-top: 5px;">\n                                    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 8px; margin-bottom: 15px;">\n                                        <strong style="color: var(--danger);" id="req-modal-declined-by-label">Declined by:</strong>\n                                        <span id="req-modal-declined-by" style="font-weight: 500; color: var(--danger);"></span>\n                                    </div>\n                                    <div style="display: grid; grid-template-columns: 150px 1fr; gap: 8px;">\n                                        <strong style="color: var(--danger);">Reason:</strong>\n                                        <div id="req-modal-decline-reason" style="font-weight: 500; word-break: break-word; line-height: 1.5; color: var(--danger);"></div>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- Slide 2: Outpass History -->\n                    <div class="modal-slide-content">\n                        <div class="modal-body" style="padding: 25px; max-height: 60vh; overflow-y: auto;">\n                            <div class="history-summary">\n                                <div class="stat-card">\n                                    <div class="stat-icon"><i class="fas fa-file-alt"></i></div>\n                                    <div class="stat-details">\n                                        <h3>Total Requests</h3>\n                                        <div class="counter" id="req-total-requests">0</div>\n                                    </div>\n                                </div>\n                                <div class="stat-card success">\n                                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>\n                                    <div class="stat-details">\n                                        <h3>Approved</h3>\n                                        <div class="counter" id="req-approved-requests">0</div>\n                                    </div>\n                                </div>\n                                <div class="stat-card danger">\n                                    <div class="stat-icon"><i class="fas fa-times-circle"></i></div>\n                                    <div class="stat-details">\n                                        <h3>Reject</h3>\n                                        <div class="counter" id="req-rejected-requests">0</div>\n                                    </div>\n                                </div>\n                                <div class="stat-card warning">\n                                    <div class="stat-icon"><i class="fas fa-clock"></i></div>\n                                    <div class="stat-details">\n                                        <h3>Pending</h3>\n                                        <div class="counter" id="req-pending-requests">0</div>\n                                    </div>\n                                </div>\n                            </div>\n\n                            <div class="table-responsive">\n                                <table class="history-table" style="width: 100%;">\n                                    <thead>\n                                        <tr>\n                                            <th>Date</th>\n                                            <th>Sch. Time</th>\n                                            <th>Actual Time</th>\n                                            <th>Purpose</th>\n                                            <th>Destination</th>\n                                            <th>Status</th>\n                                            <th>Reason</th>\n                                        </tr>\n                                    </thead>\n                                    <tbody id="req-history-tbody">\n                                        <tr>\n                                            <td colspan="7" class="text-center">Loading...</td>\n                                        </tr>\n                                    </tbody>\n                                </table>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class="modal-footer">\n                <button class="btn btn-primary btn-close-req-detail">Close</button>\n            </div>\n        </div>\n    </div>\n\n    <script src="/static/JavaScript/main.js?v=1.8"></script>\n    <script src="/static/JavaScript/polling.js?v=1.1"></script>\n    \n<script>\n    document.addEventListener(\'DOMContentLoaded\', () => {\n\n        // --- Gatekeeper Mark OUT ---\n        document.querySelectorAll(\'.gatekeeper-mark-out-btn\').forEach(btn => {\n            btn.addEventListener(\'click\', async (e) => {\n                const id = e.currentTarget.getAttribute(\'data-id\');\n                if (confirm(\'Mark this student as OUT?\')) {\n                    try {\n                        const res = await fetch(\'/api/outpass/gatekeeper-mark-out/\', {\n                            method: \'POST\',\n                            headers: { \'Content-Type\': \'application/json\', \'X-CSRFToken\': window.CSRF_TOKEN },\n                            body: JSON.stringify({ request_id: id })\n                        });\n                        const data = await res.json();\n                        alert(data.message);\n                        if (data.success) window.location.reload();\n                    } catch (err) { alert(\'Network error.\'); }\n                }\n            });\n        });\n\n        // --- Gatekeeper Mark IN ---\n        document.querySelectorAll(\'.gatekeeper-mark-in-btn\').forEach(btn => {\n            btn.addEventListener(\'click\', async (e) => {\n                const id = e.currentTarget.getAttribute(\'data-id\');\n                if (confirm(\'Mark this student as IN?\')) {\n                    try {\n                        const res = await fetch(\'/api/outpass/gatekeeper-mark-in/\', {\n                            method: \'POST\',\n                            headers: { \'Content-Type\': \'application/json\', \'X-CSRFToken\': window.CSRF_TOKEN },\n                            body: JSON.stringify({ request_id: id })\n                        });\n                        const data = await res.json();\n                        alert(data.message);\n                        if (data.success) window.location.reload();\n                    } catch (err) { alert(\'Network error.\'); }\n                }\n            });\n        });\n\n    });\n</script>\n\n</body>\n\n</html>'
+
+----------------------------------------------------------------------
+Ran 51 tests in 0.687s
+
+FAILED (failures=1)
+Destroying test database for alias 'default'...
+Found 51 test(s).
+System check identified no issues (0 silenced).
