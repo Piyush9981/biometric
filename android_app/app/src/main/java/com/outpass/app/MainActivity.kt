@@ -57,12 +57,10 @@ class MainActivity : AppCompatActivity() {
         swipeRefresh = findViewById(R.id.swipeRefresh)
 
         // Configure SwipeRefreshLayout
+        swipeRefresh.isEnabled = false // Disable permanently to prevent scroll interference
         swipeRefresh.setOnRefreshListener {
             webView.reload()
         }
-
-        // Add JavascriptInterface for precise scroll and modal handling
-        webView.addJavascriptInterface(WebAppInterface(), "AndroidScroll")
 
         // Configure Cookie Manager
         val cookieManager = CookieManager.getInstance()
@@ -94,24 +92,6 @@ class MainActivity : AppCompatActivity() {
                     webView.evaluateJavascript("javascript:if(typeof window.openRequestDetails !== 'undefined') { window.openRequestDetails('$requestId'); }", null)
                     pendingRequestId = null
                 }
-                
-                val js = """
-                    function __checkScroll() {
-                        if (!window.AndroidScroll) return;
-                        var hasOpenModal = document.querySelector('.modal-overlay:not(.hidden), .modal[style*="block"]') != null;
-                        if (hasOpenModal) {
-                            window.AndroidScroll.setSwipeRefreshEnabled(false);
-                            return;
-                        }
-                        var container = document.querySelector('.main-content');
-                        var y = container ? container.scrollTop : window.scrollY;
-                        window.AndroidScroll.setSwipeRefreshEnabled(y === 0);
-                    }
-                    document.addEventListener('scroll', __checkScroll, true);
-                    setInterval(__checkScroll, 300);
-                    __checkScroll();
-                """.trimIndent()
-                webView.evaluateJavascript("javascript:(function(){$js})()", null)
             }
 
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
@@ -198,7 +178,7 @@ class MainActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 webView.evaluateJavascript(
-                    "javascript:(function() {" +
+                    "javascript:(function() { try {" +
                     "var m1 = document.querySelector('.modal-overlay:not(.hidden) .btn-close-modal');" +
                     "var m2 = document.querySelector('.modal[style*=\"block\"] .close-modal');" +
                     "var m3 = document.querySelector('.modal-overlay:not(.hidden) .btn-close');" +
@@ -208,7 +188,7 @@ class MainActivity : AppCompatActivity() {
                     "var sidebar = document.querySelector('#sidebar.open');" +
                     "var overlay = document.querySelector('#sidebar-overlay.active');" +
                     "if (sidebar && overlay) { overlay.click(); return 'SIDEBAR_CLOSED'; }" +
-                    "return 'NO_MODAL'; })()"
+                    "return 'NO_MODAL'; } catch(e) { return 'NO_MODAL'; } })()"
                 ) { result ->
                     if (result == "\"MODAL_CLOSED\"" || result == "\"SIDEBAR_CLOSED\"") {
                         // Handled by JS
@@ -550,15 +530,6 @@ class MainActivity : AppCompatActivity() {
         webView.evaluateJavascript("javascript:if(typeof window.openRequestDetails !== 'undefined') { window.openRequestDetails('$requestId'); 'SUCCESS'; } else { 'FAILED'; }") { result ->
             if (result == "\"SUCCESS\"") {
                 pendingRequestId = null
-            }
-        }
-    }
-
-    inner class WebAppInterface {
-        @JavascriptInterface
-        fun setSwipeRefreshEnabled(enabled: Boolean) {
-            runOnUiThread {
-                swipeRefresh.isEnabled = enabled
             }
         }
     }
