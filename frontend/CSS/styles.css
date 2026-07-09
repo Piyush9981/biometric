@@ -1429,6 +1429,15 @@ tbody tr:hover {
         background: transparent !important;
     }
     
+    /* Ensure empty state text (No requests found) is visible */
+    #requests-table tbody tr td.text-center,
+    #requests-table tbody tr td[colspan] {
+        display: block !important;
+        padding: 16px !important;
+        text-align: center !important;
+        color: var(--text-muted) !important;
+    }
+    
     /* Profile images in mobile cards */
     #requests-table tbody tr td.col-profile,
     #requests-table tbody tr td.col-student-name .student-profile-container {
