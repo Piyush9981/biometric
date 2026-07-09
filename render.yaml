@@ -1,10 +1,12 @@
 databases:
   - name: outpass-db
     databaseName: outpass_db
+    plan: free
 
 services:
   - type: web
     name: student-outpass-system
+    plan: free
     env: python
     rootDir: backend
     buildCommand: ./build.sh
