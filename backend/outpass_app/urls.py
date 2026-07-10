@@ -7,6 +7,7 @@ urlpatterns = [
     path('timeouts/', views.timeouts_view, name='timeouts'),
     path('gatekeeper/', views.gatekeeper_dashboard, name='gatekeeper_dashboard'),
     path('biometric/diagnostics/', views.biometric_diagnostics, name='biometric_diagnostics'),
+    path('biometric/diagnostics/register-machine/', views.api_register_machine, name='api_register_machine'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     
@@ -28,6 +29,7 @@ urlpatterns = [
     path('api/outpass/send-to-biometric/', views.api_send_to_biometric, name='api_send_to_biometric'),
     path('api/outpass/gatekeeper-mark-out/', views.api_gatekeeper_mark_out, name='api_gatekeeper_mark_out'),
     path('api/outpass/gatekeeper-mark-in/', views.api_gatekeeper_mark_in, name='api_gatekeeper_mark_in'),
+    path('api/outpass/gatekeeper-reject/', views.api_gatekeeper_reject, name='api_gatekeeper_reject'),
     path('api/biometric-scan/', views.api_biometric_scan, name='api_biometric_scan'),
     
     # History

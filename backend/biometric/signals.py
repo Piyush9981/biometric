@@ -47,9 +47,18 @@ def handle_request_approved(sender, instance, created, **kwargs):
 def sync_request_status(sender, instance, **kwargs):
     """
     Syncs verification status ('ACCEPTED' or 'TIME_OUT') back to the outpass_request.
+    Also handles populating/overwriting the accepted_at timestamp on READY_FOR_OUT transitions.
     """
+    req = instance.request
+
+    # 1. Handle READY_FOR_OUT transition (Biometric scan successful, awaiting Gatekeeper)
+    if instance.verification_status == 'READY_FOR_OUT':
+        req.accepted_at = instance.verified_at or timezone.now()
+        req.save(update_fields=['accepted_at'])
+        logger.info(f"Signal: Updated outpass_request {req.request_id} accepted_at timestamp to {req.accepted_at}.")
+
+    # 2. Existing status sync logic
     if instance.verification_status in ['ACCEPTED', 'TIME_OUT']:
-        req = instance.request
         if req.request_status in ['IN', 'Decline', 'Reject', 'TIMEOUT_PROCESSED'] or (req.request_status in ['TIME_OUT', 'TIME OUT', 'Time out'] and req.terminated_at is not None):
             return
 

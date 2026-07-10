@@ -32,7 +32,7 @@ def _build_result(request_instance):
         "student_id": request_instance.student_id,
         "verification_status": request_instance.verification_status,
     }
-    if request_instance.verification_status == 'ACCEPTED' and request_instance.attendance_log:
+    if request_instance.verification_status in ['ACCEPTED', 'READY_FOR_OUT', 'IN', 'READY_FOR_IN'] and request_instance.attendance_log:
         res["attendance_time"] = request_instance.attendance_log.attendance_time.isoformat()
     return res
 
@@ -71,7 +71,7 @@ def verify_single_request(request_id):
             return None
 
     # Return cached result if already completed
-    if request.verification_status in ['ACCEPTED', 'TIME_OUT', 'READY_FOR_IN']:
+    if request.verification_status in ['ACCEPTED', 'READY_FOR_OUT', 'TIME_OUT', 'READY_FOR_IN', 'IN']:
         logger.info(f"Returning cached result for Request {request_id}: {request.verification_status}")
         return _build_result(request)
 
@@ -101,7 +101,7 @@ def verify_single_request(request_id):
 
     # Sync succeeded. Search for a matching scan
     request.refresh_from_db()
-    if request.verification_status in ['ACCEPTED', 'TIME_OUT', 'READY_FOR_IN']:
+    if request.verification_status in ['ACCEPTED', 'READY_FOR_OUT', 'TIME_OUT', 'READY_FOR_IN', 'IN']:
         logger.info(f"Returning updated status for Request {request_id}: {request.verification_status}")
         return _build_result(request)
 
@@ -169,8 +169,8 @@ def verify_single_request(request_id):
                 logger.info(f"  Attendance log rejected. Reasons: {'; '.join(rejection_reasons)}")
 
         if matched_log:
-            logger.info(f"Saving PendingBiometricVerification status to ACCEPTED for Request {request.request_id}")
-            request.verification_status = 'ACCEPTED'
+            logger.info(f"Saving PendingBiometricVerification status to READY_FOR_OUT for Request {request.request_id}")
+            request.verification_status = 'READY_FOR_OUT'
             request.verified_at = matched_time
             request.attendance_log = matched_log
             request.remarks = f"Exit scan verified successfully at {matched_time}."
@@ -183,7 +183,7 @@ def verify_single_request(request_id):
             outpass_req.refresh_from_db()
             logger.info(f"Current outpass_request status after saving PV: {outpass_req.request_status}")
 
-            logger.info(f"Request {request_id} exit scan ACCEPTED.")
+            logger.info(f"Request {request_id} exit scan READY_FOR_OUT.")
             return _build_result(request)
 
         # No scan found yet. Check if request has expired in the meantime
@@ -359,9 +359,9 @@ def match_pending_verifications():
                     logger.info(f"  Attendance log rejected. Reasons: {'; '.join(rejection_reasons)}")
 
             if matched_log:
-                logger.info(f"Verification Successful: Request ID {request.request_id} verification status updated to ACCEPTED.")
-                logger.info(f"Saving PendingBiometricVerification status to ACCEPTED for Request {request.request_id}")
-                request.verification_status = 'ACCEPTED'
+                logger.info(f"Verification Successful: Request ID {request.request_id} verification status updated to READY_FOR_OUT.")
+                logger.info(f"Saving PendingBiometricVerification status to READY_FOR_OUT for Request {request.request_id}")
+                request.verification_status = 'READY_FOR_OUT'
                 request.verified_at = matched_time
                 request.attendance_log = matched_log
                 request.remarks = f"Bulk match: exit scan verified successfully at {matched_time}."

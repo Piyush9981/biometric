@@ -69,11 +69,13 @@ class AttendanceLog(models.Model):
 class PendingBiometricVerification(models.Model):
     STATUS_CHOICES = [
         ('WAITING', 'Waiting'),
-        ('ACCEPTED', 'Accepted'),
-        ('TIME_OUT', 'Timed Out'),
-        ('FAILED', 'Failed'),
+        ('READY_FOR_OUT', 'Ready_For_OUT'),
         ('OUT', 'OUT'),
         ('READY_FOR_IN', 'READY_FOR_IN'),
+        ('IN', 'IN'),
+        ('TIME_OUT', 'Timed Out'),
+        ('FAILED', 'Failed'),
+        ('ACCEPTED', 'Accepted'),
     ]
 
     request = models.OneToOneField('outpass_app.outpass_request', on_delete=models.CASCADE, db_column='request_id', related_name='biometric_verification', primary_key=True)

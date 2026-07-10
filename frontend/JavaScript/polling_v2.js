@@ -6,17 +6,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const isBiometricDiagnostics = document.getElementById('machines-container') !== null;
 
     if (isWardenOrAdminDashboard) {
-        // Poll every 10 seconds for Warden / Super Admin Dashboard
+        // Poll every 3 seconds for Warden / Super Admin Dashboard
         updateWardenDashboard();
-        setInterval(updateWardenDashboard, 10000);
+        setInterval(updateWardenDashboard, 2000);
     } else if (isGatekeeperDashboard) {
-        // Poll every 5 seconds for Gatekeeper Dashboard
+        // Poll every 3 seconds for Gatekeeper Dashboard
         updateGatekeeperDashboard();
-        setInterval(updateGatekeeperDashboard, 5000);
+        setInterval(updateGatekeeperDashboard, 2000);
     } else if (isBiometricDiagnostics) {
-        // Poll every 5 seconds for Biometric Diagnostics
+        // Poll every 3 seconds for Biometric Diagnostics
         updateBiometricDiagnostics();
-        setInterval(updateBiometricDiagnostics, 5000);
+        setInterval(updateBiometricDiagnostics, 3000);
     }
 
     // Set up delegated event listeners for dynamically updated table rows
@@ -218,12 +218,17 @@ async function updateGatekeeperDashboard() {
                 }
 
                 let actionsHtml = '';
-                if (!req.actual_exit_datetime && (req.request_status === 'Accept' || req.request_status === 'ACCEPTED')) {
+                if (!req.actual_exit_datetime && (req.verification_status === 'READY_FOR_OUT' || req.request_status === 'Accept' || req.request_status === 'ACCEPTED')) {
                     if (data.can_mark_out) {
                         actionsHtml = `
-                            <button class="btn-action gatekeeper-mark-out-btn" data-id="${req.request_id}" title="Mark OUT" style="background:#1f2937; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold;">
-                                <i class="fas fa-sign-out-alt"></i> OUT
-                            </button>
+                            <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+                                <button class="btn-action gatekeeper-mark-out-btn" data-id="${req.request_id}" title="Mark OUT" style="background:#1f2937; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;">
+                                    <i class="fas fa-sign-out-alt"></i> OUT
+                                </button>
+                                <button class="btn-action gatekeeper-reject-btn" data-id="${req.request_id}" data-type="out" title="Reject Scan" style="background:#dc2626; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;">
+                                    <i class="fas fa-times-circle"></i> REJECT
+                                </button>
+                            </div>
                         `;
                     } else {
                         actionsHtml = `<span class="action-done" style="color:var(--text-muted);"><i class="fas fa-lock"></i> No Permission</span>`;
@@ -232,9 +237,12 @@ async function updateGatekeeperDashboard() {
                     if (req.verification_status === 'READY_FOR_IN') {
                         if (data.can_mark_in) {
                             actionsHtml = `
-                                <div style="display:flex; gap:4px; flex-wrap:wrap;">
-                                    <button class="btn-action gatekeeper-mark-in-btn" data-id="${req.request_id}" title="Mark IN" style="background:#1f2937; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold;">
+                                <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+                                    <button class="btn-action gatekeeper-mark-in-btn" data-id="${req.request_id}" title="Mark IN" style="background:#1f2937; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;">
                                         <i class="fas fa-sign-in-alt"></i> IN
+                                    </button>
+                                    <button class="btn-action gatekeeper-reject-btn" data-id="${req.request_id}" data-type="in" title="Reject Scan" style="background:#dc2626; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;">
+                                        <i class="fas fa-times-circle"></i> REJECT
                                     </button>
                                 </div>
                             `;
@@ -652,6 +660,29 @@ function setupEventDelegation() {
             if (confirm('Mark this student as IN?')) {
                 try {
                     const res = await fetch('/api/outpass/gatekeeper-mark-in/', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN},
+                        body: JSON.stringify({request_id: id})
+                    });
+                    const data = await res.json();
+                    alert(data.message);
+                    if (data.success) {
+                        updateGatekeeperDashboard();
+                    }
+                } catch(err) { alert('Network error.'); }
+            }
+            return;
+        }
+
+        // 7. Gatekeeper Reject click
+        const gatekeeperRejectBtn = e.target.closest('.gatekeeper-reject-btn');
+        if (gatekeeperRejectBtn) {
+            const id = gatekeeperRejectBtn.getAttribute('data-id');
+            const type = gatekeeperRejectBtn.getAttribute('data-type');
+            const typeLabel = type === 'out' ? 'exit' : 'entry';
+            if (confirm(`Reject this student's biometric ${typeLabel} scan?`)) {
+                try {
+                    const res = await fetch('/api/outpass/gatekeeper-reject/', {
                         method: 'POST',
                         headers: {'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN},
                         body: JSON.stringify({request_id: id})

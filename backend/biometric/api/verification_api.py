@@ -18,12 +18,12 @@ class PendingVerificationListCreateView(generics.ListCreateAPIView):
 
 class VerifiedVerificationListView(generics.ListAPIView):
     """
-    GET /api/verified/ - Accepted queue (verification_status == 'ACCEPTED').
+    GET /api/verified/ - Accepted queue (verification_status == 'ACCEPTED' or 'READY_FOR_OUT').
     """
     serializer_class = PendingBiometricVerificationSerializer
 
     def get_queryset(self):
-        return PendingBiometricVerification.objects.filter(verification_status='ACCEPTED')
+        return PendingBiometricVerification.objects.filter(verification_status__in=['ACCEPTED', 'READY_FOR_OUT'])
 
 
 class TimeoutVerificationListView(generics.ListAPIView):

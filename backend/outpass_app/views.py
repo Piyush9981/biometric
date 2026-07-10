@@ -297,22 +297,24 @@ def superadmin_dashboard(request):
 
 @role_required(['Gatekeeper'])
 def gatekeeper_dashboard(request):
-    # Gatekeeper ONLY sees requests that are Accept, currently OUT, or timed-out but student still outside
+    # Gatekeeper ONLY sees requests that are Accept, currently OUT (for 5 seconds, or ready for IN), or timed-out but student still outside
     from django.db.models import Q
+    now = timezone.now()
+    five_seconds_ago = now - timezone.timedelta(seconds=5)
     requests = outpass_request.objects.select_related('student_id', 'biometric_verification').filter(
-        Q(request_status__in=['ACCEPTED', 'Accept', 'OUT']) |
+        Q(request_status__in=['ACCEPTED', 'Accept']) |
+        Q(request_status='Approved', biometric_verification__verification_status='READY_FOR_OUT') |
+        Q(request_status='OUT', biometric_verification__verification_status='READY_FOR_IN') |
+        Q(request_status='OUT', actual_exit_datetime__gte=five_seconds_ago) |
         Q(request_status='TIME_OUT', actual_exit_datetime__isnull=False, actual_entry_datetime__isnull=True)
     ).order_by('-requested_at')
-
-    # Filter by today to avoid huge lists, or keep all active
-    now = timezone.now()
 
     stats = {
         'total_expected': outpass_request.objects.filter(
             request_status='Approved',
             requested_exit_datetime__date=now.date()
         ).count(),
-        'currently_out': requests.filter(request_status='OUT').count(),
+        'currently_out': outpass_request.objects.filter(request_status='OUT').count(),
         'returned_today': outpass_request.objects.filter(
             request_status='IN',
             actual_entry_datetime__date=now.date()
@@ -722,12 +724,64 @@ def api_gatekeeper_mark_in(request):
                 
             req.save()
             if pbv:
-                pbv.verification_status = 'ACCEPTED'
+                pbv.verification_status = 'IN'
                 pbv.save(update_fields=['verification_status', 'remarks'])
             return JsonResponse({'success': True,
                                  'message': 'Student marked IN successfully.'})
         except Exception as e:
             return JsonResponse({'success': False, 'message': str(e)})
+
+
+@role_required(['Gatekeeper', 'Super Admin'])
+def api_gatekeeper_reject(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            req_id = data.get('request_id')
+            req = get_object_or_404(outpass_request, request_id=req_id)
+
+            role = request.session.get('role', 'Super Admin')
+            perms = RolePermission.objects.filter(role=role).first()
+            
+            from biometric.models import PendingBiometricVerification
+            pbv = PendingBiometricVerification.objects.filter(request=req).first()
+            if not pbv:
+                return JsonResponse({'success': False, 'message': 'No pending biometric verification found.'}, status=404)
+
+            if pbv.verification_status == 'READY_FOR_OUT':
+                if perms and not perms.can_mark_out:
+                    return JsonResponse({'success': False, 'message': 'Permission denied.'}, status=403)
+                
+                pbv.verification_status = 'WAITING'
+                pbv.verified_at = None
+                pbv.attendance_log = None
+                pbv.remarks = f"Exit scan rejected by Gatekeeper at {timezone.now()}."
+                pbv.save(update_fields=['verification_status', 'verified_at', 'attendance_log', 'remarks'])
+
+                return JsonResponse({'success': True, 'message': 'Exit scan rejected successfully.'})
+
+            elif pbv.verification_status == 'READY_FOR_IN':
+                if perms and not perms.can_mark_in:
+                    return JsonResponse({'success': False, 'message': 'Permission denied.'}, status=403)
+                
+                pbv.verification_status = 'OUT'
+                pbv.verified_at = None
+                pbv.attendance_log = None
+                pbv.remarks = f"Entry scan rejected by Gatekeeper at {timezone.now()}."
+                pbv.save(update_fields=['verification_status', 'verified_at', 'attendance_log', 'remarks'])
+
+                return JsonResponse({'success': True, 'message': 'Entry scan rejected successfully.'})
+
+            else:
+                return JsonResponse({
+                    'success': False,
+                    'message': f'Cannot reject biometric scan in status: {pbv.verification_status}'
+                }, status=400)
+
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+    else:
+        return JsonResponse({'success': False, 'message': 'Method not allowed.'}, status=405)
 
 
 # --- STUDENT MANAGEMENT ---
@@ -1256,7 +1310,7 @@ def api_biometric_scan(request):
                 result = verify_single_request(req.request_id)
                 
                 pv = PendingBiometricVerification.objects.filter(request=req).first()
-                if pv and pv.verification_status == 'ACCEPTED':
+                if pv and pv.verification_status in ['ACCEPTED', 'READY_FOR_OUT']:
                     # Successful verification
                     req.request_status = 'OUT'
                     req.actual_exit_datetime = now
@@ -1398,10 +1452,10 @@ def api_biometric_scan(request):
                 # 4. Trigger the verification service
                 verification_result = verify_single_request(req.request_id)
 
-                if verification_result and verification_result.get('verification_status') == 'ACCEPTED':
+                if verification_result and verification_result.get('verification_status') == 'READY_FOR_OUT':
                     return JsonResponse({
                         'success': True,
-                        'message': f'Student {student.student_name} ({scholar_id}) fingerprint verified. Request is now Accepted.'
+                        'message': f'Student {student.student_name} ({scholar_id}) fingerprint verified. Request is now Ready_For_OUT.'
                     })
                 elif verification_result and verification_result.get('verification_status') == 'TIME_OUT':
                     return JsonResponse({
@@ -1436,7 +1490,6 @@ def api_biometric_scan(request):
 def update_status(request): pass
 def api_biometric_history(request, scholar_id): pass
 def api_hostel_transfer_history(request, scholar_id): pass
-def api_gatekeeper_reject(request): pass
 @role_required(['Super Admin'])
 def permissions_view(request):
     warden_perms, _ = RolePermission.objects.get_or_create(role='Warden')
@@ -1525,6 +1578,52 @@ def biometric_diagnostics(request):
     return render(request, 'biometric_diagnostics.html', context)
 
 
+@role_required(['Gatekeeper', 'Super Admin'])
+def api_register_machine(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            from biometric.models import Machine
+            
+            machine_name = data.get('machine_name')
+            ip_address = data.get('ip_address')
+            port = int(data.get('port', 4370))
+            serial_number = data.get('serial_number', '')
+            location = data.get('location', '')
+            status = data.get('status', 'UNKNOWN')
+            connection_timeout = int(data.get('connection_timeout', 5))
+            polling_interval = int(data.get('polling_interval', 60))
+            auto_sync_enabled = data.get('auto_sync_enabled', True)
+            machine_enabled = data.get('machine_enabled', True)
+            
+            if not machine_name or not ip_address:
+                return JsonResponse({'success': False, 'message': 'Machine name and IP address are required.'})
+            
+            # Check for duplicates
+            if Machine.objects.filter(ip_address=ip_address, port=port).exists():
+                return JsonResponse({'success': False, 'message': 'A machine with this IP address and port already exists.'})
+                
+            machine = Machine.objects.create(
+                machine_name=machine_name,
+                ip_address=ip_address,
+                port=port,
+                serial_number=serial_number,
+                location=location,
+                status=status,
+                connection_timeout=connection_timeout,
+                polling_interval=polling_interval,
+                auto_sync_enabled=auto_sync_enabled,
+                machine_enabled=machine_enabled
+            )
+            
+            return JsonResponse({'success': True, 'message': 'Biometric machine registered successfully.'})
+            
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)})
+            
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'}, status=405)
+
+
 @role_required(['Warden', 'Super Admin'])
 def api_warden_updates(request):
     role = request.session.get('role', 'Warden')
@@ -1605,19 +1704,22 @@ def api_warden_updates(request):
 @role_required(['Gatekeeper', 'Super Admin'])
 def api_gatekeeper_updates(request):
     from django.db.models import Q
+    now = timezone.now()
+    five_seconds_ago = now - timezone.timedelta(seconds=5)
     requests = outpass_request.objects.select_related('student_id', 'biometric_verification').filter(
-        Q(request_status__in=['ACCEPTED', 'Accept', 'OUT']) |
+        Q(request_status__in=['ACCEPTED', 'Accept']) |
+        Q(request_status='Approved', biometric_verification__verification_status='READY_FOR_OUT') |
+        Q(request_status='OUT', biometric_verification__verification_status='READY_FOR_IN') |
+        Q(request_status='OUT', actual_exit_datetime__gte=five_seconds_ago) |
         Q(request_status='TIME_OUT', actual_exit_datetime__isnull=False, actual_entry_datetime__isnull=True)
     ).order_by('-requested_at')
-
-    now = timezone.now()
 
     stats = {
         'total_expected': outpass_request.objects.filter(
             request_status='Approved',
             requested_exit_datetime__date=now.date()
         ).count(),
-        'currently_out': requests.filter(request_status='OUT').count(),
+        'currently_out': outpass_request.objects.filter(request_status='OUT').count(),
         'returned_today': outpass_request.objects.filter(
             request_status='IN',
             actual_entry_datetime__date=now.date()

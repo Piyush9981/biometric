@@ -8,15 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isWardenOrAdminDashboard) {
         // Poll every 10 seconds for Warden / Super Admin Dashboard
         updateWardenDashboard();
-        setInterval(updateWardenDashboard, 10000);
+        setInterval(updateWardenDashboard, 3000);
     } else if (isGatekeeperDashboard) {
         // Poll every 5 seconds for Gatekeeper Dashboard
         updateGatekeeperDashboard();
-        setInterval(updateGatekeeperDashboard, 5000);
+        setInterval(updateGatekeeperDashboard, 2000);
     } else if (isBiometricDiagnostics) {
         // Poll every 5 seconds for Biometric Diagnostics
         updateBiometricDiagnostics();
-        setInterval(updateBiometricDiagnostics, 5000);
+        setInterval(updateBiometricDiagnostics, 3000);
     }
 
     // Set up delegated event listeners for dynamically updated table rows

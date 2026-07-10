@@ -28,10 +28,16 @@
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 4px;">Monitor connections, trigger logs
                 synchronization, and audit queue transactions.</p>
         </div>
-        <a href="?trigger_sync=true" class="btn btn-primary btn-gradient-blue"
-            style="padding: 12px 20px; font-weight: bold; border-radius: 8px;">
-            <i class="fas fa-sync-alt"></i> Force Sync All Logs
-        </a>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <button onclick="openRegisterMachineModal()" class="btn btn-primary"
+                style="padding: 12px 20px; font-weight: bold; border-radius: 8px; background: var(--primary-color); border: none; color: white;">
+                <i class="fas fa-plus"></i> Register New Machine
+            </button>
+            <a href="?trigger_sync=true" class="btn btn-primary btn-gradient-blue"
+                style="padding: 12px 20px; font-weight: bold; border-radius: 8px;">
+                <i class="fas fa-sync-alt"></i> Force Sync All Logs
+            </a>
+        </div>
     </div>
 
     <!-- Machines Grid -->
@@ -151,6 +157,75 @@
             </table>
         </div>
     </section>
+    
+    <!-- Register Machine Modal -->
+    <div id="registerMachineModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>Register New Biometric Machine</h2>
+                <button class="close-modal" onclick="closeRegisterMachineModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="registerMachineForm" onsubmit="submitRegisterMachineForm(event)">
+                <div class="form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div class="form-group">
+                        <label for="machine_name">Machine Name *</label>
+                        <input type="text" id="machine_name" name="machine_name" required placeholder="e.g. Main Gate Scanner">
+                    </div>
+                    <div class="form-group">
+                        <label for="ip_address">IP Address *</label>
+                        <input type="text" id="ip_address" name="ip_address" required placeholder="e.g. 192.168.1.201" pattern="^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$">
+                    </div>
+                    <div class="form-group">
+                        <label for="port">Port</label>
+                        <input type="number" id="port" name="port" value="4370" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="serial_number">Serial Number</label>
+                        <input type="text" id="serial_number" name="serial_number" placeholder="Optional">
+                    </div>
+                    <div class="form-group" style="grid-column: 1 / -1;">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" placeholder="e.g. Boys Hostel Entrance">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Initial Status</label>
+                        <select id="status" name="status">
+                            <option value="UNKNOWN">UNKNOWN</option>
+                            <option value="ONLINE">ONLINE</option>
+                            <option value="OFFLINE">OFFLINE</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="connection_timeout">Connection Timeout (sec)</label>
+                        <input type="number" id="connection_timeout" name="connection_timeout" value="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="polling_interval">Polling Interval (sec)</label>
+                        <input type="number" id="polling_interval" name="polling_interval" value="60" required>
+                    </div>
+                    
+                    <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="auto_sync_enabled" name="auto_sync_enabled" checked>
+                        <label for="auto_sync_enabled" style="margin: 0;">Auto Sync Enabled</label>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                        <input type="checkbox" id="machine_enabled" name="machine_enabled" checked>
+                        <label for="machine_enabled" style="margin: 0;">Machine Enabled</label>
+                    </div>
+                </div>
+                
+                <div id="registerMachineError" class="alert alert-danger" style="display: none; margin-top: 16px; padding: 12px; border-radius: 6px; background-color: #fee2e2; color: #b91c1c;"></div>
+                
+                <div class="form-actions" style="margin-top: 24px; display: flex; justify-content: flex-end; gap: 12px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeRegisterMachineModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="registerMachineBtn">
+                        Register Machine
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
 </div>
 {% endblock %}
 
@@ -174,5 +249,84 @@
             });
         }
     });
+
+    function openRegisterMachineModal() {
+        document.getElementById('registerMachineModal').style.display = 'flex';
+        document.getElementById('registerMachineError').style.display = 'none';
+        document.getElementById('registerMachineForm').reset();
+    }
+
+    function closeRegisterMachineModal() {
+        document.getElementById('registerMachineModal').style.display = 'none';
+    }
+
+    async function submitRegisterMachineForm(event) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const submitBtn = document.getElementById('registerMachineBtn');
+        const errorDiv = document.getElementById('registerMachineError');
+        
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        errorDiv.style.display = 'none';
+        
+        const formData = {
+            machine_name: form.machine_name.value,
+            ip_address: form.ip_address.value,
+            port: form.port.value,
+            serial_number: form.serial_number.value,
+            location: form.location.value,
+            status: form.status.value,
+            connection_timeout: form.connection_timeout.value,
+            polling_interval: form.polling_interval.value,
+            auto_sync_enabled: form.auto_sync_enabled.checked,
+            machine_enabled: form.machine_enabled.checked
+        };
+        
+        try {
+            const response = await fetch('/biometric/diagnostics/register-machine/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Reload page to show new machine
+                window.location.reload();
+            } else {
+                errorDiv.textContent = data.message || 'Failed to register machine.';
+                errorDiv.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Register Machine';
+            }
+        } catch (error) {
+            errorDiv.textContent = 'An error occurred. Please try again.';
+            errorDiv.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Register Machine';
+        }
+    }
+    
+    // Fallback getCookie function in case it's not globally available
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 </script>
 {% endblock %}

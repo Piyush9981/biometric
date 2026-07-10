@@ -123,15 +123,15 @@ class BiometricServiceTestCase(TestCase):
         bob_req.save()
 
         # 3. Call verify_single_request
-        # For Alice (should be ACCEPTED)
+        # For Alice (should be READY_FOR_OUT)
         alice_res = verify_single_request(alice_req.request_id)
-        self.assertEqual(alice_res["verification_status"], "ACCEPTED")
+        self.assertEqual(alice_res["verification_status"], "READY_FOR_OUT")
         self.assertEqual(alice_res["request_id"], 999)
         self.assertEqual(alice_res["student_id"], '1001')
         self.assertIn("attendance_time", alice_res)
 
         alice_req.refresh_from_db()
-        self.assertEqual(alice_req.verification_status, 'ACCEPTED')
+        self.assertEqual(alice_req.verification_status, 'READY_FOR_OUT')
         self.assertIsNotNone(alice_req.verified_at)
         self.assertIsNone(alice_req.timed_out_at)
 
@@ -232,7 +232,7 @@ class BiometricServiceTestCase(TestCase):
         )
 
         res1 = verify_single_request(8001)
-        self.assertEqual(res1["verification_status"], "ACCEPTED")
+        self.assertEqual(res1["verification_status"], "READY_FOR_OUT")
         log.refresh_from_db()
         self.assertTrue(log.processed)
 
@@ -419,7 +419,7 @@ class BiometricServiceTestCase(TestCase):
 
         # Verify request 1 -> should succeed
         res1 = verify_single_request(8006)
-        self.assertEqual(res1["verification_status"], "ACCEPTED")
+        self.assertEqual(res1["verification_status"], "READY_FOR_OUT")
 
         # Verify request 2 -> should remain WAITING
         res2 = verify_single_request(8007)
@@ -508,7 +508,7 @@ class BiometricAPITestCase(APITestCase):
         
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["request_id"], 100)
-        self.assertEqual(response.data["verification_status"], "ACCEPTED")
+        self.assertEqual(response.data["verification_status"], "READY_FOR_OUT")
         self.assertIn("attendance_time", response.data)
 
     def test_gatekeeper_mark_in_biometric_validation(self):
@@ -563,6 +563,57 @@ class BiometricAPITestCase(APITestCase):
         response = self.client.post(url, {"request_id": 123}, format='json')
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.json()['success'])
+
+    def test_gatekeeper_reject_validation(self):
+        """Test that gatekeeper reject resets biometric status for exit and entry scans."""
+        from outpass_app.models import RolePermission
+        RolePermission.objects.get_or_create(role='Gatekeeper', defaults={'can_mark_out': True, 'can_mark_in': True})
+
+        student = student_master.objects.create(
+            student_id='3002',
+            student_name='Reject Student',
+            mobile_no='1234567890',
+            department='CS',
+            course='BTech',
+            semester=1,
+            hostel_name='Hostel A'
+        )
+
+        req = outpass_request.objects.create(
+            request_id=124,
+            student_id=student,
+            requested_exit_datetime=self.now,
+            requested_entry_datetime=self.now,
+            request_status='Approved'
+        )
+
+        pbv = PendingBiometricVerification.objects.get(request=req)
+        pbv.verification_status = 'READY_FOR_OUT'
+        pbv.save()
+
+        session = self.client.session
+        session['user_id'] = 1
+        session['role'] = 'Gatekeeper'
+        session.save()
+
+        url = reverse('api_gatekeeper_reject')
+        
+        # 1. Reject READY_FOR_OUT exit scan
+        response = self.client.post(url, {"request_id": 124}, format='json')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json()['success'])
+        pbv.refresh_from_db()
+        self.assertEqual(pbv.verification_status, 'WAITING')
+        self.assertEqual(req.request_status, 'Approved')
+
+        # 2. Reject READY_FOR_IN entry scan
+        pbv.verification_status = 'READY_FOR_IN'
+        pbv.save()
+        response = self.client.post(url, {"request_id": 124}, format='json')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(response.json()['success'])
+        pbv.refresh_from_db()
+        self.assertEqual(pbv.verification_status, 'OUT')
 
     def test_default_grace_periods(self):
         """Test that default grace periods (early=15, late=0) are applied when not configured."""
@@ -620,7 +671,7 @@ class BiometricAPITestCase(APITestCase):
         )
         verify_single_request(444)
         pbv.refresh_from_db()
-        self.assertEqual(pbv.verification_status, 'ACCEPTED')
+        self.assertEqual(pbv.verification_status, 'READY_FOR_OUT')
 
     def test_in_workflow_no_timeout_and_time_diff(self):
         """Test that the return scan (IN) does not use timeout logic and logs time difference."""
@@ -1233,12 +1284,12 @@ class BiometricRegressionTestCase(APITestCase):
         
         results = match_pending_verifications()
         self.assertEqual(len(results), 1)
-        self.assertEqual(results[0]['verification_status'], 'ACCEPTED')
+        self.assertEqual(results[0]['verification_status'], 'READY_FOR_OUT')
         
         pbv.refresh_from_db()
         req.refresh_from_db()
-        self.assertEqual(pbv.verification_status, 'ACCEPTED')
-        self.assertEqual(req.request_status, 'ACCEPTED')
+        self.assertEqual(pbv.verification_status, 'READY_FOR_OUT')
+        self.assertEqual(req.request_status, 'Approved')
 
 
 class WardenTimeoutRecoveryTestCase(TestCase):
@@ -1332,12 +1383,12 @@ class WardenTimeoutRecoveryTestCase(TestCase):
         )
         
         res = verify_single_request(12345)
-        self.assertEqual(res["verification_status"], "ACCEPTED")
+        self.assertEqual(res["verification_status"], "READY_FOR_OUT")
         
         pbv.refresh_from_db()
         req.refresh_from_db()
-        self.assertEqual(pbv.verification_status, 'ACCEPTED')
-        self.assertEqual(req.request_status, 'ACCEPTED')
+        self.assertEqual(pbv.verification_status, 'READY_FOR_OUT')
+        self.assertEqual(req.request_status, 'Approved')
 
     def test_second_timeout_leads_to_termination(self):
         """Test that a recovered request that times out a second time is marked as TERMINATED."""
@@ -1394,3 +1445,80 @@ class WardenTimeoutRecoveryTestCase(TestCase):
         req.refresh_from_db()
         self.assertEqual(req.request_status, 'TIMEOUT_PROCESSED')
         self.assertIsNotNone(req.terminated_at)
+
+    def test_accepted_at_biometric_transition_and_gatekeeper_reject(self):
+        """
+        Test that accepted_at is populated on READY_FOR_OUT,
+        not cleared on WAITING (Gatekeeper Reject),
+        and overwritten with a new timestamp when the student rescans.
+        """
+        # 1. Create request
+        req = outpass_request.objects.create(
+            request_id=20001,
+            student_id=self.student,
+            requested_exit_datetime=self.now,
+            requested_entry_datetime=self.now + datetime.timedelta(hours=2),
+            early_grace=15,
+            late_grace=15,
+            request_status='Approved'
+        )
+        pbv = PendingBiometricVerification.objects.get(request=req)
+        pbv.approved_at = self.now - datetime.timedelta(minutes=10)
+        pbv.expires_at = self.now + datetime.timedelta(minutes=30)
+        pbv.save()
+
+        # Check accepted_at is initially None
+        self.assertIsNone(req.accepted_at)
+
+        # 2. Simulate successful scan
+        scan_time_1 = self.now - datetime.timedelta(minutes=5)
+        log1 = AttendanceLog.objects.create(
+            machine=self.machine,
+            student=self.student,
+            machine_uid=99,
+            verify_type=1,
+            attendance_time=scan_time_1,
+            processed=False
+        )
+
+        res = verify_single_request(20001)
+        self.assertEqual(res["verification_status"], "READY_FOR_OUT")
+
+        req.refresh_from_db()
+        # accepted_at should be populated
+        self.assertIsNotNone(req.accepted_at)
+
+        initial_accepted_at = req.accepted_at
+
+        # 3. Simulate Gatekeeper Reject (transitions status back to WAITING)
+        pbv.refresh_from_db()
+        pbv.verification_status = 'WAITING'
+        pbv.verified_at = None
+        pbv.attendance_log = None
+        pbv.remarks = "Exit scan rejected by Gatekeeper"
+        pbv.save()
+
+        req.refresh_from_db()
+        # accepted_at must NOT be cleared by reject
+        self.assertEqual(req.accepted_at, initial_accepted_at)
+
+        # 4. Student scans again successfully (overwrites accepted_at)
+        scan_time_2 = self.now + datetime.timedelta(minutes=5)
+        log2 = AttendanceLog.objects.create(
+            machine=self.machine,
+            student=self.student,
+            machine_uid=99,
+            verify_type=1,
+            attendance_time=scan_time_2,
+            processed=False
+        )
+
+        # Re-verify
+        res = verify_single_request(20001)
+        self.assertEqual(res["verification_status"], "READY_FOR_OUT")
+
+        req.refresh_from_db()
+        # accepted_at should be overwritten to the new timestamp (not initial one)
+        self.assertNotEqual(req.accepted_at, initial_accepted_at)
+        self.assertIsNotNone(req.accepted_at)
+

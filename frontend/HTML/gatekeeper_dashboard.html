@@ -111,25 +111,37 @@
                         <td class="col-status"><span class="status-badge {{ req.request_status|slugify }}">{{ req.request_status }}</span></td>
                         <td class="col-actions">
                             <div class="actions-wrapper" style="display: flex; gap: 8px; align-items: center;">
-                                {% if not req.actual_exit_datetime and req.request_status == 'Accept' or not req.actual_exit_datetime and req.request_status == 'ACCEPTED' %}
+                                {% if not req.actual_exit_datetime and req.biometric_verification and req.biometric_verification.verification_status == 'READY_FOR_OUT' or not req.actual_exit_datetime and req.request_status == 'Accept' or not req.actual_exit_datetime and req.request_status == 'ACCEPTED' %}
                                 {% if not perms or perms.can_mark_out %}
-                                <button class="btn-action gatekeeper-mark-out-btn" data-id="{{ req.request_id }}"
-                                    title="Mark OUT"
-                                    style="background:#1f2937; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold;">
-                                    <i class="fas fa-sign-out-alt"></i> OUT
-                                </button>
+                                <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+                                    <button class="btn-action gatekeeper-mark-out-btn" data-id="{{ req.request_id }}"
+                                        title="Mark OUT"
+                                        style="background:#1f2937; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;">
+                                        <i class="fas fa-sign-out-alt"></i> OUT
+                                    </button>
+                                    <button class="btn-action gatekeeper-reject-btn" data-id="{{ req.request_id }}" data-type="out"
+                                        title="Reject Scan"
+                                        style="background:#dc2626; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;">
+                                        <i class="fas fa-times-circle"></i> REJECT
+                                    </button>
+                                </div>
                                 {% else %}
                                 <span class="action-done" style="color:var(--text-muted);"><i class="fas fa-lock"></i> No
                                     Permission</span>
                                 {% endif %}
                                 {% elif req.actual_exit_datetime and not req.actual_entry_datetime %}
                                 {% if req.biometric_verification and req.biometric_verification.verification_status == 'READY_FOR_IN' %}
-                                <div style="display:flex; gap:4px; flex-wrap:wrap;">
+                                <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
                                     {% if not perms or perms.can_mark_in %}
                                     <button class="btn-action gatekeeper-mark-in-btn" data-id="{{ req.request_id }}"
                                         title="Mark IN"
-                                        style="background:#1f2937; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold;">
+                                        style="background:#1f2937; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;">
                                         <i class="fas fa-sign-in-alt"></i> IN
+                                    </button>
+                                    <button class="btn-action gatekeeper-reject-btn" data-id="{{ req.request_id }}" data-type="in"
+                                        title="Reject Scan"
+                                        style="background:#dc2626; color:white; border:none; border-radius:6px; padding:6px 12px; cursor:pointer; font-size:14px; font-weight:bold; display:inline-flex; align-items:center; gap:4px;">
+                                        <i class="fas fa-times-circle"></i> REJECT
                                     </button>
                                     {% else %}
                                     <span class="action-done" style="color:var(--text-muted);"><i class="fas fa-lock"></i>
@@ -191,6 +203,27 @@
                 if (confirm('Mark this student as IN?')) {
                     try {
                         const res = await fetch('/api/outpass/gatekeeper-mark-in/', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
+                            body: JSON.stringify({ request_id: id })
+                        });
+                        const data = await res.json();
+                        alert(data.message);
+                        if (data.success) window.location.reload();
+                    } catch (err) { alert('Network error.'); }
+                }
+            });
+        });
+
+        // --- Gatekeeper Reject ---
+        document.querySelectorAll('.gatekeeper-reject-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const id = e.currentTarget.getAttribute('data-id');
+                const type = e.currentTarget.getAttribute('data-type');
+                const typeLabel = type === 'out' ? 'exit' : 'entry';
+                if (confirm(`Reject this student's biometric ${typeLabel} scan?`)) {
+                    try {
+                        const res = await fetch('/api/outpass/gatekeeper-reject/', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json', 'X-CSRFToken': window.CSRF_TOKEN },
                             body: JSON.stringify({ request_id: id })
